@@ -1,14 +1,12 @@
 # Plants Vs Zombies
 ### SYSC3110 Third Year Project
 
-## Running The Game
+### Running The Game
 
-## Implementation Decisions
+### Implementation Decisions
 
 ### Resources
-(Git Cheat Sheet)[https://services.github.com/on-demand/downloads/github-git-cheat-sheet/]
-
-## Milestones
+[Git Cheat Sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
 
 ### Milestone 1 :rocket:
 A text-based version (sunflowers, one other type of plant, one type of zombie, just one level)
@@ -41,13 +39,10 @@ Complete Implementation: fully-featured with various types of plants and zombies
 
 **Deadline:** Monday December 2nd. Weight: 35% of the overall project grade.
 
-## Members
+### Members
 [Plants Vs Zombies](https://github.com/KB-R/Snake_Squad) made with :purple_heart: by:
 
-[Maxime](https://github.com/MaximeNdutiye)
-
-[Kurt](https://github.com/KB-R)
-
-[Anthony](anthonymaevskipopov)
-
+[Maxime](https://github.com/MaximeNdutiye), 
+[Kurt](https://github.com/KB-R), 
+[Anthony](anthonymaevskipopov), 
 [Tareq]()
