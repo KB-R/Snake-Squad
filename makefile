@@ -1,4 +1,4 @@
-compile:
+compile: 
 	javac ...
 
 run:
