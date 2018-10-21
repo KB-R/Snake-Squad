@@ -1,14 +1,23 @@
-package Models;
+package models;
 
 /**
- * All object which are capable of collision must implement this class
- * since they all must have properties in order to be able to undergo collision
+ * Objects that can collide with one another
  */
 public class Collidable{
-    public int x;
-    public int y;
-    public int width;
-    public int height;
+    // x, y position, with & height
+    int x;
+    int y;
+    int w; 
+    int h;
 
-    
+    public Collidable(int x, int y, int w, int h){
+        this.x = x;
+        this.y = y; 
+        this.w = w;
+        this.h = h;
+    }
+
+    public boolean collidesWith(Collidable o){
+        return false;
+    }
 }

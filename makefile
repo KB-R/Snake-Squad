@@ -1,8 +1,8 @@
 compile: 
-	javac ...
+	javac -d output src/models/* src/controllers/*
 
 run:
-	java ...
+	java controller.GameController
 
 uncompress:
 	jar cf ...

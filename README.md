@@ -2,6 +2,14 @@
 ### SYSC3110 Third Year Project
 
 ### Running The Game
+The output directory contains the compiled code.
+It must first be added to your classpath.
+
+`make compile` will compile the code and put the class file in `./output`
+
+`export CLASSPATH=$(pwd)/output` will add the output folder to the java classpath for **linux** and **macos** machines
+
+`make run` will start the game
 
 ### Implementation Decisions
 
