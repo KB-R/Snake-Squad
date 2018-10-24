@@ -1,4 +1,4 @@
-package models;
+package Models;
 
 /**
  * PeaShooter plant that shoots at regular intervals

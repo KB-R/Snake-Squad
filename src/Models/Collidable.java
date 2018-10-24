@@ -1,4 +1,4 @@
-package models;
+package Models;
 
 /**
  * Objects that can collide with one another

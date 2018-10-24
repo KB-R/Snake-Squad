@@ -1,4 +1,4 @@
-package models;
+package Models;
 
 /**
  * All movable objects must implement this interface 
