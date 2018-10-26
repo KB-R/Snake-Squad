@@ -5,7 +5,7 @@ public class Plant extends npc{
     private int refreshTime; // time until we can replant a similar plant in millis
     private int cost;
     /**
-     * 
+     * s
      * @param health
      * @param speed
      * @param refreshTime time untill we can spawn similar plant

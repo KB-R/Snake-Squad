@@ -1,5 +1,5 @@
 package Models;
-
+//
 public abstract class npc {
 
 	protected boolean isAlive;
