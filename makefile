@@ -5,7 +5,7 @@ run:
 	java controller.GameController
 
 uncompress:
-	jar cf ...
+	jar cf project *.java
 
 compress:
-	jar xf ..
+	jar xf project 
