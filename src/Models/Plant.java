@@ -1,6 +1,6 @@
 package Models;
 
-public class Plant extends npc{
+public class Plant extends NPC{
     private int speed; // shooting speed or sun spawn speed
     private int refreshTime; // time until we can replant a similar plant in millis
     private int cost;

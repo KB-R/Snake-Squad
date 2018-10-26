@@ -1,6 +1,6 @@
 package Models;
 //
-public abstract class npc {
+public abstract class NPC {
 
 	protected boolean isAlive;
 
@@ -10,7 +10,7 @@ public abstract class npc {
 	protected int x;
 	protected int y;
 
-public npc (int maxHealth, boolean isfriendly){
+public NPC (int maxHealth, boolean isfriendly){
 	this.isAlive = true;
 	this.currentHealth = maxHealth;
 	this.maxHealth = maxHealth;

@@ -1,12 +1,15 @@
 package Models;
 
+import models.*;
 
-public class normalZombie extends Zombie{
+public class NormalZombie extends Zombie{
 	
 	private static final int maxHealth = 9999; 
 	private static final int damage = 9999;
 
-	public PoleZombie() {}
+	public PoleZombie() {
+		super()
+	}
 	
 	
 	//a method activated / turn

@@ -1,6 +1,6 @@
 package Models;
 
-public class Zombie extends npc{
+public class Zombie extends NPC{
     int health;
     int speed;
 
@@ -16,4 +16,4 @@ public class Zombie extends npc{
     public void move(){
         this.x--;
     }
-	
+}

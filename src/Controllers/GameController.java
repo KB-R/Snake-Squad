@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import controllers.CollisionDetector;
 import controllers.MoveController;
@@ -13,6 +14,9 @@ public class GameController implements Runnable{
     public ArrayList<Zombie> zombies = new ArrayList<Zombie>();
     public ArrayList<Sunflower> sunflowers = new ArrayList<Sunflower>();
     public ArrayList<PeaShooter> peaShooters = new ArrayList<PeaShooter>();
+    
+    // gameboard arraylist
+    public List<List<NPC>> gameBoard = new ArrayList<>();
 
     /**
      * Main game loop is to be implemented here
