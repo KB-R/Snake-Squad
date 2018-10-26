@@ -1,16 +1,11 @@
 package Models;
 
-public class Plant{
-    private int health;
+public class Plant extends npc{
     private int speed; // shooting speed or sun spawn speed
     private int refreshTime; // time until we can replant a similar plant in millis
-    public int x;
-    public int y;
-    public int w;
-    public int h;
-
+    private int cost;
     /**
-     * 
+     * s
      * @param health
      * @param speed
      * @param refreshTime time untill we can spawn similar plant
@@ -19,13 +14,20 @@ public class Plant{
      * @param w width
      * @param h height
      */
-    Plant(int health, int speed, int refreshTime, int x, int y, int w, int h){
-        this.health = health; 
+    Plant(int maxHealth, int speed, int refreshTime, int cost){
+        super(maxHealth,true);
         this.speed = speed;
         this.refreshTime = refreshTime;        
-        this.x = x;
-        this.y = y; 
-        this.w = w;
-        this.h = h;
+        this.cost=cost;
     }
+    
+	public int getCost(){
+		return cost;
+	}
+    
+	public void setCost(int cost) {						//set this plants cost
+		this.cost = cost;
+	}
+
+    
 }
