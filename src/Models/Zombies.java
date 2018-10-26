@@ -1,6 +1,6 @@
 package Models;
 
-public class Zombie implements Movable{
+public class Zombie extends npc{
     int health;
     int speed;
 
@@ -16,4 +16,4 @@ public class Zombie implements Movable{
     public void move(){
         this.x--;
     }
-}
+	

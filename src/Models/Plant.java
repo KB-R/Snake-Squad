@@ -25,5 +25,9 @@ public class Plant extends npc{
 		return cost;
 	}
     
+	public void setCost(int cost) {						//set this plants cost
+		this.cost = cost;
+	}
+
     
 }
