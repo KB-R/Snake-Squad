@@ -17,11 +17,11 @@ It must first be added to your classpath.
 [Git Cheat Sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
 
 ### Milestone 1 :rocket:
-A text-based version (sunflowers, one other type of plant, one type of zombie, just one level)
+Milestone 1 focuses the group on developing a text-based version of Plants V Zombies that can be run through the console of eclipse. The required components of the game for this iteration are sunflowers, one other type of plant, one type of zombie, just one level. Since this is the first Milestone, everything done was materialization of the implementation of the Model of the game. The aim for our code design was to loosly couple our code as much as possible; making it not tedious to reuse it for future Milestones. Justifiably we used interfaces and super to achieve this goal. Going forward we will be working the visual representation of the game, while developing a gradually more intricate UML digram. At this moment there are no known issues with the game. 
 
-**Deliverables:** readme file (see explanation below) + code + UML diagrams + documentation, all in one zip file.
+**Deliverables:** A readme file was created to elaborate on the decisions we made to develop the game, The code that allows the game to run, the UML diagram that depiccts the relationship between our classes and the Java-documentation that makes our code readable and easier to navigate. All of these items make up the deliverables for this Milestone; they are put into a zip file for submission.
 
-**Deadline:** Wednesday Oct 23rd. Weight: 15% of the overall project grade.
+**Deadline:** Monday Oct 29th. Weight: 15% of the overall project grade.
 
 ### Milestone 2
 GUI-based version (MVC)
