@@ -1,38 +1,53 @@
 package Models;
-import java.util.*;
 
 /**
+ * The SunFlower produces the sun credits that the player uses
  * @author Maxime Ndutiye
  * @author Kurt Burton-Rowe
  * @version 1.0
- * @date October 25, 2018
+ * @since October 25, 2018
  * 
- * The  
  */
 
 public class Sunflower extends NPC{
-	private static int maxHealth = 50;
-    private static int sunAmmount = 25; // amount of sun to spawn
+    private final static int maxHealth = 50;
+    private final int sunAmount = 25; // amount of sun to spawn
+    private int sunProduced = 0;
     private int sunSpawnRate; // how often to spawn sun in milliseconds
-    private int x, y; // x y co-ordinates 
+    private boolean sunCollected;
     
 
     /**
-     * 
      * @param x horizontal position
      * @param y vertical position
      */
     
     public Sunflower(int x, int y){
-        super(50, true);
+        super(maxHealth, true);
         this.x=x;
         this.y=y;
-        sunSpawnRate = 10;
+        this.setLocation(this.x, this.y);
+        sunSpawnRate = 3000; //three seconds
+        
     }
     
-    /*Adds the sun credit to the credit total in the game*/
-    public void collectSun() {
-    	SunCredit += this.sunAmmount;
+    /*Produce sun credits*/
+    public void produceSun() {
+    	if(sunCollected) {
+    		sunProduced = 0;
+    	}
+    	for(int i =0; i < sunSpawnRate; i++);
+    	this.sunProduced += this.sunAmount;
+    	
+    }
+    
+    /** 
+     * @return Returns the total amount of sun credits that the sun flower produced in the game so far.
+     * (to be added to the credit total)*/
+    public int collectSun() {
+    	this.sunCollected = true;
+    	return this.sunProduced;
+    	
     }
  
 }
