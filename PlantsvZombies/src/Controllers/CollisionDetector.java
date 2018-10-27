@@ -1,23 +1,23 @@
 package Controllers;
 import java.util.ArrayList;
-import Models.Collidable;;
+import Models.NPC;;
 
 /**
  * Keep track of all objects which can collide and detect whether any of them
  * are currently colliding
  */
 public class CollisionDetector{
-    private ArrayList<Collidable> collidables;
+    private ArrayList<NPC> collidables;
 
     public CollisionDetector(){
-        collidables = new ArrayList<Collidable>();
+        collidables = new ArrayList<NPC>();
     }
 
-    public void addCollidable(Collidable collidable){
+    public void addCollidable(NPC collidable){
         collidables.add(collidable);
     }
 
-    public void removeCollidable(Collidable collidable){
+    public void removeCollidable(NPC collidable){
         collidables.remove(collidable);
     }
 
@@ -25,6 +25,5 @@ public class CollisionDetector{
      * Detect collision between all collidable objects
      */
     public static void detectCollisions(){
-
     }
 }

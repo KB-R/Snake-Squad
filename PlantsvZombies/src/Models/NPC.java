@@ -97,11 +97,11 @@ public abstract class NPC {
 	  * Checks if the NPCs collide with one another
 	  */
 	 public boolean collidesWith(NPC o){
-		 //if both are friendly or if both are not friendly then return false
-	     if ( (this.isFriendly() && o.isFriendly())  || (!(this.isFriendly()) && !(o.isFriendly())) ) {
-	    	 return false;
-	     }  
-	     return true;
+	     //both of them have the same location and are a friendly v unfriendly they collide
+	     if((this.getLocation()==o.getLocation() ) && (   (this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) )){
+	    	 return true;
+	     }
+	     return false;
 	 }
 
 }
