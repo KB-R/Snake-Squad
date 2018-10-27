@@ -9,7 +9,8 @@ public class NormalPea extends NPC implements Movable{
 	private int speed;
 	private final int damage = 10;
 	private boolean contact = false; //boolean could be useful for the collision detector
-	
+	private static int sunCost = 10;
+
 	public NormalPea(int nX, int nY) {
 		super(0, true);
 		setVelocity(4);
@@ -34,8 +35,19 @@ public class NormalPea extends NPC implements Movable{
 		this.setLocation(x, y);
 	}
 
+	/**
+	 * Get the cost of friendly buyable items
+	 * @return int the cost of the item
+	 */
+    public static int getCost(){
+        return sunCost;
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
 	
+	public String toString(){
+		return "NP";
+	}
 }

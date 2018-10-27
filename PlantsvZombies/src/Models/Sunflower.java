@@ -15,7 +15,7 @@ public class Sunflower extends NPC{
     private int sunProduced = 0;
     private int sunSpawnRate; // how often to spawn sun in milliseconds
     private boolean sunCollected;
-    
+    private static int sunCost = 10;
 
     /**
      * @param x horizontal position
@@ -40,7 +40,15 @@ public class Sunflower extends NPC{
     	this.sunProduced += this.sunAmount;
     	
     }
-    
+
+    /**
+	 * Get the cost of friendly buyable items
+	 * @return int the cost of the item
+	 */
+    public static int getCost(){
+        return sunCost;
+    }
+
     /** 
      * @return Returns the total amount of sun credits that the sun flower produced in the game so far.
      * (to be added to the credit total)*/
@@ -50,4 +58,7 @@ public class Sunflower extends NPC{
     	
     }
  
+    public String toString(){
+		return "SF";
+	}
 }
