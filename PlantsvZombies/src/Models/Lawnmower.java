@@ -8,8 +8,6 @@ package Models;
 public class Lawnmower extends NPC implements Movable{
 	private final static int maxHealth = 10000000;
 	private final int damage = 10000000;
-	
-
 	private final int speed = 9;
 	private int x, y;
 	
