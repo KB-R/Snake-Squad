@@ -4,7 +4,7 @@ package Models;
  * @author Maxime Ndutiye 
  * @version 1.0
  * @date October 25, 2018
- * All movable objects must implement this interface 
+ * All movable objects must implement this interface (Peas, Zombies and Lawn mowers)
  */
 public interface Movable{
     public int velocity = 1;
