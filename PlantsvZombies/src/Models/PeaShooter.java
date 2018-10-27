@@ -12,6 +12,7 @@ import Controllers.MoveController;
 public class PeaShooter extends NPC{
     private int shootingRate; // shooting rate in millisecs
     private ArrayList<NormalPea> peas; //List of peas that the pea shooter has shot have to iterate 
+    private static int sunCost = 10;
 
     public PeaShooter(int x, int y,int shootingRate){
         super(100, true);
@@ -33,5 +34,9 @@ public class PeaShooter extends NPC{
 
 	public void setShootingRate(int shootingRate) {
 		this.shootingRate = shootingRate;
+    }
+    
+    public String toString(){
+		return "PS";
 	}
 }

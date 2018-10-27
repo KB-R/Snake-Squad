@@ -17,7 +17,8 @@ public abstract class NPC {
 	protected int x;
 	protected int y;
 	protected int[] coordinates;
-	
+	protected static int sunCost;
+
 	/** 
 	 * @param maxHealth the max health of the object
 	 * @param isFriendly boolean for whether object is friendly for the user
@@ -27,7 +28,9 @@ public abstract class NPC {
 		this.currentHealth = maxHealth;
 		this.maxHealth = maxHealth;
 		this.isFriendly = isFriendly;
+		this.coordinates = new int[2];
 	}
+
 	/**
 	 * @return The current health of the NPC
 	 */
@@ -73,6 +76,15 @@ public abstract class NPC {
 	public boolean isFriendly() {
 		return isFriendly;
 	}
+
+	/**
+	 * Get the cost of friendly buyable items
+	 * @return int the cost of the item
+	 */
+    public static int getCost(){
+        return sunCost;
+    }
+	
 	/**
 	 * @return An int array that holds the [x, y] coordinates
 	 */
@@ -91,6 +103,7 @@ public abstract class NPC {
 	    	this.coordinates[0] = this.x;
 	    	this.coordinates[1] = this.y;
 	}
+
 	 /**
 	  * @param o An NPC in the same coordinate as this NPC object
 	  * @return True if they collide with each other
@@ -104,4 +117,7 @@ public abstract class NPC {
 	     return false;
 	 }
 
+	public String toString(){
+		return "NPC";
+	}
 }
