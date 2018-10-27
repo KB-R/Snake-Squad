@@ -12,11 +12,10 @@ package Models;
 
 public class Zombie extends NPC implements Movable{
 
-	protected int maxHealth;
+    protected int maxHealth;
     protected int speed;
     protected int damage;
-    
-	protected int x;
+    protected int x;
     protected int y;
     protected int[] coordinate;
     
@@ -41,26 +40,28 @@ public class Zombie extends NPC implements Movable{
         this.x--;
         setLocation(this.x, this.y);
     }
+	
     /**
      * @return The speed of the Zombie
      */
-	@Override
-	public int getVelocity() {
-		return speed;
-	}
+    @Override
+    public int getVelocity() {
+	return speed;
+    }
 	
-	@Override
-	public void setVelocity(int newV) {
-		this.speed = newV;
-	}
+    @Override
+    public void setVelocity(int newV) {
+	this.speed = newV;
+    }
 	
-	public void setDamage(int damage) {
-		this.damage=damage;
-	}
-	 /**
+    public void setDamage(int damage) {
+	this.damage=damage;
+    }
+	
+    /**
      * @return The damage that the Zombie inflicts 
      */
-	public int getDamage() {
-		return damage;
-	}
+     public int getDamage() {
+	return damage;
+     }
 }
