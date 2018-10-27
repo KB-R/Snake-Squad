@@ -19,5 +19,9 @@ public class Level1 implements Level{
 		this.board[x]=o;
 	}
 
+	@Override
+	public int height() {
+		return y;
+	}
 	
 }
