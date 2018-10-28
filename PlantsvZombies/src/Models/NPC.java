@@ -111,7 +111,7 @@ public abstract class NPC {
 	  */
 	 public boolean collidesWith(NPC o){
 	     //both of them have the same location and are a friendly v unfriendly they collide
-	     if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (   (this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) )){
+	     if( (this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) ){
 	    	 return true;
 	     }
 	     return false;

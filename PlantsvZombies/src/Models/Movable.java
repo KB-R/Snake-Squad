@@ -19,4 +19,5 @@ public interface Movable{
 
     /* Move the object */
     public void move();
+    
 }

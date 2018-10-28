@@ -52,8 +52,9 @@ public class GameController implements Runnable{
         while(true){
             printGrid();
             handleInput();
-            // move game objects
             // check collisions
+            // move game objects
+            
 
             produceSun();
 
@@ -156,7 +157,7 @@ public class GameController implements Runnable{
     }
 
     /**
-     * Product sunPoints every 2 turns
+     * Produce sunPoints every 2 turns
      */
     private void produceSun(){
         if (timer % 2 == 0){

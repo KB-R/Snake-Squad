@@ -1,6 +1,9 @@
 package Controllers;
 import java.util.ArrayList;
-import Models.NPC;;
+import java.util.Iterator;
+
+import Models.NPC;
+import Models.NormalPea;;
 
 /**
  * Keep track of all objects which can collide and detect whether any of them
@@ -24,6 +27,20 @@ public class CollisionDetector{
     /**
      * Detect collision between all collidable objects
      */
-    public static void detectCollisions(){
+    public Boolean detectCollisions(){
+    	Iterator<NPC> collide = collidables.iterator();
+    	while(collide.hasNext()) {
+    		NPC next = collide.next();
+    		NPC pres = (NPC) collide;
+    		if(pres.collidesWith(next)) {
+    			if(pres instanceof NormalPea) {
+    				next.takeDamage(((NormalPea) pres).getDamage());
+    				collidables.remove(collide);
+    			}
+    		}
+    		
+    	}
+		return null;
+    	
     }
 }
