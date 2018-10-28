@@ -1,4 +1,7 @@
 package Models;
+import java.util.Arrays;
+
+import Controllers.CollisionDetector;
 /**
  * @author Athony Maevskipopov
  * @author Kurt Burton-Rowe
@@ -18,7 +21,6 @@ public abstract class NPC {
 	protected int y;
 	protected int[] coordinates;
 	protected static int sunCost;
-
 	/** 
 	 * @param maxHealth the max health of the object
 	 * @param isFriendly boolean for whether object is friendly for the user
@@ -30,7 +32,7 @@ public abstract class NPC {
 		this.isFriendly = isFriendly;
 		this.coordinates = new int[2];
 	}
-
+	
 	/**
 	 * @return The current health of the NPC
 	 */
@@ -76,7 +78,7 @@ public abstract class NPC {
 	public boolean isFriendly() {
 		return isFriendly;
 	}
-
+	
 	/**
 	 * Get the cost of friendly buyable items
 	 * @return int the cost of the item
@@ -84,7 +86,6 @@ public abstract class NPC {
     public static int getCost(){
         return sunCost;
     }
-	
 	/**
 	 * @return An int array that holds the [x, y] coordinates
 	 */
@@ -103,21 +104,21 @@ public abstract class NPC {
 	    	this.coordinates[0] = this.x;
 	    	this.coordinates[1] = this.y;
 	}
-
 	 /**
+	  * Checks if the NPCs collide with one another
 	  * @param o An NPC in the same coordinate as this NPC object
 	  * @return True if they collide with each other
-	  * Checks if the NPCs collide with one another
 	  */
 	 public boolean collidesWith(NPC o){
 	     //both of them have the same location and are a friendly v unfriendly they collide
-	     if((this.getLocation()==o.getLocation() ) && (   (this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) )){
+	     if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (   (this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) )){
 	    	 return true;
 	     }
 	     return false;
 	 }
-
-	public String toString(){
-		return "NPC";
+	 
+	 public String toString(){
+			return "NPC";
 	}
+
 }
