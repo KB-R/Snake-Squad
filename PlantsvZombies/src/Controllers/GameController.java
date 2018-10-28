@@ -8,6 +8,9 @@ import Controllers.MoveController;
 import Models.*;
 
 /**
+ * @author Maxime Ndutiye
+ * @version 1.0
+ * @since October 27, 2018
  * The GameController class is responsible for running the game
  * It holds all of the game objects as well as handles input from the player
  */
