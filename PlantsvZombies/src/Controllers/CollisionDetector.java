@@ -1,9 +1,11 @@
 package Controllers;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import Models.NPC;
-import Models.NormalPea;;
+import Models.NormalPea;
+import Models.NormalZombie;
 
 /**
  * Keep track of all objects which can collide and detect whether any of them
@@ -28,14 +30,18 @@ public class CollisionDetector{
      * Detect collision between all collidable objects
      */
     public Boolean detectCollisions(){
-    	Iterator<NPC> collide = collidables.iterator();
+    	ListIterator<NPC> collide = collidables.listIterator();
     	while(collide.hasNext()) {
     		NPC next = collide.next();
     		NPC pres = (NPC) collide;
-    		if(pres.collidesWith(next)) {
-    			if(pres instanceof NormalPea) {
+    		NPC prev = collide.previous();
+    		if(pres.collidesWith(next) || pres.collidesWith(prev)) {
+    			if(pres instanceof NormalPea && ((NormalPea) pres).getContact()) { //Checks to see if it's a pea and if it already hit or not
     				next.takeDamage(((NormalPea) pres).getDamage());
-    				collidables.remove(collide);
+    				((NormalPea) pres).setContact(true);
+    			}
+    			if(pres instanceof NormalZombie) {
+    				prev.takeDamage(((NormalPea) pres).getDamage());
     			}
     		}
     		
