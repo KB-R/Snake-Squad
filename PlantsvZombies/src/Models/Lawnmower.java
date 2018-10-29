@@ -38,7 +38,7 @@ public class Lawnmower extends NPC implements Movable{
 	/*When the Lawn mower moves it goes to the end of the board only after it gets hit by a zombie*/
 	@Override
 	public void move() {
-		if(!(collision)&&this.currentHealth<maxHealth){
+		if(!(collision)&&(this.currentHealth<maxHealth)&&(this.coordinates[0]<10)){
 			x++;
 			this.setLocation(this.x, this.y);
 		}
