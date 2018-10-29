@@ -1,19 +1,15 @@
 package Controllers;
 import java.util.ArrayList;
 
-import Models.Lawnmower;
-import Models.NPC;
-import Models.NormalPea;
-import Models.PeaShooter;
-import Models.Sunflower;
-import Models.Zombie;;
-
+import Models.*;
 /**
+ * @author Maxime N
+ * @author Kurt Burton-Rowe
+ * @date October 28, 2018
  * Keep track of all objects which can collide and detect whether any of them
  * are currently colliding
  */
 public class CollisionDetector{
-	private boolean survived=false;
    
     /**
      * Detect collision between all collidable objects
@@ -35,8 +31,10 @@ public class CollisionDetector{
                 }
             }
             goc.updateZombies(goc.getZombies());
+            goc.collectGarbage();
         }
         goc.updatePeas(goc.getPeas());
+        goc.collectGarbage();
         
         // for each lawn mower
         for(Lawnmower lm: goc.getLawnMowers()){
@@ -50,9 +48,12 @@ public class CollisionDetector{
                 }
             }
             goc.updateZombies(goc.getZombies());
+            goc.collectGarbage();
             //lawn mower can move after it collides with all zombies at the same location
             lm.collided();
         }
+        goc.updateLawnMowers(goc.getLawnMowers());
+        goc.collectGarbage();
         
         
         // for each zombie
@@ -68,6 +69,7 @@ public class CollisionDetector{
         		}
         	}
         	goc.updateSunflower(goc.getSunflowers());
+        	goc.collectGarbage();
         	for(PeaShooter p: goc.getPeaShooters()) {
         		if(z.collidesWith(p)) {
         			//after collision zombie eats pea shooter
@@ -79,7 +81,10 @@ public class CollisionDetector{
         		}
         	}
         	goc.updatePeaShooters(goc.getPeaShooters());
+        	goc.collectGarbage();
         }
-	  goc.updateZombies(goc.getZombies());  
+        goc.updateZombies(goc.getZombies());
+        goc.collectGarbage();
+        
     }
 }
