@@ -2,32 +2,22 @@ package Controllers;
 
 import java.util.ArrayList;
 
+import Models.NormalPea;
+
 /**
  * Handle the movement of all movable objects in the game
  */
 public class MoveController{
-    private static ArrayList<Object> movables;
-
-    public MoveController(){
-        movables = new ArrayList<Object>();
-    }
 
     /**
-     * Add a new movable object
-     * @param movable
+     * Moves all the object
+     * @param goc GameObjectsController the contoller containing all game objects 
      */
-    public static void addMovables(Object movable){
-        movables.add(movable);
-    }
+    public void moveObjects(GameObjectsController goc){
 
-    public ArrayList<Object> getMovables(){
-        return movables;
-    }
-
-    /**
-     * Move objects
-     */
-    public void moveObjects(){
-
+        // move all the peas...
+        for(NormalPea np: goc.getPeas()){
+            // do stuff
+        }
     }
 }
