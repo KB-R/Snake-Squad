@@ -32,6 +32,7 @@ public class GameController implements Runnable{
     private long peaShooterCooldown = 0;
     private long coolDown = 3;
     private int level = 1;
+    private boolean gameOver = false;
     private int zombieTot = 0;
 
     // this will act as our clock for now
@@ -53,6 +54,11 @@ public class GameController implements Runnable{
             Lawnmower lm = new Lawnmower(0,i);
             goc.addLawnMowers(lm);
         }
+
+        // spawn zombies
+        for(int i=0; i<level; i++){
+            goc.spawnZombies();
+        }
     }
 
     /**
@@ -67,18 +73,8 @@ public class GameController implements Runnable{
             updateGameBoard();
             printGameBoard();
             handleInput();
-            spawn();
-            // pea shooter shoots every 2 turns
-	        for(PeaShooter ps: goc.getPeaShooters()) {
-	            if(ps.getShootingRate()%2==0) {
-	            	goc.addPeas(ps.shoot());
-	            }
-	         }
-      
             CollisionDetector.detectCollisions(goc);
             moveController.moveObjects(goc);
-            // move game objects
-            // check collisions
 
             if(checkEndGame()){
                 break;
@@ -95,8 +91,7 @@ public class GameController implements Runnable{
     
     public void spawn() {
     	if(timer%3==0 && zombieTot<4) {
-    		NormalZombie n = new NormalZombie();
-    		goc.addZombie(n);
+            goc.spawnZombies();
     		zombieTot++;
     	}
     }
@@ -109,7 +104,7 @@ public class GameController implements Runnable{
     	if (goc.getZombies().isEmpty()) {
     		return true;
     	}
-    	return true;
+    	return false;
     }
 
     /**
@@ -117,6 +112,15 @@ public class GameController implements Runnable{
      * @return boolean true if game is over
      */
     public boolean checkEndGame(){
+
+        // zombies dead
+        if(goc.getZombies().size() == 0){
+            return true;
+        }
+
+        if (gameOver)
+            return true;
+
     	// they win if all the zombies are killed
     	if (zombieTot==5&&dead()) {
     		return true;
@@ -169,6 +173,7 @@ public class GameController implements Runnable{
         System.out.println("What would you like to do ?");
         System.out.println("buy sf x y: buy a sunflower for " + Sunflower.getCost());
         System.out.println("buy ps x y: buy a peashooter for " + NormalPea.getCost());
+        System.out.println("q: Quit");
         System.out.println("Enter: do nothing");
 
         String input = reader.nextLine();
@@ -177,6 +182,9 @@ public class GameController implements Runnable{
         switch(splitInput[0]){
             case "buy":
                 buyItem(splitInput);
+                break;
+            case "q":
+                gameOver = true;
                 break;
             default:
                 System.out.println("doing nothing");
@@ -192,29 +200,18 @@ public class GameController implements Runnable{
             }
         }
 
-        for(Lawnmower lm: goc.getLawnMowers()){
-            int[] pos = lm.getLocation();
-            gameBoard[pos[1]][pos[0]].add(lm);
-        }
+        setItemsLocation(goc.getLawnMowers());
+        setItemsLocation(goc.getSunflowers());
+        setItemsLocation(goc.getPeaShooters());
+        setItemsLocation(goc.getPeas());
+        setItemsLocation(goc.getZombies());
+    }
 
-        for(Sunflower sf: goc.getSunflowers()){
-            int[] pos = sf.getLocation();
-            gameBoard[pos[1]][pos[0]].add(sf);
-        }
-
-        for(PeaShooter ps: goc.getPeaShooters()){
-            int[] pos = ps.getLocation();
-            gameBoard[pos[1]][pos[0]].add(ps);
-        }
-
-        for(NormalPea np: goc.getPeas()){
+    private void setItemsLocation(ArrayList arr){
+        for(Object ob: arr){
+            NPC np= (NPC)ob;
             int[] pos = np.getLocation();
             gameBoard[pos[1]][pos[0]].add(np);
-        }
-
-        for(Zombie zb: goc.getZombies()){
-            int[] pos = zb.getLocation();
-            gameBoard[pos[1]][pos[0]].add(zb);
         }
     }
 

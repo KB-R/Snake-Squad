@@ -2,9 +2,7 @@ package Controllers;
 
 import java.util.ArrayList;
 
-import Models.Lawnmower;
-import Models.NormalPea;
-import Models.Zombie;
+import Models.*;
 
 /**
  * Handle the movement of all movable objects in the game
@@ -20,16 +18,15 @@ public class MoveController{
         for(NormalPea np: goc.getPeas()){
            np.move();
         }
-        goc.updatePeas(goc.getPeas());
+
         //move all the zombies
         for(Zombie z: goc.getZombies()) {
         	z.move();
         }
-        goc.updateZombies(goc.getZombies());
+
         //move lawn mowers
         for(Lawnmower lm: goc.getLawnMowers()) {
         	lm.move();
         }
-        goc.updateLawnMowers(goc.getLawnMowers());
     }
 }

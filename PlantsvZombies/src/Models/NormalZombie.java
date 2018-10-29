@@ -7,7 +7,7 @@ package Models;
 
 public class NormalZombie extends Zombie{
 	private int damage=10;
-	
+
 	public NormalZombie() {
 		super(30, 1);
 		setDamage(damage);
