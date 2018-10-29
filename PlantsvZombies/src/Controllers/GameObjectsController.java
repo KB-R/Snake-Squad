@@ -12,12 +12,14 @@ public class GameObjectsController{
     private ArrayList<Sunflower> sunflowers;
     private ArrayList<PeaShooter> peaShooters;
     private ArrayList<NormalPea> peas;
+    private ArrayList<Lawnmower> lawnmowers;
 
     public GameObjectsController(){
         zombies = new ArrayList<Zombie>();
         sunflowers = new ArrayList<Sunflower>();
         peaShooters = new ArrayList<PeaShooter>();
         peas = new ArrayList<NormalPea>();
+        lawnmowers = new ArrayList<Lawnmower>();
     }
 
     /**
@@ -53,6 +55,14 @@ public class GameObjectsController{
     }
 
     /**
+     * Add a lawnmower
+     * @param lm Lawnmower
+     */
+    public void addLawnMowers(Lawnmower lm){
+        lawnmowers.add(lm);
+    }
+
+    /**
      * get all Sunflowers
      * @return ArrayList<Sunflower> sunflower
      */
@@ -85,6 +95,14 @@ public class GameObjectsController{
     }
 
     /**
+     * Get all the mowers
+     * @return ArrayList<LawnMower> lawnmowers
+     */
+    public ArrayList<Lawnmower> getLawnMowers(){
+        return lawnmowers;
+    }
+
+    /**
      * Update the sunflowers
      * @param sf ArrayList<Sunflower>
      */
@@ -114,5 +132,13 @@ public class GameObjectsController{
      */
     public void updateZombies(ArrayList<Zombie> zb){
         zombies = zb;
+    }
+
+    /**
+     * Update the lawnmowers
+     * @param lm the ArrayList<Lawnmower>
+     */
+    public void updateLawnMowers(ArrayList<Lawnmower> lm){
+        lawnmowers = lm;
     }
 }

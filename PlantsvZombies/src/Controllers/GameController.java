@@ -45,6 +45,12 @@ public class GameController implements Runnable{
                 gameBoard[i][j] = new ArrayList<NPC>();
             }
         }
+
+        // add lawn mowers
+        for(int i=0;i<6;i++){
+            Lawnmower lm = new Lawnmower(0,i);
+            goc.addLawnMowers(lm);
+        }
     }
 
     /**
@@ -89,21 +95,15 @@ public class GameController implements Runnable{
     public void printGameBoard(){
         for(int i=0;i<6;i++){
             for(int j=0; j<10; j++){
-                if (j > 0 && j < 9){
-                    if (!gameBoard[i][j].isEmpty()){
-                        String npcs = "";
-                        for (NPC npc: gameBoard[i][j]){
-                            npcs += npc.toString();
-                        }
-
-                        System.out.print("[ " + npcs + " ]");
-                    }else{
-                        System.out.print("[    ]");
+                if (!gameBoard[i][j].isEmpty()){
+                    String npcs = "";
+                    for (NPC npc: gameBoard[i][j]){
+                        npcs += npc.toString();
                     }
-                }else if (j == 0){
-                    System.out.print("  LM  ");
-                }else {
-                    System.out.print("      ");
+
+                    System.out.print("[ " + npcs + " ]");
+                }else{
+                    System.out.print("[    ]");
                 }
             }
             System.out.println("\n");
@@ -144,24 +144,29 @@ public class GameController implements Runnable{
             }
         }
 
+        for(Lawnmower lm: goc.getLawnMowers()){
+            int[] pos = lm.getLocation();
+            gameBoard[pos[1]][pos[0]].add(lm);
+        }
+
         for(Sunflower sf: goc.getSunflowers()){
             int[] pos = sf.getLocation();
-            gameBoard[pos[0]][pos[1]].add(sf);
+            gameBoard[pos[1]][pos[0]].add(sf);
         }
 
         for(PeaShooter ps: goc.getPeaShooters()){
             int[] pos = ps.getLocation();
-            gameBoard[pos[0]][pos[1]].add(ps);
+            gameBoard[pos[1]][pos[0]].add(ps);
         }
 
         for(NormalPea np: goc.getPeas()){
             int[] pos = np.getLocation();
-            gameBoard[pos[0]][pos[1]].add(np);
+            gameBoard[pos[1]][pos[0]].add(np);
         }
 
         for(Zombie zb: goc.getZombies()){
             int[] pos = zb.getLocation();
-            gameBoard[pos[0]][pos[1]].add(zb);
+            gameBoard[pos[1]][pos[0]].add(zb);
         }
     }
 
@@ -195,7 +200,7 @@ public class GameController implements Runnable{
             }
 
             if (item != null && xPos > 0 && xPos < 9 && yPos < 6 && yPos >= 0){
-                if (gameBoard[xPos][yPos].isEmpty()){
+                if (gameBoard[yPos][xPos].isEmpty()){
                     switch (splitInput[1]){
                         case "sf":
                             goc.addSunflower((Sunflower)item);

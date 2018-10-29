@@ -47,4 +47,8 @@ public class Lawnmower extends NPC implements Movable{
 		x+=9; //
 		this.setLocation(this.x, this.y);
 	}
+
+	public String toString(){
+		return "LM";
+	}
 }
