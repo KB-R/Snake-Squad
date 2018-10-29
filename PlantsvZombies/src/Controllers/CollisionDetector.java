@@ -10,6 +10,7 @@ import Models.NormalZombie;
 /**
  * Keep track of all objects which can collide and detect whether any of them
  * are currently colliding
+ * @author Tareq Hanafi
  */
 public class CollisionDetector{
     private ArrayList<NPC> collidables;

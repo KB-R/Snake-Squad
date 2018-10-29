@@ -11,6 +11,7 @@ import Models.Zombie;
 
 /**
  * Handle the movement of all movable objects in the game
+ * @author Tareq Hanafi
  */
 public class MoveController{
     private static ArrayList<NPC> movables;
