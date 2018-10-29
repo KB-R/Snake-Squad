@@ -1,6 +1,7 @@
 package Controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import Controllers.CollisionDetector;
@@ -32,6 +33,7 @@ public class GameController implements Runnable{
     private long coolDown = 3;
     private int level = 1;
     private boolean gameOver = false;
+    private int zombieTot = 0;
 
     // this will act as our clock for now
     // every turn this will be incremented
@@ -55,7 +57,7 @@ public class GameController implements Runnable{
 
         // spawn zombies
         for(int i=0; i<level; i++){
-            goc.spawnZombies(3, i);
+            goc.spawnZombies();
         }
     }
 
@@ -71,6 +73,7 @@ public class GameController implements Runnable{
             updateGameBoard();
             printGameBoard();
             handleInput();
+            CollisionDetector.detectCollisions(goc);
             moveController.moveObjects(goc);
 
             if(checkEndGame()){
@@ -84,6 +87,24 @@ public class GameController implements Runnable{
             timer++;
         }
         reader.close();
+    }
+    
+    public void spawn() {
+    	if(timer%3==0 && zombieTot<4) {
+            goc.spawnZombies();
+    		zombieTot++;
+    	}
+    }
+    
+    /**
+     * checks if all the zombie's are dead
+     * @return True if all zombies are dead
+     */
+    public boolean dead() {
+    	if (goc.getZombies().isEmpty()) {
+    		return true;
+    	}
+    	return false;
     }
 
     /**
@@ -100,6 +121,21 @@ public class GameController implements Runnable{
         if (gameOver)
             return true;
 
+    	// they win if all the zombies are killed
+    	if (zombieTot==5&&dead()) {
+    		return true;
+    	}
+    	
+    	//they lose if a zombie gets passed the lawn mower
+    	for(Zombie z: goc.getZombies()) { 
+    		int[] n = {0, z.getY()} ;
+    		if(Arrays.equals(z.getLocation(), n)){
+    			int y = z.getY();
+    			if(this.gameBoard[0][z.getY()].get(0) instanceof Lawnmower) {
+    				return true;
+    			}
+    		}
+    	}
         return false;
     }
 
@@ -112,7 +148,9 @@ public class GameController implements Runnable{
                 if (!gameBoard[i][j].isEmpty()){
                     String npcs = "";
                     for (NPC npc: gameBoard[i][j]){
-                        npcs += npc.toString();
+                    	if(npc.isAlive()) {
+                    		npcs += npc.toString();
+                    	}
                     }
 
                     System.out.print("[ " + npcs + " ]");

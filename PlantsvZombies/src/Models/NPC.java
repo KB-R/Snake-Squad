@@ -13,7 +13,8 @@ import Controllers.CollisionDetector;
 public abstract class NPC {
 
 	protected boolean isAlive;
-
+	protected boolean collision;
+	protected int damage;
 	protected int currentHealth;
 	private int maxHealth;
 	protected boolean isFriendly;
@@ -31,6 +32,8 @@ public abstract class NPC {
 		this.maxHealth = maxHealth;
 		this.isFriendly = isFriendly;
 		this.coordinates = new int[2];
+		this.damage = 0;
+		this.collision = false;
 	}
 	
 	/**
@@ -57,6 +60,13 @@ public abstract class NPC {
 			dies();
 		}
 		return currentHealth;
+	}
+	
+	/**
+	 * @param o The second NPC will getting hit and will take the amount of damage from this NPC 
+	 */
+	public void dealDamage(NPC o) {
+		o.takeDamage(damage);
 	}
 	
 	/*The NPC dies since its current health is 0*/
@@ -95,6 +105,13 @@ public abstract class NPC {
 	    	this.coordinates[1] = this.y;
 	    	return coordinates;
 	}
+	
+	/**
+	* @return An int array that holds the [x, y] coordinates
+	*/
+	public int getY() {
+		    return this.y;
+	}
 
 	/**
 	 * @param nX The new x coordinate of the NPC
@@ -106,6 +123,23 @@ public abstract class NPC {
 		this.coordinates[0] = this.x;
 		this.coordinates[1] = this.y;
 	}
+	
+	 /**
+	  * Checks if 2 NPCs are the same team
+	  * @param o NPC that might collide 
+	  * @return True if they will collide
+	  */
+	 public boolean isOpposite(NPC o) {
+		 if((this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) ) {
+			 return true;
+		 }
+		 return false;
+	 }
+	 
+	 /*set collision to true or false*/
+	 public void collided() {
+		 this.collision= !(this.collision);
+	 }
 
 	/**
 	 * Checks if the NPCs collide with one another
@@ -114,7 +148,9 @@ public abstract class NPC {
 	*/
 	public boolean collidesWith(NPC o){
 		//both of them have the same location and are a friendly v unfriendly they collide
-		if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (   (this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) )){
+		if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (  this.isOpposite(o) )&&this.isAlive()&&o.isAlive()){
+			this.collided();
+			o.collided();
 			return true;
 		}
 		return false;

@@ -6,11 +6,14 @@ package Models;
  */
 
 public class NormalZombie extends Zombie{
-	private static int maxHealth=30;
 	private int damage=10;
-	
-	public NormalZombie(int height) {
-		super(maxHealth, 1, height);
+
+	public NormalZombie() {
+		super(30, 1);
 		setDamage(damage);
 	}
+	public String toString(){
+		return "Z";
+	}
+	
 }

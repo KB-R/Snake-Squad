@@ -25,14 +25,10 @@ public class GameObjectsController{
 
     /**
      * Spawn some zombies given a level
-     * @param number the number of zombies to spawn
-     * @param level the current level of the game
      */
-    public void spawnZombies(int number, int level){
-        for(int i=0; i<number; i++){
-            Zombie zb = new NormalZombie(level);
-            zombies.add(zb);
-        }
+    public void spawnZombies(){
+        Zombie zb = new NormalZombie();
+        zombies.add(zb);
     }
 
     public void collectGarbage(){
