@@ -76,6 +76,14 @@ public class GameController implements Runnable{
             CollisionDetector.detectCollisions(goc);
             moveController.moveObjects(goc);
 
+            spawn();
+            // pea shooter shoots every 2 turns
+            for(PeaShooter ps: goc.getPeaShooters()) {
+                if(ps.getShootingRate()%2==0) {
+                    goc.addPeas(ps.shoot());
+                }
+            }
+
             if(checkEndGame()){
                 break;
             }
