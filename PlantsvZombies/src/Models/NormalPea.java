@@ -50,4 +50,5 @@ public class NormalPea extends NPC implements Movable{
 	public String toString(){
 		return "NP";
 	}
+
 }

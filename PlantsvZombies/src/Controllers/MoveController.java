@@ -35,21 +35,18 @@ public class MoveController{
      * Move objects
      */
     public void moveObjects(int timer) {
-    	ListIterator<NPC> movable = movables.listIterator();
-    	while(movable.hasNext()) {
-	    	if(movable instanceof NormalPea ) {
-	    		int i = movables.indexOf(movable);
-	    		for(i++; i< 3;) {
-	    			if(((NPC) movable).collidesWith(movable.next())) { //Checks to see if the next object is an enemey
-	    				Collections.swap(movables, i, i+1); //it moves forward until it hits an enemy
+    	for( int i=0;  i < movables.size(); i++ ){
+	    	if(movables.get(i) instanceof NormalPea ) {
+	    		for(int a=0; a< 3;a++) {
+	    			if(movables.get(i).collidesWith(movables.get(i+1))) { //Checks to see if the next object is an enemey
+	    				Collections.swap(movables, a, a+1); //it moves forward until it hits an enemy
 	    			}
 	    		}
 	    	}
 	    	
-	    	if(movable instanceof NormalZombie && movable.previous() == null) { //Check to see if the object is a Zombie
-	    		if(((NPC) movable).isFriendly() == movable.previous().isFriendly()){
+	    	if(movables.get(i) instanceof NormalZombie && movables.get(i-1) == null) { //Check to see if the object is a Zombie
+	    		if((movables.get(i).isFriendly() == movables.get(i-1).isFriendly())){
 		    		if(timer % 5 == 0) {
-		    			int i = movables.indexOf(movable);
 		    			Collections.swap(movables, i, i-1); //it moves forward until it hits an enemy
 		    		}
 	    	}

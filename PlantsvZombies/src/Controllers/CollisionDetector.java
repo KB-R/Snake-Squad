@@ -29,24 +29,26 @@ public class CollisionDetector{
     /**
      * Detect collision between all collidable objects
      */
-    public Boolean detectCollisions(){
-    	ListIterator<NPC> collide = collidables.listIterator();
-    	while(collide.hasNext()) {
-    		NPC next = collide.next();
-    		NPC pres = (NPC) collide;
-    		NPC prev = collide.previous();
-    		if(pres.collidesWith(next) || pres.collidesWith(prev)) {
-    			if(pres instanceof NormalPea && ((NormalPea) pres).getContact()) { //Checks to see if it's a pea and if it already hit or not
-    				next.takeDamage(((NormalPea) pres).getDamage());
-    				((NormalPea) pres).setContact(true);
+    public void detectCollisions(){
+    	for( int i=0;  i < collidables.size(); i++ ){
+    		NPC pres = collidables.get(i);
+    		if(pres.collidesWith(collidables.get(i+1))) {
+    			if(pres instanceof NormalPea) { //Checks to see if it's a pea and if it already hit or not
+    				collidables.get(i+1).takeDamage(((NormalPea) pres).getDamage());
     			}
+    			
     			if(pres instanceof NormalZombie) {
-    				prev.takeDamage(((NormalPea) pres).getDamage());
+    				if(i<0) {
+    					System.out.println("Game Over");
+    				}
+    				else {
+    					collidables.get(i-1).takeDamage(((NormalZombie) pres).getDamage());
+    				}
     			}
+    			
     		}
     		
     	}
-		return null;
     	
     }
 }
