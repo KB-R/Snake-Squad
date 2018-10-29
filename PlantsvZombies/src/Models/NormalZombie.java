@@ -9,9 +9,8 @@ public class NormalZombie extends Zombie{
 	private static int maxHealth=30;
 	private int damage=10;
 	
-	public NormalZombie() {
-		super(maxHealth, 1, 0);
+	public NormalZombie(int height) {
+		super(maxHealth, 1, height);
 		setDamage(damage);
 	}
-	
 }

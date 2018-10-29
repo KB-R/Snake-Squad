@@ -1,6 +1,7 @@
 package Controllers;
 
 import java.util.ArrayList;
+
 import Models.*;
 
 /**
@@ -20,6 +21,35 @@ public class GameObjectsController{
         peaShooters = new ArrayList<PeaShooter>();
         peas = new ArrayList<NormalPea>();
         lawnmowers = new ArrayList<Lawnmower>();
+    }
+
+    /**
+     * Spawn some zombies given a level
+     * @param number the number of zombies to spawn
+     * @param level the current level of the game
+     */
+    public void spawnZombies(int number, int level){
+        for(int i=0; i<number; i++){
+            Zombie zb = new NormalZombie(level);
+            zombies.add(zb);
+        }
+    }
+
+    public void collectGarbage(){
+        removeItems(zombies);
+        removeItems(sunflowers);
+        removeItems(peaShooters);
+        removeItems(peas);
+        removeItems(lawnmowers);
+    }
+
+    private void removeItems(ArrayList arr){
+        for(Object ob: arr){
+            NPC np= (NPC)ob;
+            if(np.getCurrentHealth() == 0){
+                arr.remove(np);
+            }
+        }
     }
 
     /**

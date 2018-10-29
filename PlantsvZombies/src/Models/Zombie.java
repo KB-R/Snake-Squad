@@ -19,7 +19,6 @@ public class Zombie extends NPC implements Movable{
     protected int y;
     protected int[] coordinate;
     
-    
     /**
      * Zombie constructor to set where it spawns on the board and how many tiles it takes up
      * @param health The amount of health that a Zombie gets
@@ -30,8 +29,8 @@ public class Zombie extends NPC implements Movable{
     	super(health, false);
     	this.maxHealth = health;
     	this.speed = speed;
-    	this.x = 8;
-    	this.y = (int)Math.random()*height;
+    	this.x = 9;
+    	this.y = height;
     	setLocation(this.x,this.y);
     }
    
@@ -46,22 +45,26 @@ public class Zombie extends NPC implements Movable{
      */
     @Override
     public int getVelocity() {
-	return speed;
+	    return speed;
     }
 	
     @Override
     public void setVelocity(int newV) {
-	this.speed = newV;
+	    this.speed = newV;
     }
 	
     public void setDamage(int damage) {
-	this.damage=damage;
+	    this.damage=damage;
     }
 	
     /**
      * @return The damage that the Zombie inflicts 
      */
-     public int getDamage() {
-	return damage;
-     }
+    public int getDamage() {
+        return damage;
+    }
+
+    public String toString(){
+        return "ZB";
+    }
 }
