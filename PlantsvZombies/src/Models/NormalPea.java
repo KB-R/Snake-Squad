@@ -23,12 +23,20 @@ public class NormalPea extends NPC implements Movable{
 	public int getVelocity() {
 		return speed;
 	}
-	/*Sets the speed of the pea's traversal through the board */
+
+	/**
+	 * Sets the speed of the pea's traversal through the board 
+	 * 
+	 **/
 	@Override
 	public void setVelocity(int newV) {
 		speed = newV;
 	}
-	/*Moves the pea through the board only if there's no collision and not outside the board. Only the x coordinate changes*/
+
+	/**
+	 * Moves the pea through the board only if there's no collision and not outside the board. 
+	 * Only the x coordinate changes
+	 **/
 	@Override
 	public void move() {
 		if(!(collision)&&this.coordinates[0]<10) {

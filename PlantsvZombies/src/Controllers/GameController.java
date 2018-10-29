@@ -219,7 +219,9 @@ public class GameController implements Runnable{
         for(Object ob: arr){
             NPC np= (NPC)ob;
             int[] pos = np.getLocation();
-            gameBoard[pos[1]][pos[0]].add(np);
+            if (pos[0] < 10){
+                gameBoard[pos[1]][pos[0]].add(np);
+            }
         }
     }
 

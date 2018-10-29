@@ -42,7 +42,14 @@ public class GameObjectsController{
     private void removeItems(ArrayList arr){
         for(Object ob: arr){
             NPC np= (NPC)ob;
+
+            // remove if dead
             if(np.getCurrentHealth() == 0){
+                arr.remove(np);
+            }
+
+            // remove if off of board
+            if(np.getLocation()[0] > 9){
                 arr.remove(np);
             }
         }
