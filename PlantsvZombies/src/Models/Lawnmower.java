@@ -19,12 +19,6 @@ public class Lawnmower extends NPC implements Movable{
 		this.setLocation(this.x,this.y);
 	}
 	
-	/*When the Lawn mower moves it goes to the end of the board only after it gets hit by a zombie*/
-	public void runOver() {
-		if (this.getCurrentHealth()<maxHealth) {
-			this.move();
-		}
-	}
 	/**
 	 * @return The speed that the lawn mower traverses the board
 	 */
@@ -44,8 +38,10 @@ public class Lawnmower extends NPC implements Movable{
 	/*When the Lawn mower moves it goes to the end of the board only after it gets hit by a zombie*/
 	@Override
 	public void move() {
-		x+=9; //
-		this.setLocation(this.x, this.y);
+		if(!(collision)&&this.currentHealth<maxHealth){
+			x++;
+			this.setLocation(this.x, this.y);
+		}
 	}
 
 	public String toString(){

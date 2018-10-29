@@ -1,5 +1,5 @@
 package Models;
-
+import java.util.Random;
 /**
  * 
  * @author Kurt Burton-Rowe
@@ -15,6 +15,7 @@ public class Zombie extends NPC implements Movable{
     protected int maxHealth;
     protected int speed;
     protected int damage;
+    protected int moveTick=0;
     protected int x;
     protected int y;
     protected int[] coordinate;
@@ -24,21 +25,28 @@ public class Zombie extends NPC implements Movable{
      * Zombie constructor to set where it spawns on the board and how many tiles it takes up
      * @param health The amount of health that a Zombie gets
      * @param speed  The speed that the Zombie will traverse the board
-     * @param height The height of the level to know the bounds of spawning
+     * @param dimension The dimension of the level to know the bounds of spawning
      */
-    public Zombie(int health, int speed, int height) {
+    public Zombie(int health, int speed) {
     	super(health, false);
     	this.maxHealth = health;
     	this.speed = speed;
-    	this.x = 8;
-    	this.y = (int)Math.random()*height;
+    	this.x = 9;
+    	this.y = random();
     	setLocation(this.x,this.y);
     }
    
     /*This changes x coordinate of the zombie object*/
     public void move(){
-        this.x--;
-        setLocation(this.x, this.y);
+    	moveTick++;
+    	if(!(collision)&&(moveTick%5==0)) {
+    		this.x--;
+    		setLocation(this.x, this.y);
+    	}
+    }
+    public int random() {
+    	Random rand = new Random();
+    	return rand.nextInt(6);
     }
 	
     /**
@@ -62,6 +70,6 @@ public class Zombie extends NPC implements Movable{
      * @return The damage that the Zombie inflicts 
      */
      public int getDamage() {
-	return damage;
+    	 return damage;
      }
 }

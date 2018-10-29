@@ -10,8 +10,7 @@ import Controllers.MoveController;
  * The PeaShooter does deal damage only its peas do.
  */
 public class PeaShooter extends NPC{
-    private int shootingRate; // shooting rate in millisecs
-    private ArrayList<NormalPea> peas; //List of peas that the pea shooter has shot have to iterate 
+    private int shootingRate; // shooting rate in millisecs 
     private static int sunCost = 10;
     
     public PeaShooter(int x, int y,int shootingRate){
@@ -19,21 +18,21 @@ public class PeaShooter extends NPC{
         this.x=x;
         this.y=y; 
         this.setShootingRate(shootingRate);
+        this.currentHealth=1;
     }
 
     /* Shoots out a pea from the same coordinates as the pea shooter*/
-    public void shoot(){
+    public NormalPea shoot(){
     		NormalPea p = new NormalPea(this.x, this.y);
-    		peas.add(p);
-    		//add p to movable
+    		return p;
     }
 
 	public int getShootingRate() {
-		return shootingRate;
+		return shootingRate++;
 	}
 
-	public void setShootingRate(int shootingRate) {
-		this.shootingRate = shootingRate;
+	public void setShootingRate(int timer) {
+		this.shootingRate = timer;
 	}
 	public String toString(){
 		return "PS";

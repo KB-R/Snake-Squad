@@ -12,7 +12,7 @@ public class NormalPea extends NPC implements Movable{
 	private static int sunCost = 10;
 
 	public NormalPea(int nX, int nY) {
-		super(0, true);
+		super(1, true);
 		setVelocity(4);
 		this.x = coordinates[0];
 		this.y = coordinates[1];
@@ -28,11 +28,16 @@ public class NormalPea extends NPC implements Movable{
 	public void setVelocity(int newV) {
 		speed = newV;
 	}
-	/*Moves the pea through the board only the x coordinate changes*/
+	/*Moves the pea through the board only if there's no collision and not outside the board. Only the x coordinate changes*/
 	@Override
 	public void move() {
-		x+=4;
-		this.setLocation(x, y);
+		if(!(collision)&&this.coordinates[0]<10) {
+			x++;
+			this.setLocation(x, y);
+		}
+		else if(!(collision)&&this.coordinates[0]==10) {
+			this.takeDamage(1);
+		}
 	}
 
 	/**
