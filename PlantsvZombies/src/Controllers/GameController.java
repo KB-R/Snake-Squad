@@ -29,6 +29,7 @@ public class GameController implements Runnable{
     private int sunPoints = 0;
     private long sunFlowerCooldown = 0;
     private long peaShooterCooldown = 0;
+    private long coolDown = 3;
     private int level = 1;
 
     // this will act as our clock for now
@@ -59,7 +60,7 @@ public class GameController implements Runnable{
             // move game objects
             // check collisions
 
-            produceSun();
+            collectSun();
             updateGameBoard();
             if(checkEndGame()){
                 break;
@@ -110,7 +111,8 @@ public class GameController implements Runnable{
      * @param input the user's input string
      */
     public void handleInput(){
-        System.out.println("LEVEL: " + level + " TURN: " + timer + ", sunPoints: " + sunPoints);
+        System.out.print("LEVEL: " + level + ", TURN: " + timer + ", sunPoints: " + sunPoints);
+        System.out.println(", sf cooldown: " + sunFlowerCooldown + ", ps cooldown: " + peaShooterCooldown);
         System.out.println("What would you like to do ?");
         System.out.println("buy sf x y: buy a sunflower for " + Sunflower.getCost());
         System.out.println("buy ps x y: buy a peashooter for " + NormalPea.getCost());
@@ -159,13 +161,12 @@ public class GameController implements Runnable{
     }
 
     public void buyItem(String[] splitInput){
-        if(splitInput.length != 3){
+        if(splitInput.length != 4){
             System.out.println("Bad input!");
             return;
         }
 
         System.out.println(splitInput[0] + " " + splitInput[1] + ":" + splitInput[2] + "," + splitInput[3]);
-       
         try{
             Integer xPos = Integer.parseInt(splitInput[2]);
             Integer yPos = Integer.parseInt(splitInput[3]);
@@ -173,17 +174,22 @@ public class GameController implements Runnable{
 
             switch (splitInput[1]){
                 case "sf":
-                    item = new Sunflower(xPos, yPos);
+                    item = (sunFlowerCooldown <= timer 
+                        && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos): null;
+                    sunFlowerCooldown = timer + coolDown;
+                    sunPoints -= Sunflower.getCost();
                     break;
                 case "ps":
-                    item = new PeaShooter(xPos, yPos, 2);
+                    item = (peaShooterCooldown <= timer 
+                            && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2): null;
+                    peaShooterCooldown = timer + coolDown;
+                    sunPoints -= PeaShooter.getCost();
                     break;
                 default:
                     break;
             }
 
-            System.out.println(item.toString());
-            if (item != null && item.getCost() <= sunPoints && xPos > 0 && xPos < 9 && yPos < 6 && yPos >= 0){
+            if (item != null && xPos > 0 && xPos < 9 && yPos < 6 && yPos >= 0){
                 if (gameBoard[xPos][yPos].isEmpty()){
                     switch (splitInput[1]){
                         case "sf":
@@ -195,13 +201,11 @@ public class GameController implements Runnable{
                         default:
                             break;
                     }
-
-                    sunPoints -= item.getCost();
                 }else{
                     System.out.println("Something is already in that position");
                 }
             }else{
-                System.out.println("Couldn't process your purchase, your input was out of bounds");
+                System.out.println("Couldn't process your purchase");
             }
         }catch (NumberFormatException nfe){
             System.out.println("illegal input arguments");
@@ -221,6 +225,7 @@ public class GameController implements Runnable{
      * Collect sun points from all sunflowers
      */
     private void collectSun(){
+        produceSun();
 
     }
 

@@ -83,4 +83,20 @@ public class GameObjectsController{
     public ArrayList<NormalPea> getPeas(){
         return peas;
     }
+
+    public void updateSunflower(ArrayList<Sunflower> sf){
+        sunflowers = sf;
+    }
+
+    public void updatePeaShooters(ArrayList<PeaShooter> ps){
+        peaShooters = ps;
+    }
+
+    public void updatePeas(ArrayList<NormalPea> np){
+        peas = np;
+    }
+
+    public void updateZombies(ArrayList<Zombie> zb){
+        zombies = zb;
+    }
 }

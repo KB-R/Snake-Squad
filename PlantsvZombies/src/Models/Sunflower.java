@@ -46,7 +46,7 @@ public class Sunflower extends NPC{
 	 * @return int the cost of the item
 	 */
     public static int getCost(){
-        return sunCost;
+        return 10;
     }
 
     /** 
