@@ -34,11 +34,6 @@ public class Sunflower extends NPC{
     
     /*Produce sun credits*/
     public int produceSun(int time) {
-    	/*if(sunCollected) {
-    		sunProduced = 0;
-    	}
-    	for(int i =0; i < sunSpawnRate; i++);
-        this.sunProduced += this.sunAmount;*/
         
         // produce 8 sun every 4 itterations from spawn time
         return ((time - timeSpawned) % sunSpawnRate == 0)? 8: 0; 
