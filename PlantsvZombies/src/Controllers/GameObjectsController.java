@@ -14,6 +14,7 @@ public class GameObjectsController{
     private ArrayList<PeaShooter> peaShooters;
     private ArrayList<NormalPea> peas;
     private ArrayList<Lawnmower> lawnmowers;
+    private int zombieTot = 0;
 
     public GameObjectsController(){
         zombies = new ArrayList<Zombie>();
@@ -27,8 +28,11 @@ public class GameObjectsController{
      * Spawn some zombies given a level
      */
     public void spawnZombies(){
-        Zombie zb = new NormalZombie();
-        zombies.add(zb);
+        zombieTot++;
+        if(zombieTot<6){
+            Zombie zb = new NormalZombie();
+            zombies.add(zb);
+        }
     }
 
     public void collectGarbage(){
