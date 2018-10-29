@@ -84,18 +84,34 @@ public class GameObjectsController{
         return peas;
     }
 
+    /**
+     * Update the sunflowers
+     * @param sf ArrayList<Sunflower>
+     */
     public void updateSunflower(ArrayList<Sunflower> sf){
         sunflowers = sf;
     }
 
+    /**
+     * Update the peashooters
+     * @param ps ArrayList<PeaShooter>
+     */
     public void updatePeaShooters(ArrayList<PeaShooter> ps){
         peaShooters = ps;
     }
 
+    /**
+     * Update the peas
+     * @param np ArrayList<NormalPea>
+     */
     public void updatePeas(ArrayList<NormalPea> np){
         peas = np;
     }
 
+    /**
+     * Update the zombies
+     * @param zb the ArrayList<Zombie>
+     */
     public void updateZombies(ArrayList<Zombie> zb){
         zombies = zb;
     }

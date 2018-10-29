@@ -55,16 +55,21 @@ public class GameController implements Runnable{
         System.out.println("running main thread");
 
         while(true){
+            collectSun();
+            updateGameBoard();
             printGameBoard();
             handleInput();
             // move game objects
             // check collisions
 
-            collectSun();
-            updateGameBoard();
             if(checkEndGame()){
                 break;
             }
+
+            if (sunFlowerCooldown > 0)
+                sunFlowerCooldown--;
+            if (peaShooterCooldown > 0)
+                peaShooterCooldown--;
             timer++;
         }
         reader.close();
@@ -175,7 +180,7 @@ public class GameController implements Runnable{
             switch (splitInput[1]){
                 case "sf":
                     item = (sunFlowerCooldown <= timer 
-                        && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos): null;
+                        && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos, timer): null;
                     sunFlowerCooldown = timer + coolDown;
                     sunPoints -= Sunflower.getCost();
                     break;
@@ -227,6 +232,9 @@ public class GameController implements Runnable{
     private void collectSun(){
         produceSun();
 
+        for(Sunflower sf: goc.getSunflowers()){
+            sunPoints += sf.produceSun(timer);
+        }
     }
 
     public static void main(String[] args){
