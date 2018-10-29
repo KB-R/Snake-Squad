@@ -38,7 +38,7 @@ public class Zombie extends NPC implements Movable{
     /*This changes x coordinate of the zombie object*/
     public void move(){
     	moveTick++;
-    	if(!(collision)&&(moveTick%5==0)) {
+    	if(!(collision)&&(moveTick%5==0)&&(this.coordinates[0]>=0)) {
     		this.x--;
     		setLocation(this.x, this.y);
     	}
