@@ -79,7 +79,7 @@ public class CollisionDetector{
         		}
         	}
         	goc.updatePeaShooters(goc.getPeaShooters());
-        	
         }
+	  goc.updateZombies(goc.getZombies());  
     }
 }
