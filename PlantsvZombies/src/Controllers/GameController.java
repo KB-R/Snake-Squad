@@ -33,7 +33,7 @@ public class GameController implements Runnable{
     private long coolDown = 3;
     private int level = 1;
     private boolean gameOver = false;
-    private int zombieTot = 0;
+    //private int zombieTot = 0;
 
     // this will act as our clock for now
     // every turn this will be incremented
@@ -129,10 +129,10 @@ public class GameController implements Runnable{
         if (gameOver)
             return true;
 
-    	// they win if all the zombies are killed
+    	/*// they win if all the zombies are killed
     	if (zombieTot==5&&dead()) {
     		return true;
-    	}
+    	}*/
     	
     	//they lose if a zombie gets passed the lawn mower
     	for(Zombie z: goc.getZombies()) { 
