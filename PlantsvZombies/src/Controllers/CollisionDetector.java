@@ -1,55 +1,67 @@
 package Controllers;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
 
+import Models.Lawnmower;
 import Models.NPC;
 import Models.NormalPea;
-import Models.NormalZombie;
+import Models.PeaShooter;
+import Models.Sunflower;
+import Models.Zombie;
 
 /**
  * Keep track of all objects which can collide and detect whether any of them
  * are currently colliding
- * @author Tareq Hanafi
+ * @author Tareq
  */
 public class CollisionDetector{
-    private ArrayList<NPC> collidables;
-
-    public CollisionDetector(){
-        collidables = new ArrayList<NPC>();
-    }
-
-    public void addCollidable(NPC collidable){
-        collidables.add(collidable);
-    }
-
-    public void removeCollidable(NPC collidable){
-        collidables.remove(collidable);
-    }
-
+   
     /**
      * Detect collision between all collidable objects
      */
-    public void detectCollisions(){
-    	for( int i=0;  i < collidables.size(); i++ ){
-    		NPC pres = collidables.get(i);
-    		if(pres.collidesWith(collidables.get(i+1))) {
-    			if(pres instanceof NormalPea) { //Checks to see if it's a pea and if it already hit or not
-    				collidables.get(i+1).takeDamage(((NormalPea) pres).getDamage());
-    			}
-    			
-    			if(pres instanceof NormalZombie) {
-    				if(i<0) {
-    					System.out.println("Game Over");
-    				}
-    				else {
-    					collidables.get(i-1).takeDamage(((NormalZombie) pres).getDamage());
-    				}
-    			}
-    			
-    		}
-    		
-    	}
-    	
+    public static void detectCollisions(GameObjectsController goc){
+
+        // for each pea
+        for(NormalPea np: goc.getPeas()){
+            // check if it collided with a zombie
+            for(Zombie zb: goc.getZombies()){
+                if(np.collidesWith(zb)){
+                    zb.takeDamage(np.getDamage());
+                    if(!zb.isAlive()) {
+                    	
+                    }
+                }
+            }
+        }
+        
+        // for each zombie
+        for(Zombie zb: goc.getZombies()){
+            // check if it collided with peaShooter
+            for(PeaShooter ps: goc.getPeaShooters()){
+                if(zb.collidesWith(ps)){
+                    ps.takeDamage(zb.getDamage());
+                    if(!ps.isAlive()) {
+                    	
+                    }
+                }
+            }
+            // check if it collided with a sun flower
+            for(Sunflower sf: goc.getSunflowers()){
+                if(zb.collidesWith(sf)){
+                    sf.takeDamage(zb.getDamage());
+                    if(!sf.isAlive()) {
+                    	
+                    }
+               }
+            }
+            
+            // check if it collided with a lawn mower
+            for(Lawnmower Lm: goc.getLawnMowers()) {
+            	if(zb.collidesWith(Lm)) {
+            		goc.getZombies().clear();
+            	}
+            }
+        }
+        
+        
     }
 }
