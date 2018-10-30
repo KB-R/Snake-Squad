@@ -12,18 +12,20 @@ public class MoveController{
      * Moves all the object
      * @param goc GameObjectsController the contoller containing all game objects 
      */
-    public void moveObjects(GameObjectsController goc){
+    public void movePeas(GameObjectsController goc){
 
         // move all the peas...
         for(NormalPea np: goc.getPeas()){
            np.move();
         }
-
+    }
+    public void moveZombies(GameObjectsController goc) {
         //move all the zombies
         for(Zombie z: goc.getZombies()) {
         	z.move();
         }
-
+    }
+    public void moveLawnmowers(GameObjectsController goc) {
         //move lawn mowers
         for(Lawnmower lm: goc.getLawnMowers()) {
         	lm.move();
