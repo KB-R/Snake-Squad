@@ -6,6 +6,7 @@ import Models.*;
  * @author Maxime N
  * @author Kurt Burton-Rowe
  * @date October 28, 2018
+ * 
  * Keep track of all objects which can collide and detect whether any of them
  * are currently colliding
  */
