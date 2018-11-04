@@ -33,7 +33,10 @@ public class GameController implements Runnable{
     private long coolDown = 3;
     private int level = 1;
     private boolean gameOver = false;
-    //private int zombieTot = 0;
+    private int zombieTot;
+    private int spawned=0;
+    private int waves=0;
+    private int userWaves=0;
 
     // this will act as our clock for now
     // every turn this will be incremented
@@ -43,6 +46,7 @@ public class GameController implements Runnable{
      * Initialize varibales
      */
     public GameController(){
+    	
         for(int i=0;i<6;i++){
             for(int j=0; j<10; j++){
                 gameBoard[i][j] = new ArrayList<NPC>();
@@ -67,16 +71,25 @@ public class GameController implements Runnable{
      */
     public void run(){
         System.out.println("running main thread");
+        System.out.println("How many zombies do you want? ");
+        zombieTot = reader.nextInt();
+        System.out.println("How many waves do you want? ");
+        userWaves = reader.nextInt();
 
         while(true){
             collectSun();
             updateGameBoard();
             printGameBoard();
             handleInput();
-            CollisionDetector.detectCollisions(goc);
-            moveController.moveObjects(goc);
-
             spawn();
+            checkEndWave();
+            CollisionDetector.detectCollisions(goc);
+            moveController.movePeas(goc);
+            CollisionDetector.detectCollisions(goc);
+            moveController.moveZombies(goc);
+            CollisionDetector.detectCollisions(goc);
+            moveController.moveLawnmowers(goc);
+            //spawn();
             // pea shooter shoots every 2 turns
             for(PeaShooter ps: goc.getPeaShooters()) {
                 if(ps.getShootingRate()%2==0) {
@@ -87,7 +100,6 @@ public class GameController implements Runnable{
             if(checkEndGame()){
                 break;
             }
-
             if (sunFlowerCooldown > 0)
                 sunFlowerCooldown--;
             if (peaShooterCooldown > 0)
@@ -98,41 +110,39 @@ public class GameController implements Runnable{
     }
     
     public void spawn() {
-    	if(timer%3==0 && zombieTot<4) {
-            goc.spawnZombies();
-    		zombieTot++;
-    	}
+     	if(timer%3==0 && spawned<zombieTot/userWaves) {
+             goc.spawnZombies();
+     		spawned++;
+     	}
+}
+    public boolean checkEndWave() {
+    	// zombies dead
+        if(goc.getZombies().size() != 0){
+            for(Zombie z: goc.getZombies()) {
+            	if(z.isAlive()) {
+            		return false;
+            	}
+            }    
+        }
+		this.waves++;
+        return true;
     }
-    
-    /**
-     * checks if all the zombie's are dead
-     * @return True if all zombies are dead
-     */
-    public boolean dead() {
-    	if (goc.getZombies().isEmpty()) {
-    		return true;
-    	}
-    	return false;
-    }
-
     /**
      * Check to see if the game is over
      * @return boolean true if game is over
      */
     public boolean checkEndGame(){
-
+ 
         // zombies dead
-        if(goc.getZombies().size() == 0){
-            return true;
+        if(goc.getZombies().size() != 0 && waves == userWaves && checkEndWave()){
+            System.out.println("You win!");
+        	return true;
         }
 
-        if (gameOver)
+        if (gameOver) {
+        	System.out.println("Game over!");
             return true;
-
-    	/*// they win if all the zombies are killed
-    	if (zombieTot==5&&dead()) {
-    		return true;
-    	}*/
+        }
     	
     	//they lose if a zombie gets passed the lawn mower
     	for(Zombie z: goc.getZombies()) { 
@@ -140,6 +150,7 @@ public class GameController implements Runnable{
     		if(Arrays.equals(z.getLocation(), n)){
     			int y = z.getY();
     			if(this.gameBoard[0][z.getY()].get(0) instanceof Lawnmower) {
+    				System.out.println("You Lost!");
     				return true;
     			}
     		}

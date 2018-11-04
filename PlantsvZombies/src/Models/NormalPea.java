@@ -43,7 +43,7 @@ public class NormalPea extends NPC implements Movable{
 			x++;
 			this.setLocation(x, y);
 		}
-		else if(!(collision)&&this.coordinates[0]==10) {
+		else if(!(collision)&&this.coordinates[0]==9) {
 			this.takeDamage(1);
 		}
 	}
