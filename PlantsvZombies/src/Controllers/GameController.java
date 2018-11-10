@@ -7,6 +7,7 @@ import java.util.Scanner;
 import Controllers.CollisionDetector;
 import Controllers.MoveController;
 import Models.*;
+import Views.*;
 
 /**
  * @author Maxime Ndutiye
@@ -21,6 +22,7 @@ public class GameController implements Runnable{
     private CollisionDetector collisionController = new CollisionDetector();
     private MoveController moveController = new MoveController();
     private GameObjectsController goc = new GameObjectsController();
+    private GameBoardView bv = new GameBoardView(goc);
 
     // gameboard
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
@@ -76,9 +78,10 @@ public class GameController implements Runnable{
         System.out.println("How many waves do you want? ");
         userWaves = reader.nextInt();
 
-        while(true){
+        while(!checkEndGame()){
             collectSun();
             updateGameBoard();
+            bv.updateGameBoard();
             printGameBoard();
             handleInput();
             spawn();
@@ -97,15 +100,13 @@ public class GameController implements Runnable{
                 }
             }
 
-            if(checkEndGame()){
-                break;
-            }
             if (sunFlowerCooldown > 0)
                 sunFlowerCooldown--;
             if (peaShooterCooldown > 0)
                 peaShooterCooldown--;
             timer++;
         }
+
         reader.close();
     }
     
@@ -312,7 +313,5 @@ public class GameController implements Runnable{
         // use a thread to run the game
         Thread mainGameThread = new Thread(new GameController());
         mainGameThread.start();
-
-        System.out.println("starting game");
     }
 }

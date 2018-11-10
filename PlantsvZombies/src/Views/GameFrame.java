@@ -17,7 +17,5 @@ public class GameFrame extends JFrame{
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
 		setLayout( new FlowLayout() );
-		JLabel label = new JLabel("Hello Swing!");
-		add( label );
 	}
 }	
