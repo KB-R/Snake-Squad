@@ -1,7 +1,7 @@
 compile: 
-	javac -d bin src/models/* src/controllers/*
+	javac -d bin src/models/* src/controllers/* src/Views/*
 
-run:
+run: compile
 	cd bin && java Controllers.GameController
 
 uncompress:
