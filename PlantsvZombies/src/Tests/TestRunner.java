@@ -1,15 +1,14 @@
 package Tests;
 
-import Tests.*;
 import junit.framework.*;
 
-public class TestRunner{
+public class TestRunner extends junit.framework.TestCase{
 	
 	public static void main(String[] args){
-		junit.textui.TextRunner.run(TestRunner.class);
+		junit.textui.TestRunner.run(TestRunner.class);
 	}
 
-	public static Test suite() {
+	public static void testsuite() {
 		TestSuite suite = new TestSuite("Test NPC..");
 		suite.addTest(new TestSuite(TestNPC.class));
 		// add more tests here

@@ -3,7 +3,7 @@ package Tests;
 import Models.NPC;
 import junit.framework.*;
 
-public class TestNPC extends TestCase{
+public class TestNPC extends junit.framework.TestCase{
     NPC newNPC = new NPC(10,true);
 
     TestNPC(){

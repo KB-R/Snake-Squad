@@ -1,9 +1,9 @@
 package Tests;
 
-import Models.NPC;
+
 import junit.framework.*;
 
-public class TestMovable extends TestCase{
+public class TestMovable extends junit.framework.TestCase{
     NPC newNPC = new NPC(10,true);
 
     TestNPC(){
