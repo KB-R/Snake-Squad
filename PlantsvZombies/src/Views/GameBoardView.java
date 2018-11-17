@@ -101,6 +101,9 @@ public class GameBoardView extends JPanel{
         gf.setVisible(true);
     }
 
+    /** 
+     * Get all necessary images and create icons from them 
+     */
     private void getImages(){
         try{
             for (int i=0; i<6; i++){
@@ -146,6 +149,9 @@ public class GameBoardView extends JPanel{
         sunPoints.setText(Long.toString(goc.getSP()));
     }
 
+    /**
+     * Update the GUI gamebaord
+     */
     public void updateGameBoard(){
         updateGUI();
         setIconAtLocation(goc.getLawnMowers(), "lm");
@@ -155,6 +161,11 @@ public class GameBoardView extends JPanel{
         setIconAtLocation(goc.getZombies(),"zb");
     }
 
+    /**
+     * update the GUI based on the position of items in the GOC
+     * @param arr an arr of NPCs
+     * @param npcType The type of NPC
+     */
     private void setIconAtLocation(ArrayList arr, String npcType){
         for(Object ob: arr){
             NPC np= (NPC)ob;
@@ -191,6 +202,13 @@ public class GameBoardView extends JPanel{
         }
     }
 
+    /**
+     * Return a scaled image
+     * @param srcImg The original image
+     * @param w the new width of the image
+     * @param h the new height of the image
+     * @return
+     */
     private Image getScaledImage(Image srcImg, int w, int h){
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
@@ -202,6 +220,11 @@ public class GameBoardView extends JPanel{
         return resizedImg;
     }
 
+    /**
+     * Create a square based on the input color
+     * @param color The color of the square
+     * @return JLabel with the background color specified
+     */
     private JLabel createColoredLabel(Color color) {
         JLabel label = new JLabel();
         label.setVerticalAlignment(JLabel.TOP);
@@ -214,6 +237,9 @@ public class GameBoardView extends JPanel{
         return label;
     }
 
+    /**
+     * Mouse listener to handle event of clicking on the GUI board
+     */
     private class boardPress implements MouseListener{
         public void mouseReleased(MouseEvent e){
             JLabel lb = (JLabel)e.getSource();
@@ -237,6 +263,9 @@ public class GameBoardView extends JPanel{
         public void mouseExited(MouseEvent e){}
     }
 
+    /**
+     * Actionlistener to handle clicks on menubar items
+     */
 	class menupress implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
 			if(e.getSource() == addSunflower){   
@@ -253,20 +282,33 @@ public class GameBoardView extends JPanel{
 		} 
     }
 
+    /**
+     * Actionlistener to handle events for going to the next turn in the game
+     */
     class nextAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
             setDone();
 		} 
     }
 
+    /**
+     * Returns wheather the gameboard is ready to draw the next frame
+     * @return
+     */
     public boolean isUpdated(){
         return updatedGUI;
     }
 
+    /**
+     * Tells the gameboard that a new turn has started
+     */
     public void setNewTurn(){
         updatedGUI = false;
     }
 
+    /**
+     * Tell the gameboard that it is done drawing the frame
+     */
     private void setDone(){
         updatedGUI = true;
     }
