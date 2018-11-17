@@ -40,6 +40,7 @@ public class TestSunflower extends junit.framework.TestCase{
         assertEquals(sunf.getCost(),10);
     }
     
+
     public void testLethalDamage() {
     	Zombie zomb = new Zombie(2, 8);
     	zomb.setDamage(10);
@@ -49,9 +50,5 @@ public class TestSunflower extends junit.framework.TestCase{
     	sunf.takeDamage(zomb.getDamage());
     	sunf.takeDamage(zomb.getDamage());
     	assertEquals(sunf.isAlive(),false);    	
-    }
-    
-    
-    
-    
+    }   
 }
