@@ -29,10 +29,6 @@ public class GameController implements Runnable{
     Scanner reader = new Scanner(System.in);  
 
     // player
-    private int sunPoints = 0;
-    private long sunFlowerCooldown = 0;
-    private long peaShooterCooldown = 0;
-    private long coolDown = 3;
     private int level = 1;
     private boolean gameOver = false;
     private int zombieTot;
@@ -65,6 +61,7 @@ public class GameController implements Runnable{
         for(int i=0; i<level; i++){
             goc.spawnZombies();
         }
+        goc.setGameBoard(gameBoard);
     }
 
     /**
@@ -72,14 +69,11 @@ public class GameController implements Runnable{
      * Check for collisions etc.
      */
     public void run(){
-        System.out.println("running main thread");
-        System.out.println("How many zombies do you want? ");
-        zombieTot = reader.nextInt();
-        System.out.println("How many waves do you want? ");
-        userWaves = reader.nextInt();
-
+        zombieTot = 10;
+        userWaves = 10;
+        
         while(!checkEndGame()){
-            collectSun();
+            goc.collectSun();
             updateGameBoard();
             bv.updateGameBoard();
             printGameBoard();
@@ -100,10 +94,8 @@ public class GameController implements Runnable{
                 }
             }
 
-            if (sunFlowerCooldown > 0)
-                sunFlowerCooldown--;
-            if (peaShooterCooldown > 0)
-                peaShooterCooldown--;
+            goc.reduceCoolDowns();
+            goc.incrementTime();
             timer++;
         }
 
@@ -188,8 +180,8 @@ public class GameController implements Runnable{
      * @param input the user's input string
      */
     public void handleInput(){
-        System.out.print("LEVEL: " + level + ", TURN: " + timer + ", sunPoints: " + sunPoints);
-        System.out.println(", sf cooldown: " + sunFlowerCooldown + ", ps cooldown: " + peaShooterCooldown);
+        System.out.print("LEVEL: " + level + ", TURN: " + timer + ", sunPoints: " + goc.getSP());
+        System.out.println(", sf cooldown: " + goc.getSFCoolDown() + ", ps cooldown: " + goc.getPSCoolDown());
         System.out.println("What would you like to do ?");
         System.out.println("buy sf x y: buy a sunflower for " + Sunflower.getCost());
         System.out.println("buy ps x y: buy a peashooter for " + NormalPea.getCost());
@@ -201,7 +193,7 @@ public class GameController implements Runnable{
 
         switch(splitInput[0]){
             case "buy":
-                buyItem(splitInput);
+                goc.buyItem(splitInput);
                 break;
             case "q":
                 gameOver = true;
@@ -234,78 +226,6 @@ public class GameController implements Runnable{
             if (pos[0] < 10){
                 gameBoard[pos[1]][pos[0]].add(np);
             }
-        }
-    }
-
-    public void buyItem(String[] splitInput){
-        if(splitInput.length != 4){
-            System.out.println("Bad input!");
-            return;
-        }
-
-        System.out.println(splitInput[0] + " " + splitInput[1] + ":" + splitInput[2] + "," + splitInput[3]);
-        try{
-            Integer xPos = Integer.parseInt(splitInput[2]);
-            Integer yPos = Integer.parseInt(splitInput[3]);
-            NPC item = null;
-
-            switch (splitInput[1]){
-                case "sf":
-                    item = (sunFlowerCooldown <= timer 
-                        && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos, timer): null;
-                    sunFlowerCooldown = timer + coolDown;
-                    sunPoints -= Sunflower.getCost();
-                    break;
-                case "ps":
-                    item = (peaShooterCooldown <= timer 
-                            && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2): null;
-                    peaShooterCooldown = timer + coolDown;
-                    sunPoints -= PeaShooter.getCost();
-                    break;
-                default:
-                    break;
-            }
-
-            if (item != null && xPos > 0 && xPos < 9 && yPos < 6 && yPos >= 0){
-                if (gameBoard[yPos][xPos].isEmpty()){
-                    switch (splitInput[1]){
-                        case "sf":
-                            goc.addSunflower((Sunflower)item);
-                            break;
-                        case "ps":
-                            goc.addPeaShooter((PeaShooter)item);
-                            break;
-                        default:
-                            break;
-                    }
-                }else{
-                    System.out.println("Something is already in that position");
-                }
-            }else{
-                System.out.println("Couldn't process your purchase");
-            }
-        }catch (NumberFormatException nfe){
-            System.out.println("illegal input arguments");
-        }
-    }
-
-    /**
-     * Produce sunPoints every 2 turns
-     */
-    private void produceSun(){
-        if (timer % 2 == 0){
-            sunPoints += 10;
-        }
-    }
-
-    /**
-     * Collect sun points from all sunflowers
-     */
-    private void collectSun(){
-        produceSun();
-
-        for(Sunflower sf: goc.getSunflowers()){
-            sunPoints += sf.produceSun(timer);
         }
     }
 
