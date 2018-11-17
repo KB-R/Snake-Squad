@@ -51,8 +51,8 @@ public class GameObjectsController{
     }
 
     private void removeItems(ArrayList arr){
-        for(Object ob: arr){
-            NPC np= (NPC)ob;
+        for(int i=0; i<arr.size(); i++){
+            NPC np= (NPC)arr.get(i);
 
             // remove if dead
             if(np.getCurrentHealth() == 0){
@@ -155,7 +155,7 @@ public class GameObjectsController{
     }
 
     public long getPSCoolDown(){
-        return sunFlowerCooldown;
+        return peaShooterCooldown;
     }
 
     public long getSP(){

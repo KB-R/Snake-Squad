@@ -72,14 +72,10 @@ public class GameBoardView extends JPanel{
 		
 		addSunflower = new JButton("add Sunflower");
         addPeaShooter = new JButton("add Peashooter");
-        addSunflower.setOpaque(true);
-        addPeaShooter.setOpaque(true);
-        addSunflower.setBackground(Color.BLUE);
-        addPeaShooter.setBackground(Color.BLUE);
-        
-        sunPoints = new JButton("0");
-        sfCoolDown = new JButton("0");
-        psCoolDown = new JButton("0");
+
+        sunPoints = new JButton("sunpoints: 0");
+        sfCoolDown = new JButton("sf cooldown: 0");
+        psCoolDown = new JButton("ps cooldown: 0");
         
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
@@ -143,10 +139,9 @@ public class GameBoardView extends JPanel{
         }
         layeredPane.validate();
         layeredPane.repaint();
-
-        sfCoolDown.setText(Long.toString(goc.getSFCoolDown()));
-        psCoolDown.setText(Long.toString(goc.getPSCoolDown()));
-        sunPoints.setText(Long.toString(goc.getSP()));
+        sfCoolDown.setText("sf cooldown: " + Long.toString(goc.getSFCoolDown()));
+        psCoolDown.setText("ps cooldown: " + Long.toString(goc.getPSCoolDown()));
+        sunPoints.setText("sunpoints: " + Long.toString(goc.getSP()));
     }
 
     /**
@@ -245,8 +240,6 @@ public class GameBoardView extends JPanel{
             JLabel lb = (JLabel)e.getSource();
             int x = lb.getX()/80;
             int y = lb.getY()/80;
-
-            System.out.println("Clicked me " + lb.getX() + " " + lb.getY());
 
             if (addSF == true){
                 String[] input = new String("buy sf " + x + " " + y).split("\\s");

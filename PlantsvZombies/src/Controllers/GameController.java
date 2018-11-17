@@ -70,7 +70,7 @@ public class GameController implements Runnable{
      */
     public void run(){
         zombieTot = 10;
-        userWaves = 10;
+        userWaves = 1;
         
         while(!checkEndGame()){
             goc.collectSun();
@@ -95,7 +95,7 @@ public class GameController implements Runnable{
             goc.reduceCoolDowns();
             goc.incrementTime();
             timer++;
-
+            
             while(!bv.isUpdated()){
                 try {
                 Thread.sleep(50);
@@ -104,6 +104,7 @@ public class GameController implements Runnable{
                 }
             }
             bv.setNewTurn();
+            goc.collectGarbage();
         }
 
         reader.close();
@@ -135,7 +136,7 @@ public class GameController implements Runnable{
     public boolean checkEndGame(){
  
         // zombies dead
-        if(goc.getZombies().size() != 0 && waves == userWaves && checkEndWave()){
+        if(goc.getZombies().size() == 0 && waves == userWaves && checkEndWave()){
             System.out.println("You win!");
         	return true;
         }
