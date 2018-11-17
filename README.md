@@ -16,19 +16,17 @@ It must first be added to your classpath.
 ### Resources
 [Git Cheat Sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
 
-### Milestone 1 :rocket:
-Milestone 1 focuses the group on developing a text-based version of Plants V Zombies that can be run through the console of eclipse. The required components of the game for this iteration are sunflowers, one other type of plant, one type of zombie, just one level. Since this is the first Milestone, everything done was materialization of the implementation of the Model of the game. The aim for our code design was to loosly couple our code as much as possible; making it not tedious to reuse it for future Milestones. Justifiably we used interfaces and super to achieve this goal. Going forward we will be working the visual representation of the game, while developing a gradually more intricate UML digram. At this moment there are no known issues with the game. 
+### Milestone 2 :rocket:
+Milestone 2 focuses the group on developing a Graphic User Interface (GUI)-based version of Plants V Zombies that can be run through the console of eclipse. The required components of the game for this iteration are sunflowers, one other type of plant, one type of zombie, just one level. Since this is the second Milestone, everything done was to form the rough materialization of the implementation of the game. The aim for our code design was to loosly couple our code as much as possible during the first Milestone; making it not tedious to reuse it for future Milestones. Justifiably we used interfaces and super to achieve this goal. Going forward we will be working to make the visual representation of the game run as smooth as possible, while developing a gradually more intricate UML digram. At this moment there are no known issues with the game. 
 
-**Deliverables:** A readme file was created to elaborate on the decisions we made to develop the game, The code that allows the game to run, the UML diagram that depiccts the relationship between our classes and the Java-documentation that makes our code readable and easier to navigate. All of these items make up the deliverables for this Milestone; they are put into a zip file for submission.
+**Deliverables:** A readme file was created to elaborate on the decisions we made to develop the game, the code that allows the game to run, the UML diagram that depicts the relationship between our classes and the Java-documentation that makes our code readable and easier to navigate. The separation of classes, tests and into multiple packages. All of these items make up the deliverables for this Milestone; they are put into a zip file for submission.
 
-**Deadline:** Monday Oct 29th. Weight: 15% of the overall project grade.
+Kurt: Documentation, UML Diagram, Tests
+Anthony: Tests
+Maxime: View[Package]
+Tareq: Documentation
 
-### Milestone 2
-GUI-based version (MVC)
-
-**Deliverables:** readme file + design + corresponding tests + code + documentation, all in one zip file. In particular, document the changes you made to your UML and data structures from Milestone 1 and explain why. Proper division of the project into several packages at this point is recommended.
-
-**Deadline:** Monday November 4th. Weight: 20% of the overall project grade.
+**Deadline:** Friday November 16th. Weight: 20% of the overall project grade.
 
 ### Milestone 3
 Complete Implementation: fully-featured with various types of plants and zombies, and unlimited undo/redo feature.
