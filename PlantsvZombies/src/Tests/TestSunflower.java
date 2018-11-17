@@ -14,17 +14,7 @@ public class TestSunflower extends junit.framework.TestCase{
 		assertEquals(sunf.isFriendly(),true);
     }
     
-    /*someone look at the produceSun function and this one, im not sure why these dont work.
-    public void testCorrectSunProduced() {
-    	sunf.produceSun(9999);
-    	assertEquals(sunf.collectSun(),0);
-    	sunf.produceSun(10020);
-    	assertEquals(sunf.collectSun(),0);
-    	sunf.produceSun(8);
-    	assertEquals(sunf.collectSun(),8);
-    }
-    
-    */
+
     public void testMaxHealth() {
 		assertEquals(sunf.getMaxHealth(),50);
 	}
