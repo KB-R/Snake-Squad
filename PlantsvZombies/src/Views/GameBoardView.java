@@ -42,13 +42,16 @@ public class GameBoardView extends JPanel{
     JButton sunPoints;
     JButton sfCoolDown;
     JButton psCoolDown;
-    
+    JButton next;
+
     private boolean addSF = false;
     private boolean addPS = false;
 
     public void initializeGameBoard(){
        
     }
+
+    private boolean updatedGUI = false;
 
     public GameBoardView(GameObjectsController goc){
         this.goc = goc;
@@ -84,7 +87,10 @@ public class GameBoardView extends JPanel{
 
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
-
+    
+        next = new JButton("Next");
+        next.addActionListener(new nextAction());
+        menubar.add(next);
         menubar.add(addSunflower);
 		menubar.add(addPeaShooter);
 
@@ -245,5 +251,24 @@ public class GameBoardView extends JPanel{
                 }
 			}
 		} 
-	}
+    }
+
+    class nextAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            setDone();
+		} 
+    }
+
+    public boolean isUpdated(){
+        return updatedGUI;
+    }
+
+    public void setNewTurn(){
+        updatedGUI = false;
+    }
+
+    private void setDone(){
+        updatedGUI = true;
+    }
+
 }

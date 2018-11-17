@@ -76,8 +76,6 @@ public class GameController implements Runnable{
             goc.collectSun();
             updateGameBoard();
             bv.updateGameBoard();
-            printGameBoard();
-            handleInput();
             spawn();
             checkEndWave();
             CollisionDetector.detectCollisions(goc);
@@ -97,6 +95,16 @@ public class GameController implements Runnable{
             goc.reduceCoolDowns();
             goc.incrementTime();
             timer++;
+
+            while(!bv.isUpdated()){
+                try {
+                Thread.sleep(50);
+                } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                }
+                // System.out.println();;
+            }
+            bv.setNewTurn();
         }
 
         reader.close();
