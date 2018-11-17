@@ -14,7 +14,7 @@ import Models.NPC;
 
 public class GameBoardView extends JPanel{
     GameFrame gf;
-    int width = 500;
+    int width = 800;
     int height = 500;
 
     String[] imageUrls = new String[] {"../src/Images/ZOMBIE.png",
@@ -30,35 +30,68 @@ public class GameBoardView extends JPanel{
     ImageIcon lm;
     ImageIcon pe;
 
+    ArrayList<JLabel> gameItems = new ArrayList<JLabel>();
+
     JPanel jp = new JPanel();
-    private ArrayList<JLabel>[][] gameBoardGridLabels = new ArrayList[6][10];
     private GameObjectsController goc;
+    private JLayeredPane layeredPane;
+
+    JButton addSunflower;
+    JButton addPeaShooter;
+
+    JButton sunPoints;
+    JButton sfCoolDown;
+    JButton psCoolDown;
+    
+    private boolean addSF = false;
+    private boolean addPS = false;
 
     public void initializeGameBoard(){
-        for(int i=0;i<6;i++){
-            for(int j=0; j<10; j++){
-                gameBoardGridLabels[i][j] = new ArrayList<JLabel>();
-            }
-        }
+       
     }
 
     public GameBoardView(GameObjectsController goc){
         this.goc = goc;
-        
-        // initialize this panel
-        gf = new GameFrame("PvZ", 1000, 600);
-        getImages();
-        initializeGameBoard();
-        
-        for(int i=0;i<6;i++){
-            for(int j=0; j<10; j++){
-                gameBoardGridLabels[i][j].add(new JLabel());
-                jp.add(gameBoardGridLabels[i][j].get(0));
+        gf = new GameFrame("PvZ", width+50, height+80);
+        layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(width, height));
+
+        for (int i=0; i<6; i++){
+            for (int j=0; j<10; j++){
+                JLabel label = (j==9)? createColoredLabel(Color.GRAY) : createColoredLabel(Color.green);
+                label.addMouseListener(new boardPress());
+                label.setBounds(j*80, i*80, 80, 80);
+                layeredPane.add(label, JLayeredPane.DEFAULT_LAYER);
             }
         }
-        updateGUI(); 
-        jp.setLayout(new GridLayout(6,10));
-        gf.add(jp);
+
+        JMenuBar menubar = new JMenuBar();
+		
+		addSunflower = new JButton("add Sunflower");
+        addPeaShooter = new JButton("add Peashooter");
+        addSunflower.setOpaque(true);
+        addPeaShooter.setOpaque(true);
+        addSunflower.setBackground(Color.BLUE);
+        addPeaShooter.setBackground(Color.BLUE);
+        
+        sunPoints = new JButton("0");
+        sfCoolDown = new JButton("0");
+        psCoolDown = new JButton("0");
+        
+        menubar.add(sunPoints);
+        menubar.add(sfCoolDown);
+        menubar.add(psCoolDown);
+
+        addSunflower.addActionListener(new menupress());
+        addPeaShooter.addActionListener(new menupress());
+
+        menubar.add(addSunflower);
+		menubar.add(addPeaShooter);
+
+        getImages();
+        add(layeredPane);
+        gf.add(layeredPane);
+        gf.setJMenuBar(menubar);
         gf.setVisible(true);
     }
 
@@ -95,11 +128,16 @@ public class GameBoardView extends JPanel{
     }
 
     public void updateGUI(){
-        for(int i=0;i<6;i++){
-            for(int j=0; j<10; j++){
-                gameBoardGridLabels[i][j].get(0).setIcon(gr);
-            }
+        //  clear board
+        for(JLabel lb : gameItems){
+            layeredPane.remove(lb);
         }
+        layeredPane.validate();
+        layeredPane.repaint();
+
+        sfCoolDown.setText(Long.toString(goc.getSFCoolDown()));
+        psCoolDown.setText(Long.toString(goc.getPSCoolDown()));
+        sunPoints.setText(Long.toString(goc.getSP()));
     }
 
     public void updateGameBoard(){
@@ -115,8 +153,9 @@ public class GameBoardView extends JPanel{
         for(Object ob: arr){
             NPC np= (NPC)ob;
             int[] pos = np.getLocation();
+            Icon ico = null;
+
             if (pos[0] < 10){
-                Icon ico = gr;
                 switch(npcType){
                     case "lm":
                         ico = lm;
@@ -137,8 +176,12 @@ public class GameBoardView extends JPanel{
                         break;
 
                 }
-                gameBoardGridLabels[pos[1]][pos[0]].get(0).setIcon(ico);
             }
+            
+            JLabel lb = new JLabel(ico);
+            lb.setBounds(pos[0]*80,pos[1]*80,80,80);
+            gameItems.add(lb);
+            layeredPane.add(lb, JLayeredPane.DRAG_LAYER);
         }
     }
 
@@ -152,5 +195,55 @@ public class GameBoardView extends JPanel{
     
         return resizedImg;
     }
-    
+
+    private JLabel createColoredLabel(Color color) {
+        JLabel label = new JLabel();
+        label.setVerticalAlignment(JLabel.TOP);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setOpaque(true);
+        label.setBackground(color);
+        label.setForeground(Color.black);
+        label.setBorder(BorderFactory.createLineBorder(Color.black));
+        label.setPreferredSize(new Dimension(140, 140));
+        return label;
+    }
+
+    private class boardPress implements MouseListener{
+        public void mouseReleased(MouseEvent e){
+            JLabel lb = (JLabel)e.getSource();
+            int x = lb.getX()/80;
+            int y = lb.getY()/80;
+
+            System.out.println("Clicked me " + lb.getX() + " " + lb.getY());
+
+            if (addSF == true){
+                String[] input = new String("buy sf " + x + " " + y).split("\\s");
+                goc.buyItem(input);
+            }else if(addPS == true){
+                String[] input = new String("buy ps " + x + " " + y).split("\\s");
+                goc.buyItem(input);
+            }
+        }
+
+        public void mouseClicked(MouseEvent e){}
+        public void mousePressed(MouseEvent e){}
+        public void mouseEntered(MouseEvent e){}
+        public void mouseExited(MouseEvent e){}
+    }
+
+	class menupress implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+			if(e.getSource() == addSunflower){   
+                addSF = (addSF) ? false:true;
+                if(addSF){
+                    addPS = false;
+                }
+			}else if(e.getSource() == addPeaShooter){
+                addPS = (addPS) ? false:true;
+                if(addPS){
+                    addSF = false;
+                }
+			}
+		} 
+	}
 }

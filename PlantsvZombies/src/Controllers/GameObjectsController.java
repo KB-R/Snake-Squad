@@ -15,7 +15,13 @@ public class GameObjectsController{
     private ArrayList<NormalPea> peas;
     private ArrayList<Lawnmower> lawnmowers;
     //private int zombieTot = 0;
+    private int sunPoints = 0;
+    private long sunFlowerCooldown = 0;
+    private long peaShooterCooldown = 0;
+    private long coolDown = 3;
+    private int timer = 0; 
 
+    ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
     public GameObjectsController(){
         zombies = new ArrayList<Zombie>();
         sunflowers = new ArrayList<Sunflower>();
@@ -41,6 +47,10 @@ public class GameObjectsController{
         removeItems(peaShooters);
         removeItems(peas);
         removeItems(lawnmowers);
+    }
+
+    public void setGameBoard(ArrayList<NPC>[][] gameBoard){
+        this.gameBoard = gameBoard;
     }
 
     private void removeItems(ArrayList arr){
@@ -115,12 +125,44 @@ public class GameObjectsController{
         return zombies;
     }
 
+     /**
+     * Produce sunPoints every 2 turns
+     */
+    private void produceSun(){
+        if (timer % 2 == 0){
+            sunPoints += 10;
+        }
+    }
+
+    /**
+     * Collect sun points from all sunflowers
+     */
+    public void collectSun(){
+        produceSun();
+
+        for(Sunflower sf: getSunflowers()){
+            sunPoints += sf.produceSun(timer);
+        }
+    }
+
     /**
      * Get all PeaShooters
      * @return ArrayList<PeaShooter> PeaShooters
      */
     public ArrayList<PeaShooter> getPeaShooters(){
         return peaShooters;
+    }
+
+    public long getSFCoolDown(){
+        return sunFlowerCooldown;
+    }
+
+    public long getPSCoolDown(){
+        return sunFlowerCooldown;
+    }
+
+    public long getSP(){
+        return sunPoints;
     }
 
     /**
@@ -177,5 +219,67 @@ public class GameObjectsController{
      */
     public void updateLawnMowers(ArrayList<Lawnmower> lm){
         lawnmowers = lm;
+    }
+
+    public void incrementTime(){
+        timer++;
+    }
+    public void reduceCoolDowns(){
+        if (sunFlowerCooldown > 0)
+            sunFlowerCooldown--;
+        if (peaShooterCooldown > 0)
+            peaShooterCooldown--;
+    }
+
+    public void buyItem(String[] splitInput){
+        if(splitInput.length != 4){
+            System.out.println("Bad input!");
+            return;
+        }
+
+        System.out.println(splitInput[0] + " " + splitInput[1] + ":" + splitInput[2] + "," + splitInput[3]);
+        try{
+            Integer xPos = Integer.parseInt(splitInput[2]);
+            Integer yPos = Integer.parseInt(splitInput[3]);
+            NPC item = null;
+
+            switch (splitInput[1]){
+                case "sf":
+                    item = (sunFlowerCooldown <= timer 
+                        && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos, timer): null;
+                    sunFlowerCooldown = timer + coolDown;
+                    sunPoints -= Sunflower.getCost();
+                    break;
+                case "ps":
+                    item = (peaShooterCooldown <= timer 
+                            && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2): null;
+                    peaShooterCooldown = timer + coolDown;
+                    sunPoints -= PeaShooter.getCost();
+                    break;
+                default:
+                    break;
+            }
+
+            if (item != null && xPos > 0 && xPos < 9 && yPos < 6 && yPos >= 0){
+                if (gameBoard[yPos][xPos].isEmpty()){
+                    switch (splitInput[1]){
+                        case "sf":
+                            addSunflower((Sunflower)item);
+                            break;
+                        case "ps":
+                            addPeaShooter((PeaShooter)item);
+                            break;
+                        default:
+                            break;
+                    }
+                }else{
+                    System.out.println("Something is already in that position");
+                }
+            }else{
+                System.out.println("Couldn't process your purchase");
+            }
+        }catch (NumberFormatException nfe){
+            System.out.println("illegal input arguments");
+        }
     }
 }
