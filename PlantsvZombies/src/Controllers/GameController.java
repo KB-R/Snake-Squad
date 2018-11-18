@@ -70,14 +70,12 @@ public class GameController implements Runnable{
      */
     public void run(){
         zombieTot = 10;
-        userWaves = 10;
+        userWaves = 1;
         
         while(!checkEndGame()){
             goc.collectSun();
             updateGameBoard();
             bv.updateGameBoard();
-            printGameBoard();
-            handleInput();
             spawn();
             checkEndWave();
             CollisionDetector.detectCollisions(goc);
@@ -86,7 +84,7 @@ public class GameController implements Runnable{
             moveController.moveZombies(goc);
             CollisionDetector.detectCollisions(goc);
             moveController.moveLawnmowers(goc);
-            //spawn();
+        
             // pea shooter shoots every 2 turns
             for(PeaShooter ps: goc.getPeaShooters()) {
                 if(ps.getShootingRate()%2==0) {
@@ -97,6 +95,16 @@ public class GameController implements Runnable{
             goc.reduceCoolDowns();
             goc.incrementTime();
             timer++;
+            
+            while(!bv.isUpdated()){
+                try {
+                Thread.sleep(50);
+                } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                }
+            }
+            bv.setNewTurn();
+            goc.collectGarbage();
         }
 
         reader.close();
@@ -120,6 +128,7 @@ public class GameController implements Runnable{
 		this.waves++;
         return true;
     }
+
     /**
      * Check to see if the game is over
      * @return boolean true if game is over
@@ -127,7 +136,7 @@ public class GameController implements Runnable{
     public boolean checkEndGame(){
  
         // zombies dead
-        if(goc.getZombies().size() != 0 && waves == userWaves && checkEndWave()){
+        if(goc.getZombies().size() == 0 && waves == userWaves && checkEndWave()){
             System.out.println("You win!");
         	return true;
         }
@@ -203,6 +212,9 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * Update the GOC items and the gameboard arraylist
+     */
     public void updateGameBoard(){
         // reset gameboard
         gameBoard = new ArrayList[6][10];
@@ -219,6 +231,10 @@ public class GameController implements Runnable{
         setItemsLocation(goc.getZombies());
     }
 
+    /**
+     * Add an item gameboard arraylist
+     * @param arr
+     */
     private void setItemsLocation(ArrayList arr){
         for(Object ob: arr){
             NPC np= (NPC)ob;

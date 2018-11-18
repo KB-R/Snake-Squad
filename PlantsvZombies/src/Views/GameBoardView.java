@@ -42,13 +42,16 @@ public class GameBoardView extends JPanel{
     JButton sunPoints;
     JButton sfCoolDown;
     JButton psCoolDown;
-    
+    JButton next;
+
     private boolean addSF = false;
     private boolean addPS = false;
 
     public void initializeGameBoard(){
        
     }
+
+    private boolean updatedGUI = false;
 
     public GameBoardView(GameObjectsController goc){
         this.goc = goc;
@@ -69,14 +72,10 @@ public class GameBoardView extends JPanel{
 		
 		addSunflower = new JButton("add Sunflower");
         addPeaShooter = new JButton("add Peashooter");
-        addSunflower.setOpaque(true);
-        addPeaShooter.setOpaque(true);
-        addSunflower.setBackground(Color.BLUE);
-        addPeaShooter.setBackground(Color.BLUE);
-        
-        sunPoints = new JButton("0");
-        sfCoolDown = new JButton("0");
-        psCoolDown = new JButton("0");
+
+        sunPoints = new JButton("sunpoints: 0");
+        sfCoolDown = new JButton("sf cooldown: 0");
+        psCoolDown = new JButton("ps cooldown: 0");
         
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
@@ -84,7 +83,10 @@ public class GameBoardView extends JPanel{
 
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
-
+    
+        next = new JButton("Next");
+        next.addActionListener(new nextAction());
+        menubar.add(next);
         menubar.add(addSunflower);
 		menubar.add(addPeaShooter);
 
@@ -95,6 +97,9 @@ public class GameBoardView extends JPanel{
         gf.setVisible(true);
     }
 
+    /** 
+     * Get all necessary images and create icons from them 
+     */
     private void getImages(){
         try{
             for (int i=0; i<6; i++){
@@ -134,12 +139,14 @@ public class GameBoardView extends JPanel{
         }
         layeredPane.validate();
         layeredPane.repaint();
-
-        sfCoolDown.setText(Long.toString(goc.getSFCoolDown()));
-        psCoolDown.setText(Long.toString(goc.getPSCoolDown()));
-        sunPoints.setText(Long.toString(goc.getSP()));
+        sfCoolDown.setText("sf cooldown: " + Long.toString(goc.getSFCoolDown()));
+        psCoolDown.setText("ps cooldown: " + Long.toString(goc.getPSCoolDown()));
+        sunPoints.setText("sunpoints: " + Long.toString(goc.getSP()));
     }
 
+    /**
+     * Update the GUI gamebaord
+     */
     public void updateGameBoard(){
         updateGUI();
         setIconAtLocation(goc.getLawnMowers(), "lm");
@@ -149,6 +156,11 @@ public class GameBoardView extends JPanel{
         setIconAtLocation(goc.getZombies(),"zb");
     }
 
+    /**
+     * update the GUI based on the position of items in the GOC
+     * @param arr an arr of NPCs
+     * @param npcType The type of NPC
+     */
     private void setIconAtLocation(ArrayList arr, String npcType){
         for(Object ob: arr){
             NPC np= (NPC)ob;
@@ -185,6 +197,13 @@ public class GameBoardView extends JPanel{
         }
     }
 
+    /**
+     * Return a scaled image
+     * @param srcImg The original image
+     * @param w the new width of the image
+     * @param h the new height of the image
+     * @return
+     */
     private Image getScaledImage(Image srcImg, int w, int h){
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
@@ -196,6 +215,11 @@ public class GameBoardView extends JPanel{
         return resizedImg;
     }
 
+    /**
+     * Create a square based on the input color
+     * @param color The color of the square
+     * @return JLabel with the background color specified
+     */
     private JLabel createColoredLabel(Color color) {
         JLabel label = new JLabel();
         label.setVerticalAlignment(JLabel.TOP);
@@ -208,13 +232,14 @@ public class GameBoardView extends JPanel{
         return label;
     }
 
+    /**
+     * Mouse listener to handle event of clicking on the GUI board
+     */
     private class boardPress implements MouseListener{
         public void mouseReleased(MouseEvent e){
             JLabel lb = (JLabel)e.getSource();
             int x = lb.getX()/80;
             int y = lb.getY()/80;
-
-            System.out.println("Clicked me " + lb.getX() + " " + lb.getY());
 
             if (addSF == true){
                 String[] input = new String("buy sf " + x + " " + y).split("\\s");
@@ -231,6 +256,9 @@ public class GameBoardView extends JPanel{
         public void mouseExited(MouseEvent e){}
     }
 
+    /**
+     * Actionlistener to handle clicks on menubar items
+     */
 	class menupress implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
 			if(e.getSource() == addSunflower){   
@@ -245,5 +273,37 @@ public class GameBoardView extends JPanel{
                 }
 			}
 		} 
-	}
+    }
+
+    /**
+     * Actionlistener to handle events for going to the next turn in the game
+     */
+    class nextAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            setDone();
+		} 
+    }
+
+    /**
+     * Returns wheather the gameboard is ready to draw the next frame
+     * @return
+     */
+    public boolean isUpdated(){
+        return updatedGUI;
+    }
+
+    /**
+     * Tells the gameboard that a new turn has started
+     */
+    public void setNewTurn(){
+        updatedGUI = false;
+    }
+
+    /**
+     * Tell the gameboard that it is done drawing the frame
+     */
+    private void setDone(){
+        updatedGUI = true;
+    }
+
 }

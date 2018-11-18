@@ -34,11 +34,8 @@ public class GameObjectsController{
      * Spawn some zombies given a level
      */
     public void spawnZombies(){
-       // zombieTot++;
-       // if(zombieTot<6){
-            Zombie zb = new NormalZombie();
-            zombies.add(zb);
-       // }
+        Zombie zb = new NormalZombie();
+        zombies.add(zb);
     }
 
     public void collectGarbage(){
@@ -54,8 +51,8 @@ public class GameObjectsController{
     }
 
     private void removeItems(ArrayList arr){
-        for(Object ob: arr){
-            NPC np= (NPC)ob;
+        for(int i=0; i<arr.size(); i++){
+            NPC np= (NPC)arr.get(i);
 
             // remove if dead
             if(np.getCurrentHealth() == 0){
@@ -158,7 +155,7 @@ public class GameObjectsController{
     }
 
     public long getPSCoolDown(){
-        return sunFlowerCooldown;
+        return peaShooterCooldown;
     }
 
     public long getSP(){
@@ -224,6 +221,7 @@ public class GameObjectsController{
     public void incrementTime(){
         timer++;
     }
+
     public void reduceCoolDowns(){
         if (sunFlowerCooldown > 0)
             sunFlowerCooldown--;
