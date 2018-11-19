@@ -12,30 +12,32 @@ import java.io.File;
 import java.io.IOException;
 import Models.NPC;
 
+/**
+ * @author Maxime Ndutiye
+ * The view of the plants vs zombies game
+ */
 public class GameBoardView extends JPanel{
     GameFrame gf;
     int width = 800;
     int height = 500;
 
+    // Images and Icons
     String[] imageUrls = new String[] {"../src/Images/ZOMBIE.png",
                                        "../src/Images/GRASS.png",
                                        "../src/Images/PEASHOOTER.png",
                                        "../src/Images/SUNFLOWER.jpg",
                                        "../src/Images/Lawnmower.png",
                                        "../src/Images/BULLET.png"};
-    ImageIcon zb;
-    ImageIcon gr;
-    ImageIcon ps;
-    ImageIcon sf;
-    ImageIcon lm;
-    ImageIcon pe;
+    ImageIcon zb,gr,ps,sf,lm,pe;
 
     ArrayList<JLabel> gameItems = new ArrayList<JLabel>();
+    JMenuBar menubar = new JMenuBar();
 
     JPanel jp = new JPanel();
     private GameObjectsController goc;
     private JLayeredPane layeredPane;
 
+    // Buttons 
     JButton addSunflower;
     JButton addPeaShooter;
 
@@ -44,21 +46,20 @@ public class GameBoardView extends JPanel{
     JButton psCoolDown;
     JButton next;
 
+    // Whether to add a sunflower or peashooter
     private boolean addSF = false;
     private boolean addPS = false;
-
-    public void initializeGameBoard(){
-       
-    }
-
     private boolean updatedGUI = false;
 
     public GameBoardView(GameObjectsController goc){
         this.goc = goc;
+
+        // new game frame
         gf = new GameFrame("PvZ", width+50, height+80);
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(width, height));
 
+        // create the game board 
         for (int i=0; i<6; i++){
             for (int j=0; j<10; j++){
                 JLabel label = (j==9)? createColoredLabel(Color.GRAY) : createColoredLabel(Color.green);
@@ -67,31 +68,29 @@ public class GameBoardView extends JPanel{
                 layeredPane.add(label, JLayeredPane.DEFAULT_LAYER);
             }
         }
-
-        JMenuBar menubar = new JMenuBar();
-		
+        
+        // add components
 		addSunflower = new JButton("add Sunflower");
         addPeaShooter = new JButton("add Peashooter");
-
         sunPoints = new JButton("sunpoints: 0");
         sfCoolDown = new JButton("sf cooldown: 0");
         psCoolDown = new JButton("ps cooldown: 0");
-        
+        next = new JButton("Next");
+
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
         menubar.add(psCoolDown);
 
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
-    
-        next = new JButton("Next");
         next.addActionListener(new nextAction());
+
         menubar.add(next);
         menubar.add(addSunflower);
 		menubar.add(addPeaShooter);
 
         getImages();
-        add(layeredPane);
+        // add(layeredPane);
         gf.add(layeredPane);
         gf.setJMenuBar(menubar);
         gf.setVisible(true);
@@ -132,6 +131,9 @@ public class GameBoardView extends JPanel{
         }
     }
 
+    /**
+     * Clear the board of dead objects and repaint on screen
+     */
     public void updateGUI(){
         //  clear board
         for(JLabel lb : gameItems){
@@ -244,9 +246,13 @@ public class GameBoardView extends JPanel{
             if (addSF == true){
                 String[] input = new String("buy sf " + x + " " + y).split("\\s");
                 goc.buyItem(input);
+                setButtonStatus(addSunflower, false);
+                addSF=false;
             }else if(addPS == true){
                 String[] input = new String("buy ps " + x + " " + y).split("\\s");
                 goc.buyItem(input);
+                setButtonStatus(addPeaShooter, false);
+                addPS = false;
             }
         }
 
@@ -257,19 +263,36 @@ public class GameBoardView extends JPanel{
     }
 
     /**
+     * Set the buttons color based on whether is it active or not
+     * @param btn
+     * @param active
+     */
+    public void setButtonStatus(JButton btn, boolean active){
+        if(active){
+            btn.setForeground(Color.RED);
+        }else{
+            btn.setForeground(Color.BLACK);
+        }
+    }
+
+    /**
      * Actionlistener to handle clicks on menubar items
      */
 	class menupress implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
 			if(e.getSource() == addSunflower){   
                 addSF = (addSF) ? false:true;
+                setButtonStatus(addSunflower, true);
                 if(addSF){
                     addPS = false;
+                    setButtonStatus(addPeaShooter, false);
                 }
 			}else if(e.getSource() == addPeaShooter){
                 addPS = (addPS) ? false:true;
+                setButtonStatus(addPeaShooter, true);
                 if(addPS){
                     addSF = false;
+                    setButtonStatus(addSunflower, false);
                 }
 			}
 		} 

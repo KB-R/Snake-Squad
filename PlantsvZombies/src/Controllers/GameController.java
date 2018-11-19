@@ -74,10 +74,9 @@ public class GameController implements Runnable{
         
         while(!checkEndGame()){
             goc.collectSun();
-            updateGameBoard();
             bv.updateGameBoard();
             spawn();
-            checkEndWave();
+
             CollisionDetector.detectCollisions(goc);
             moveController.movePeas(goc);
             CollisionDetector.detectCollisions(goc);
@@ -96,11 +95,12 @@ public class GameController implements Runnable{
             goc.incrementTime();
             timer++;
             
+            // wait for next to be pressed
             while(!bv.isUpdated()){
                 try {
                 Thread.sleep(50);
                 } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
+                    Thread.currentThread().interrupt();
                 }
             }
             bv.setNewTurn();
@@ -115,7 +115,8 @@ public class GameController implements Runnable{
              goc.spawnZombies();
      		spawned++;
      	}
-}
+    }
+
     public boolean checkEndWave() {
     	// zombies dead
         if(goc.getZombies().size() != 0){
@@ -137,12 +138,10 @@ public class GameController implements Runnable{
  
         // zombies dead
         if(goc.getZombies().size() == 0 && waves == userWaves && checkEndWave()){
-            System.out.println("You win!");
         	return true;
         }
 
         if (gameOver) {
-        	System.out.println("Game over!");
             return true;
         }
     	
@@ -158,91 +157,6 @@ public class GameController implements Runnable{
     		}
     	}
         return false;
-    }
-
-    /**
-     * Print the game grid
-     */
-    public void printGameBoard(){
-        for(int i=0;i<6;i++){
-            for(int j=0; j<10; j++){
-                if (!gameBoard[i][j].isEmpty()){
-                    String npcs = "";
-                    for (NPC npc: gameBoard[i][j]){
-                    	if(npc.isAlive()) {
-                    		npcs += npc.toString();
-                    	}
-                    }
-
-                    System.out.print("[ " + npcs + " ]");
-                }else{
-                    System.out.print("[    ]");
-                }
-            }
-            System.out.println("\n");
-        }
-    }
-
-    /**
-     * Perform an action based on user input
-     * 
-     * @param input the user's input string
-     */
-    public void handleInput(){
-        System.out.print("LEVEL: " + level + ", TURN: " + timer + ", sunPoints: " + goc.getSP());
-        System.out.println(", sf cooldown: " + goc.getSFCoolDown() + ", ps cooldown: " + goc.getPSCoolDown());
-        System.out.println("What would you like to do ?");
-        System.out.println("buy sf x y: buy a sunflower for " + Sunflower.getCost());
-        System.out.println("buy ps x y: buy a peashooter for " + NormalPea.getCost());
-        System.out.println("q: Quit");
-        System.out.println("Enter: do nothing");
-
-        String input = reader.nextLine();
-        String[] splitInput = input.split("\\s");
-
-        switch(splitInput[0]){
-            case "buy":
-                goc.buyItem(splitInput);
-                break;
-            case "q":
-                gameOver = true;
-                break;
-            default:
-                System.out.println("doing nothing");
-        }
-    }
-
-    /**
-     * Update the GOC items and the gameboard arraylist
-     */
-    public void updateGameBoard(){
-        // reset gameboard
-        gameBoard = new ArrayList[6][10];
-        for(int i=0;i<6;i++){
-            for(int j=0; j<10; j++){
-                gameBoard[i][j] = new ArrayList<NPC>();
-            }
-        }
-
-        setItemsLocation(goc.getLawnMowers());
-        setItemsLocation(goc.getSunflowers());
-        setItemsLocation(goc.getPeaShooters());
-        setItemsLocation(goc.getPeas());
-        setItemsLocation(goc.getZombies());
-    }
-
-    /**
-     * Add an item gameboard arraylist
-     * @param arr
-     */
-    private void setItemsLocation(ArrayList arr){
-        for(Object ob: arr){
-            NPC np= (NPC)ob;
-            int[] pos = np.getLocation();
-            if (pos[0] < 10){
-                gameBoard[pos[1]][pos[0]].add(np);
-            }
-        }
     }
 
     public static void main(String[] args){

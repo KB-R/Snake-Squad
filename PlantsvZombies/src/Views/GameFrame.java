@@ -1,15 +1,11 @@
 package Views;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-
-import Models.PeaShooter;
 
 /**
  * GameFrame is the frame that will hold the game board view
  * @author Maxime Ndutiye
- * 
  */
 public class GameFrame extends JFrame{
 	JButton addSunflower;
