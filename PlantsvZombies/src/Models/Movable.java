@@ -18,5 +18,5 @@ public interface Movable{
     public void setVelocity(int newV);
 
     /* Move the object */
-    public void move();
+    public void move(int time, boolean undo);
 }

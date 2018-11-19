@@ -22,7 +22,7 @@ public class GameController implements Runnable{
     private CollisionDetector collisionController = new CollisionDetector();
     private MoveController moveController = new MoveController();
     private GameObjectsController goc = new GameObjectsController();
-    private GameBoardView bv = new GameBoardView(goc);
+    private GameBoardView bv = new GameBoardView(goc, moveController);
 
     // gameboard
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
@@ -53,7 +53,7 @@ public class GameController implements Runnable{
 
         // add lawn mowers
         for(int i=0;i<6;i++){
-            Lawnmower lm = new Lawnmower(0,i);
+            Lawnmower lm = new Lawnmower(0,i, goc.getTime());
             goc.addLawnMowers(lm);
         }
 
@@ -87,7 +87,7 @@ public class GameController implements Runnable{
             // pea shooter shoots every 2 turns
             for(PeaShooter ps: goc.getPeaShooters()) {
                 if(ps.getShootingRate()%2==0) {
-                    goc.addPeas(ps.shoot());
+                    goc.addPeas(ps.shoot(goc.getTime()));
                 }
             }
 

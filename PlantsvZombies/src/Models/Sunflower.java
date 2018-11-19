@@ -16,7 +16,6 @@ public class Sunflower extends NPC{
     private int sunSpawnRate; // how often to spawn sun in milliseconds
     private boolean sunCollected;
     private static int sunCost = 10;
-    private int timeSpawned = 0;
 
     /**
      * @param x horizontal position
@@ -24,12 +23,11 @@ public class Sunflower extends NPC{
      */
     
     public Sunflower(int x, int y, int timeSpawned){
-        super(maxHealth, true);
+        super(maxHealth, true, timeSpawned);
         this.x=x;
         this.y=y;
         this.setLocation(this.x, this.y);
         sunSpawnRate = 4; // four itterations
-        this.timeSpawned = timeSpawned;
     }
     
     /*Produce sun credits*/

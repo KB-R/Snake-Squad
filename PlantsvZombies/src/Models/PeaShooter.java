@@ -13,8 +13,8 @@ public class PeaShooter extends NPC{
     private int shootingRate; // shooting rate in millisecs 
     private static int sunCost = 10;
     
-    public PeaShooter(int x, int y,int shootingRate){
-        super(100, true);
+    public PeaShooter(int x, int y,int shootingRate, int timeSpawned){
+        super(100, true, timeSpawned);
         this.x=x;
         this.y=y; 
         this.setShootingRate(shootingRate);
@@ -22,8 +22,8 @@ public class PeaShooter extends NPC{
     }
 
     /* Shoots out a pea from the same coordinates as the pea shooter*/
-    public NormalPea shoot(){
-    		NormalPea p = new NormalPea(this.x, this.y);
+    public NormalPea shoot(int time){
+    		NormalPea p = new NormalPea(this.x, this.y, time);
     		return p;
     }
 
