@@ -1,7 +1,6 @@
 package Controllers;
 
 import java.util.ArrayList;
-
 import Models.*;
 
 /**
@@ -14,7 +13,6 @@ public class GameObjectsController{
     private ArrayList<PeaShooter> peaShooters;
     private ArrayList<NormalPea> peas;
     private ArrayList<Lawnmower> lawnmowers;
-    //private int zombieTot = 0;
     private int sunPoints = 0;
     private long sunFlowerCooldown = 0;
     private long peaShooterCooldown = 0;
@@ -22,7 +20,9 @@ public class GameObjectsController{
     private int timer = 0; 
 
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
+
     public GameObjectsController(){
+        // create NPC arraylists
         zombies = new ArrayList<Zombie>();
         sunflowers = new ArrayList<Sunflower>();
         peaShooters = new ArrayList<PeaShooter>();
@@ -38,6 +38,9 @@ public class GameObjectsController{
         zombies.add(zb);
     }
 
+    /**
+     * Collect all objects that have 0 life
+     */
     public void collectGarbage(){
         removeItems(zombies);
         removeItems(sunflowers);
@@ -122,9 +125,9 @@ public class GameObjectsController{
         return zombies;
     }
 
-     /**
+    /**
      * Produce sunPoints every 2 turns
-     */
+    */
     private void produceSun(){
         if (timer % 2 == 0){
             sunPoints += 10;
@@ -150,14 +153,26 @@ public class GameObjectsController{
         return peaShooters;
     }
 
+    /**
+     * Get the number of turns left until the player can buy sunflowers
+     * @return long the number of turns to wait
+     */
     public long getSFCoolDown(){
         return sunFlowerCooldown;
     }
 
+    /**
+     * Get the number of turns left until the player can buy peashooters
+     * @return long the number of turns to wait
+     */
     public long getPSCoolDown(){
         return peaShooterCooldown;
     }
 
+    /**
+     * Get the number of sunpoints the player has
+     * @return
+     */
     public long getSP(){
         return sunPoints;
     }
@@ -218,10 +233,16 @@ public class GameObjectsController{
         lawnmowers = lm;
     }
 
+    /**
+     * Increment turns
+     */
     public void incrementTime(){
         timer++;
     }
 
+    /**
+     * Reduce the cooldown for buying items
+     */
     public void reduceCoolDowns(){
         if (sunFlowerCooldown > 0)
             sunFlowerCooldown--;
@@ -229,13 +250,11 @@ public class GameObjectsController{
             peaShooterCooldown--;
     }
 
+    /**
+     * Buy an item
+     * @param splitInput A string containing information on what to buy
+     */
     public void buyItem(String[] splitInput){
-        if(splitInput.length != 4){
-            System.out.println("Bad input!");
-            return;
-        }
-
-        System.out.println(splitInput[0] + " " + splitInput[1] + ":" + splitInput[2] + "," + splitInput[3]);
         try{
             Integer xPos = Integer.parseInt(splitInput[2]);
             Integer yPos = Integer.parseInt(splitInput[3]);
@@ -270,11 +289,7 @@ public class GameObjectsController{
                         default:
                             break;
                     }
-                }else{
-                    System.out.println("Something is already in that position");
                 }
-            }else{
-                System.out.println("Couldn't process your purchase");
             }
         }catch (NumberFormatException nfe){
             System.out.println("illegal input arguments");
