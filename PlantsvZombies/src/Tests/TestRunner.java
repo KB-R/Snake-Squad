@@ -10,7 +10,9 @@ public class TestRunner extends junit.framework.TestCase{
 
 	public static void testsuite() {
 		TestSuite suite = new TestSuite("Test NPC..");
-		suite.addTest(new TestSuite(TestNPC.class));
+		suite.addTest(new TestSuite(TestLawnmower.class));
+		suite.addTest(new TestSuite(TestSunflower.class));
+		suite.addTest(new TestSuite(TestZombie.class));
 		// add more tests here
 	}
 }
