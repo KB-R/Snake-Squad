@@ -35,6 +35,7 @@ public class GameBoardView extends JPanel{
 
     JPanel jp = new JPanel();
     private GameObjectsController goc;
+    private MoveController mc;
     private JLayeredPane layeredPane;
 
     // Buttons 
@@ -45,14 +46,16 @@ public class GameBoardView extends JPanel{
     JButton sfCoolDown;
     JButton psCoolDown;
     JButton next;
+    JButton undo;
 
     // Whether to add a sunflower or peashooter
     private boolean addSF = false;
     private boolean addPS = false;
     private boolean updatedGUI = false;
 
-    public GameBoardView(GameObjectsController goc){
+    public GameBoardView(GameObjectsController goc, MoveController mc){
         this.goc = goc;
+        this.mc = mc; 
 
         // new game frame
         gf = new GameFrame("PvZ", width+50, height+80);
@@ -76,7 +79,8 @@ public class GameBoardView extends JPanel{
         sfCoolDown = new JButton("sf cooldown: 0");
         psCoolDown = new JButton("ps cooldown: 0");
         next = new JButton("Next");
-
+        undo = new JButton("Undo");
+    
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
         menubar.add(psCoolDown);
@@ -84,8 +88,10 @@ public class GameBoardView extends JPanel{
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
         next.addActionListener(new nextAction());
+        undo.addActionListener(new undoAction());
 
         menubar.add(next);
+        menubar.add(undo);
         menubar.add(addSunflower);
 		menubar.add(addPeaShooter);
 
@@ -303,6 +309,17 @@ public class GameBoardView extends JPanel{
      */
     class nextAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
+            mc.unsetUndo();
+            setDone();
+		} 
+    }
+
+    /**
+     * Actionlistener to handle events for going to the next turn in the game
+     */
+    class undoAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            mc.setUndo();
             setDone();
 		} 
     }

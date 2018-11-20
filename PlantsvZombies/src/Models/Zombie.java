@@ -26,8 +26,8 @@ public class Zombie extends NPC implements Movable{
      * @param speed  The speed that the Zombie will traverse the board
      * @param dimension The dimension of the level to know the bounds of spawning
      */
-    public Zombie(int health, int speed) {
-    	super(health, false);
+    public Zombie(int health, int speed, int timeSpawed) {
+    	super(health, false, timeSpawed);
     	this.maxHealth = health;
     	this.speed = speed;
     	this.x = 9;
@@ -36,13 +36,17 @@ public class Zombie extends NPC implements Movable{
     }
    
     /*This changes x coordinate of the zombie object*/
-    public void move(){
-    	moveTick++;
-    	if(!(collision)&&(moveTick%5==0)&&(this.coordinates[0]>=0)) {
-    		this.x--;
+    public void move(int time, boolean undo){
+    	if(!(collision)&&(time%5==0)&&(this.coordinates[0]>=0)) {
+            if(undo){
+                this.x++;
+            }else{
+                this.x--;
+            }
     		setLocation(this.x, this.y);
     	}
     }
+
     public int random() {
     	Random rand = new Random();
     	return rand.nextInt(6);

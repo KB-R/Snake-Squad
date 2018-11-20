@@ -11,8 +11,8 @@ public class Lawnmower extends NPC implements Movable{
 	private final int speed = 9;
 	private int x, y;
 	
-	public Lawnmower(int x, int y){
-		super(maxHealth, true);
+	public Lawnmower(int x, int y, int timeSpawned){
+		super(maxHealth, true, timeSpawned);
 		this.setVelocity(speed);
 		this.x = x;
 		this.y = y;
@@ -37,9 +37,13 @@ public class Lawnmower extends NPC implements Movable{
 	
 	/*When the Lawn mower moves it goes to the end of the board only after it gets hit by a zombie*/
 	@Override
-	public void move() {
+	public void move(int time, boolean undo) {
 		if(!(collision)&&(this.currentHealth<maxHealth)&&(this.coordinates[0]<10)){
-			x++;
+			if(undo){
+				x--;
+			}{
+				x++;
+			}
 			this.setLocation(this.x, this.y);
 		}
 	}

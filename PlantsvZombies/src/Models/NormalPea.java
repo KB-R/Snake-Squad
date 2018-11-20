@@ -11,8 +11,8 @@ public class NormalPea extends NPC implements Movable{
 	private boolean contact = false; //boolean could be useful for the collision detector
 	private static int sunCost = 10;
 
-	public NormalPea(int nX, int nY) {
-		super(1, true);
+	public NormalPea(int nX, int nY, int timeSpawned) {
+		super(1, true, timeSpawned);
 		setVelocity(4);
 		this.x = coordinates[0];
 		this.y = coordinates[1];
@@ -38,9 +38,13 @@ public class NormalPea extends NPC implements Movable{
 	 * Only the x coordinate changes
 	 **/
 	@Override
-	public void move() {
+	public void move(int time, boolean undo) {
 		if(!(collision)&&this.coordinates[0]<10) {
-			x++;
+			if(undo){
+				x--;
+			}else{
+				x++;
+			}
 			this.setLocation(x, y);
 		}
 		else if(!(collision)&&this.coordinates[0]==9) {

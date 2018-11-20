@@ -34,7 +34,7 @@ public class GameObjectsController{
      * Spawn some zombies given a level
      */
     public void spawnZombies(){
-        Zombie zb = new NormalZombie();
+        Zombie zb = new NormalZombie(getTime());
         zombies.add(zb);
     }
 
@@ -64,6 +64,11 @@ public class GameObjectsController{
 
             // remove if off of board
             if(np.getLocation()[0] > 9){
+                arr.remove(np);
+            }
+
+            // remove objects that were spawed after the current time
+            if(np.getTimeSpawned() > getTime()){
                 arr.remove(np);
             }
         }
@@ -251,6 +256,14 @@ public class GameObjectsController{
     }
 
     /**
+     * Get the current game time
+     * @param int the current time
+     */
+    public int getTime(){
+        return timer;
+    }
+
+    /**
      * Buy an item
      * @param splitInput A string containing information on what to buy
      */
@@ -269,7 +282,7 @@ public class GameObjectsController{
                     break;
                 case "ps":
                     item = (peaShooterCooldown <= timer 
-                            && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2): null;
+                            && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2, timer): null;
                     peaShooterCooldown = timer + coolDown;
                     sunPoints -= PeaShooter.getCost();
                     break;

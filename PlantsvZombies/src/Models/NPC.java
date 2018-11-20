@@ -11,7 +11,6 @@ import Controllers.CollisionDetector;
  *
  */
 public abstract class NPC {
-
 	protected boolean isAlive;
 	protected boolean collision;
 	protected int damage;
@@ -22,11 +21,13 @@ public abstract class NPC {
 	protected int y;
 	protected int[] coordinates;
 	protected static int sunCost;
+	protected int timeSpawned;
+
 	/** 
 	 * @param maxHealth the max health of the object
 	 * @param isFriendly boolean for whether object is friendly for the user
 	 */
-	public NPC (int maxHealth, boolean isFriendly){
+	public NPC (int maxHealth, boolean isFriendly, int timeSpawned){
 		this.isAlive = true;
 		this.currentHealth = maxHealth;
 		this.maxHealth = maxHealth;
@@ -34,6 +35,7 @@ public abstract class NPC {
 		this.coordinates = new int[2];
 		this.damage = 0;
 		this.collision = false;
+		this.timeSpawned = timeSpawned;
 	}
 	
 	/**
@@ -160,4 +162,7 @@ public abstract class NPC {
 		return "NPC";
 	}
 
+	public int getTimeSpawned(){
+		return timeSpawned;
+	}
 }

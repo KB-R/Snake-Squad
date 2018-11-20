@@ -8,8 +8,8 @@ package Models;
 public class NormalZombie extends Zombie{
 	private int damage=10;
 
-	public NormalZombie() {
-		super(30, 1);
+	public NormalZombie(int timeSpawned) {
+		super(30, 1, timeSpawned);
 		setDamage(damage);
 	}
 	public String toString(){
