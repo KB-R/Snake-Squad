@@ -18,7 +18,7 @@ public class PeaShooter extends NPC{
         this.x=x;
         this.y=y; 
         this.setShootingRate(shootingRate);
-        this.currentHealth=1;
+        this.currentHealth=100;
     }
 
     /* Shoots out a pea from the same coordinates as the pea shooter*/
