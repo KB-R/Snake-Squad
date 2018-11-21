@@ -5,9 +5,9 @@ package Models;
  * @date November 20, 2018
  *
  */
-public class DoublePeaShooter extends PeaShooter{
+public class doublePeaShooter extends PeaShooter{
 
-	public DoublePeaShooter(int x, int y, int shootingRate, int spawnTime) {
+	public doublePeaShooter(int x, int y, int shootingRate, int spawnTime) {
 		super(x, y, shootingRate, spawnTime);
 	}
 }
