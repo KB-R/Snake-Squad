@@ -7,8 +7,8 @@ package Models;
  */
 public class runZombie extends Zombie{
 
-	public runZombie() {
-		super(30, 1);
+	public runZombie(int spawnTIme) {
+		super(30, 1, spawnTIme);
 		// TODO Auto-generated constructor stub
 	}
 

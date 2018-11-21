@@ -7,8 +7,8 @@ package Models;
  */
 public class doublePeaShooter extends PeaShooter{
 
-	public doublePeaShooter(int x, int y, int shootingRate) {
-		super(x, y, shootingRate);
+	public doublePeaShooter(int x, int y, int shootingRate, int spawnTime) {
+		super(x, y, shootingRate, spawnTime);
 		// TODO Auto-generated constructor stub
 	}
 

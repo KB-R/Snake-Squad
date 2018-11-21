@@ -7,8 +7,8 @@ public class Walnut extends NPC{
 
 	private final static int maxHealth = 150;
 	
-	public Walnut(int x , int y) {
-		super(maxHealth, true);
+	public Walnut(int x , int y, int spawnTime) {
+		super(maxHealth, true, spawnTime);
 		this.coordinates[0] = x;
 		this.coordinates[1] = y;
 	}
