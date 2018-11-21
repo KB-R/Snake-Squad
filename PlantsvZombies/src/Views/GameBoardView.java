@@ -38,6 +38,9 @@ public class GameBoardView extends JPanel{
     private MoveController mc;
     private JLayeredPane layeredPane;
 
+    // menus 
+    JMenuBar addItems = new JMenuBar();
+
     // Buttons 
     JButton addSunflower;
     JButton addPeaShooter;

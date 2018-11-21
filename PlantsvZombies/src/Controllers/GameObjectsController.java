@@ -69,7 +69,12 @@ public class GameObjectsController{
 
             // remove objects that were spawed after the current time
             if(np.getTimeSpawned() > getTime()){
+                if (arr.get(i) instanceof Sunflower){
+                    //sunPoints += arr.get(i).
+                    System.out.println("amazing");
+                }
                 arr.remove(np);
+
             }
         }
     }
