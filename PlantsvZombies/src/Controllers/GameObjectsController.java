@@ -96,6 +96,9 @@ public class GameObjectsController{
             // remove objects that were spawed after the current time
             if(np.getTimeSpawned() > getTime()){
                 arr.remove(np);
+                
+                // update spawn counter accordingly
+                spawned--;
             }
         }
     }
