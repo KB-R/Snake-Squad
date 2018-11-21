@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import Models.NPC;
+import Models.*;
 
 /**
  * @author Maxime Ndutiye
@@ -27,13 +27,15 @@ public class GameBoardView extends JPanel{
                                        "../src/Images/PEASHOOTER.png",
                                        "../src/Images/SUNFLOWER.jpg",
                                        "../src/Images/Lawnmower.png",
-                                       "../src/Images/BULLET.png"};
-    ImageIcon zb,gr,ps,sf,lm,pe;
+                                       "../src/Images/BULLET.png",
+                                       "../src/Images/RunnerZombie.png",
+                                       "../src/Images/BucketZombie.png",};
+    ImageIcon zb,gr,ps,sf,lm,pe,rzb,pzb;
 
     ArrayList<JLabel> gameItems = new ArrayList<JLabel>();
     JMenuBar menubar = new JMenuBar();
+    JMenu addItemsMenu = new JMenu("Add");
 
-    JPanel jp = new JPanel();
     private GameObjectsController goc;
     private MoveController mc;
     private JLayeredPane layeredPane;
@@ -45,6 +47,8 @@ public class GameBoardView extends JPanel{
     JButton sunPoints;
     JButton sfCoolDown;
     JButton psCoolDown;
+    JButton currentTime;
+
     JButton next;
     JButton undo;
 
@@ -78,25 +82,29 @@ public class GameBoardView extends JPanel{
         sunPoints = new JButton("sunpoints: 0");
         sfCoolDown = new JButton("sf cooldown: 0");
         psCoolDown = new JButton("ps cooldown: 0");
+        currentTime = new JButton("time: 0");
         next = new JButton("Next");
         undo = new JButton("Undo");
+    
+        addItemsMenu.add(addSunflower);
+        addItemsMenu.add(addPeaShooter);
     
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
         menubar.add(psCoolDown);
+        menubar.add(currentTime);
 
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
         next.addActionListener(new nextAction());
         undo.addActionListener(new undoAction());
 
+        
         menubar.add(next);
         menubar.add(undo);
-        menubar.add(addSunflower);
-		menubar.add(addPeaShooter);
+        menubar.add(addItemsMenu);
 
         getImages();
-        // add(layeredPane);
         gf.add(layeredPane);
         gf.setJMenuBar(menubar);
         gf.setVisible(true);
@@ -107,7 +115,7 @@ public class GameBoardView extends JPanel{
      */
     private void getImages(){
         try{
-            for (int i=0; i<6; i++){
+            for (int i=0; i<8; i++){
                 Image img = ImageIO.read(new File(imageUrls[i]));
                 img = getScaledImage(img, 50, 80);
 
@@ -130,6 +138,12 @@ public class GameBoardView extends JPanel{
                     case 5:
                         pe = new ImageIcon(img);
                         break;
+                    case 6:
+                        rzb = new ImageIcon(img);
+                        break;
+                    case 7:
+                        pzb = new ImageIcon(img);
+                        break;
                 }
             }   
         }catch(IOException ioe){
@@ -150,7 +164,8 @@ public class GameBoardView extends JPanel{
         sfCoolDown.setText("sf cooldown: " + Long.toString(goc.getSFCoolDown()));
         psCoolDown.setText("ps cooldown: " + Long.toString(goc.getPSCoolDown()));
         sunPoints.setText("sunpoints: " + Long.toString(goc.getSP()));
-    }
+        currentTime.setText("time: " + Integer.toString(goc.getTime()));
+    } 
 
     /**
      * Update the GUI gamebaord
@@ -190,11 +205,16 @@ public class GameBoardView extends JPanel{
                         ico = pe;
                         break;
                     case "zb":
-                        ico = zb;
+                        if (ob instanceof NormalZombie){
+                            ico = zb;
+                        }else if(ob instanceof RunZombie){
+                            ico = rzb;
+                        }else if (ob instanceof PylonZombie){
+                            ico = pzb;
+                        }
                         break;
                     default:
                         break;
-
                 }
             }
             
@@ -310,6 +330,7 @@ public class GameBoardView extends JPanel{
     class nextAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
             mc.unsetUndo();
+            goc.unsetUndo();
             setDone();
 		} 
     }
@@ -319,8 +340,11 @@ public class GameBoardView extends JPanel{
      */
     class undoAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
-            mc.setUndo();
-            setDone();
+            if (goc.getTime() > 0){
+                mc.setUndo();
+                goc.setUndo();
+                setDone();
+            }
 		} 
     }
 

@@ -1,6 +1,7 @@
 package Controllers;
 
 import java.util.ArrayList;
+import java.util.Random;
 import Models.*;
 
 /**
@@ -18,8 +19,15 @@ public class GameObjectsController{
     private long peaShooterCooldown = 0;
     private long coolDown = 3;
     private int timer = 0; 
+    private boolean undo = false; // currently undergoing an undo action
 
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
+
+    // zombie spawns
+    private int zombieTot = 10;
+    private int spawned = 0;
+    private int userWaves = 1;
+    private Random random = new Random();
 
     public GameObjectsController(){
         // create NPC arraylists
@@ -31,11 +39,29 @@ public class GameObjectsController{
     }
 
     /**
-     * Spawn some zombies given a level
+     * Spawn a zombies
      */
     public void spawnZombies(){
-        Zombie zb = new NormalZombie(getTime());
-        zombies.add(zb);
+        int zombieType = random.nextInt(3);
+        if(getTime()%3==0 && spawned<zombieTot/userWaves) {
+            Zombie zb = null;
+            switch(zombieType){
+                case 0:
+                    zb = new NormalZombie(getTime());
+                    break;
+                case 1:
+                    zb = new PylonZombie(getTime());
+                    break;
+                case 2:
+                    zb = new RunZombie(getTime());
+                    break;
+            }
+            
+            if (zb != null){
+                zombies.add(zb);
+                spawned++;
+            }
+        }
     }
 
     /**
@@ -241,18 +267,23 @@ public class GameObjectsController{
     /**
      * Increment turns
      */
-    public void incrementTime(){
-        timer++;
+    public void updateTime(){
+        if (undo){
+            timer--;
+        }else{
+            timer++;
+        }
     }
 
     /**
      * Reduce the cooldown for buying items
      */
-    public void reduceCoolDowns(){
+    public void updateCoolDowns(){
+        int ammount = undo? -1:1;
         if (sunFlowerCooldown > 0)
-            sunFlowerCooldown--;
+            sunFlowerCooldown += ammount;
         if (peaShooterCooldown > 0)
-            peaShooterCooldown--;
+            peaShooterCooldown += ammount;
     }
 
     /**
@@ -261,6 +292,20 @@ public class GameObjectsController{
      */
     public int getTime(){
         return timer;
+    }
+    
+    /**
+     * Set undo action
+     */
+    public void setUndo(){
+        undo = true;
+    }
+
+    /**
+     * Unset undo action
+     */
+    public void unsetUndo(){
+        undo = false;
     }
 
     /**

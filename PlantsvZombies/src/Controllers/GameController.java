@@ -37,7 +37,6 @@ public class GameController implements Runnable{
     private int userWaves=0;
 
     // this will act as our clock for now
-    // every turn this will be incremented
     private int timer = 0; 
 
     /**
@@ -68,10 +67,7 @@ public class GameController implements Runnable{
      * Main game loop is to be implemented here
      * Check for collisions etc.
      */
-    public void run(){
-        zombieTot = 10;
-        userWaves = 1;
-        
+    public void run(){        
         while(!checkEndGame()){
             goc.collectSun();
             bv.updateGameBoard();
@@ -91,10 +87,6 @@ public class GameController implements Runnable{
                 }
             }
 
-            goc.reduceCoolDowns();
-            goc.incrementTime();
-            timer++;
-            
             // wait for next to be pressed
             while(!bv.isUpdated()){
                 try {
@@ -103,18 +95,19 @@ public class GameController implements Runnable{
                     Thread.currentThread().interrupt();
                 }
             }
+
             bv.setNewTurn();
             goc.collectGarbage();
+            goc.updateCoolDowns();
+            goc.updateTime();
+            timer++;
         }
 
         reader.close();
     }
     
     public void spawn() {
-     	if(timer%3==0 && spawned<zombieTot/userWaves) {
-             goc.spawnZombies();
-     		spawned++;
-     	}
+        goc.spawnZombies();
     }
 
     public boolean checkEndWave() {
