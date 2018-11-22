@@ -5,9 +5,10 @@ package Models;
  * @date November 20, 2018
  *
  */
-public class doublePeaShooter extends PeaShooter{
+public class DoublePeaShooter extends PeaShooter{
+	private static int sunCost = 20;
 
-	public doublePeaShooter(int x, int y, int shootingRate, int spawnTime) {
+	public DoublePeaShooter(int x, int y, int shootingRate, int spawnTime) {
 		super(x, y, shootingRate, spawnTime);
 	}
 }

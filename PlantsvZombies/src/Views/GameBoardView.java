@@ -29,8 +29,10 @@ public class GameBoardView extends JPanel{
                                        "../src/Images/Lawnmower.png",
                                        "../src/Images/BULLET.png",
                                        "../src/Images/RunnerZombie.png",
-                                       "../src/Images/BucketZombie.png",};
-    ImageIcon zb,gr,ps,sf,lm,pe,rzb,pzb;
+                                       "../src/Images/BucketZombie.png",
+                                       "../src/Images/Walnut.png",
+                                       "../src/Images/DoublePeaShooter.png"};
+    ImageIcon zb,gr,ps,sf,lm,pe,rzb,pzb,dps,wn;
 
     ArrayList<JLabel> gameItems = new ArrayList<JLabel>();
     JMenuBar menubar = new JMenuBar();
@@ -43,7 +45,8 @@ public class GameBoardView extends JPanel{
     // Buttons 
     JButton addSunflower;
     JButton addPeaShooter;
-
+    JButton addWalnut;
+    JButton addDoublePeaShooter;
     JButton sunPoints;
     JButton sfCoolDown;
     JButton psCoolDown;
@@ -53,8 +56,7 @@ public class GameBoardView extends JPanel{
     JButton undo;
 
     // Whether to add a sunflower or peashooter
-    private boolean addSF = false;
-    private boolean addPS = false;
+    private String addItem = "";
     private boolean updatedGUI = false;
 
     public GameBoardView(GameObjectsController goc, MoveController mc){
@@ -77,8 +79,11 @@ public class GameBoardView extends JPanel{
         }
         
         // add components
-		addSunflower = new JButton("add Sunflower");
-        addPeaShooter = new JButton("add Peashooter");
+		addSunflower = new JButton("Sunflower");
+        addPeaShooter = new JButton("Peashooter");
+        addWalnut = new JButton("Walnut");
+        addDoublePeaShooter = new JButton("Double PeaShooter");
+
         sunPoints = new JButton("sunpoints: 0");
         sfCoolDown = new JButton("sf cooldown: 0");
         psCoolDown = new JButton("ps cooldown: 0");
@@ -88,6 +93,8 @@ public class GameBoardView extends JPanel{
     
         addItemsMenu.add(addSunflower);
         addItemsMenu.add(addPeaShooter);
+        addItemsMenu.add(addDoublePeaShooter);
+        addItemsMenu.add(addWalnut);
     
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
@@ -96,6 +103,8 @@ public class GameBoardView extends JPanel{
 
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
+        addDoublePeaShooter.addActionListener(new menupress());
+        addWalnut.addActionListener(new menupress());
         next.addActionListener(new nextAction());
         undo.addActionListener(new undoAction());
 
@@ -115,7 +124,7 @@ public class GameBoardView extends JPanel{
      */
     private void getImages(){
         try{
-            for (int i=0; i<8; i++){
+            for (int i=0; i<10; i++){
                 Image img = ImageIO.read(new File(imageUrls[i]));
                 img = getScaledImage(img, 50, 80);
 
@@ -143,6 +152,10 @@ public class GameBoardView extends JPanel{
                         break;
                     case 7:
                         pzb = new ImageIcon(img);
+                    case 8:
+                        wn = new ImageIcon(img);
+                    case 9:
+                        dps = new ImageIcon(img);
                         break;
                 }
             }   
@@ -177,6 +190,8 @@ public class GameBoardView extends JPanel{
         setIconAtLocation(goc.getPeaShooters(), "ps");
         setIconAtLocation(goc.getPeas(),"pe");
         setIconAtLocation(goc.getZombies(),"zb");
+        setIconAtLocation(goc.getDoublePeaShooters(), "dps");
+        setIconAtLocation(goc.getWalnuts(), "wn");
     }
 
     /**
@@ -212,6 +227,12 @@ public class GameBoardView extends JPanel{
                         }else if (ob instanceof PylonZombie){
                             ico = pzb;
                         }
+                        break;
+                    case "dps":
+                        ico = dps;
+                        break;
+                    case "wn":
+                        ico = wn;
                         break;
                     default:
                         break;
@@ -269,17 +290,25 @@ public class GameBoardView extends JPanel{
             int x = lb.getX()/80;
             int y = lb.getY()/80;
 
-            if (addSF == true){
-                String[] input = new String("buy sf " + x + " " + y).split("\\s");
-                goc.buyItem(input);
-                setButtonStatus(addSunflower, false);
-                addSF=false;
-            }else if(addPS == true){
-                String[] input = new String("buy ps " + x + " " + y).split("\\s");
-                goc.buyItem(input);
-                setButtonStatus(addPeaShooter, false);
-                addPS = false;
+            String[] input = null;
+            switch(addItem){
+                case "sf":
+                    input = new String("buy sf " + x + " " + y).split("\\s");
+                    break;
+                case "ps":
+                    input = new String("buy ps " + x + " " + y).split("\\s");
+                    break;
+                case "dps":
+                    input = new String("buy dps " + x + " " + y).split("\\s");
+                    break;
+                case "wn":
+                    input = new String("buy wn " + x + " " + y).split("\\s");
+                    break;
             }
+            if (input != null)
+                goc.buyItem(input);
+            addItem = "";
+            updateButtonStatuses();
         }
 
         public void mouseClicked(MouseEvent e){}
@@ -293,11 +322,27 @@ public class GameBoardView extends JPanel{
      * @param btn
      * @param active
      */
-    public void setButtonStatus(JButton btn, boolean active){
-        if(active){
-            btn.setForeground(Color.RED);
-        }else{
-            btn.setForeground(Color.BLACK);
+    public void updateButtonStatuses(){
+        // clear last option
+        addSunflower.setForeground(Color.BLACK);
+        addPeaShooter.setForeground(Color.BLACK);
+        addDoublePeaShooter.setForeground(Color.BLACK);
+        addWalnut.setForeground(Color.BLACK);
+
+        // set new option
+        switch(addItem){
+            case "sf":
+                addSunflower.setForeground(Color.RED);
+                break;
+            case "ps":
+                addPeaShooter.setForeground(Color.RED);
+                break;
+            case "dps":
+                addDoublePeaShooter.setForeground(Color.RED);
+                break;
+            case "wn":
+                addWalnut.setForeground(Color.RED);
+                break;
         }
     }
 
@@ -307,21 +352,16 @@ public class GameBoardView extends JPanel{
 	class menupress implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
 			if(e.getSource() == addSunflower){   
-                addSF = (addSF) ? false:true;
-                setButtonStatus(addSunflower, true);
-                if(addSF){
-                    addPS = false;
-                    setButtonStatus(addPeaShooter, false);
-                }
+                addItem = "sf";
 			}else if(e.getSource() == addPeaShooter){
-                addPS = (addPS) ? false:true;
-                setButtonStatus(addPeaShooter, true);
-                if(addPS){
-                    addSF = false;
-                    setButtonStatus(addSunflower, false);
-                }
-			}
-		} 
+                addItem = "ps";
+            }else if(e.getSource() == addWalnut){
+                addItem = "wn";
+            }else if(e.getSource() == addDoublePeaShooter){
+                addItem = "dps";
+            }
+            updateButtonStatuses();
+		}
     }
 
     /**

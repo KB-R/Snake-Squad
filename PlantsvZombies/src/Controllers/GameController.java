@@ -81,12 +81,8 @@ public class GameController implements Runnable{
             moveController.moveLawnmowers(goc);
         
             // pea shooter shoots every 2 turns
-            for(PeaShooter ps: goc.getPeaShooters()) {
-                if(ps.getShootingRate()%2==0) {
-                    goc.addPeas(ps.shoot(goc.getTime()));
-                }
-            }
-
+            goc.shootPeas();
+         
             // wait for next to be pressed
             while(!bv.isUpdated()){
                 try {

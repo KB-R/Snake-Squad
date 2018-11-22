@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import Models.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * @author Maxime Ndutiye
  * Game Objects controller keeps track of all the game objects
@@ -14,10 +17,15 @@ public class GameObjectsController{
     private ArrayList<PeaShooter> peaShooters;
     private ArrayList<NormalPea> peas;
     private ArrayList<Lawnmower> lawnmowers;
+    private ArrayList<DoublePeaShooter> doublePeaShooters;
+    private ArrayList<Walnut> walnuts;
+
     private int sunPoints = 0;
+
     private long sunFlowerCooldown = 0;
     private long peaShooterCooldown = 0;
-    private long coolDown = 3;
+    private long walnutCoolDown = 0;
+    private long coolDown = 3; // cooldown cost for new plants
     private int timer = 0; 
     private boolean undo = false; // currently undergoing an undo action
 
@@ -36,6 +44,8 @@ public class GameObjectsController{
         peaShooters = new ArrayList<PeaShooter>();
         peas = new ArrayList<NormalPea>();
         lawnmowers = new ArrayList<Lawnmower>();
+        doublePeaShooters = new ArrayList<DoublePeaShooter>(); 
+        walnuts = new ArrayList<Walnut>();
     }
 
     /**
@@ -73,6 +83,8 @@ public class GameObjectsController{
         removeItems(peaShooters);
         removeItems(peas);
         removeItems(lawnmowers);
+        removeItems(doublePeaShooters);
+        removeItems(walnuts);
     }
 
     public void setGameBoard(ArrayList<NPC>[][] gameBoard){
@@ -95,10 +107,34 @@ public class GameObjectsController{
 
             // remove objects that were spawed after the current time
             if(np.getTimeSpawned() > getTime()){
-                arr.remove(np);
+                
+                // Reward back costs and cooldowns
+                Class objClass = np.getClass();
+                boolean isPlant = np instanceof Sunflower || 
+                                np instanceof PeaShooter || np instanceof Walnut;
                 
                 // update spawn counter accordingly
-                spawned--;
+                if (np instanceof Zombie){
+                    spawned--;
+                }
+
+                // if a plant
+                if (isPlant){
+                    try{
+                        Method method = objClass.getMethod("getCost");
+                        sunPoints += (Integer) method.invoke(np);
+                    }catch(SecurityException e){
+                        System.out.println(e);
+                    }catch (NoSuchMethodException e) {
+                        System.out.println(e);
+                    }catch(IllegalAccessException e){
+                        System.out.println(e);
+                    }catch(InvocationTargetException e){                       
+                        System.out.println(e);
+                    }
+                }
+            
+                arr.remove(np);
             }
         }
     }
@@ -125,6 +161,22 @@ public class GameObjectsController{
      */
     public void addPeaShooter(PeaShooter ps){
         peaShooters.add(ps);
+    }
+
+    /**
+     * Add DoublePeaShooters
+     * @param dps DoublePeaShooter to add
+     */
+    public void addDoublePeaShooter(DoublePeaShooter dps){
+        doublePeaShooters.add(dps);
+    }
+
+    /**
+     * Add Walnut
+     * @param wn Walnut to add
+     */
+    public void addWalnut(Walnut wn){
+        walnuts.add(wn);
     }
 
     /**
@@ -228,6 +280,22 @@ public class GameObjectsController{
     }
 
     /**
+     * Get all the mowers
+     * @return ArrayList<LawnMower> lawnmowers
+     */
+    public ArrayList<DoublePeaShooter> getDoublePeaShooters(){
+        return doublePeaShooters;
+    }
+
+    /**
+     * Get all the walnuts
+     * @return ArrayList<LawnMower> lawnmowers
+     */
+    public ArrayList<Walnut> getWalnuts(){
+        return walnuts;
+    }
+
+    /**
      * Update the sunflowers
      * @param sf ArrayList<Sunflower>
      */
@@ -312,11 +380,33 @@ public class GameObjectsController{
     }
 
     /**
+     * Shoot peas from the PeaShooters
+     */
+    public void shootPeas(){
+        
+        // don't shoot pead if undoing a turn
+        if (undo)
+            return;
+        
+        for(PeaShooter ps: getPeaShooters()) {
+            if(ps.getShootingRate()%2==0) {
+                addPeas(ps.shoot(getTime()));
+            }
+        }
+
+        for(PeaShooter ps: getDoublePeaShooters()) {
+            if(ps.getShootingRate()%2==0) {
+                addPeas(ps.shoot(getTime()));
+            }
+        }
+    }
+    /**
      * Buy an item
      * @param splitInput A string containing information on what to buy
      */
     public void buyItem(String[] splitInput){
         try{
+            System.out.println("one " + splitInput[1]);
             Integer xPos = Integer.parseInt(splitInput[2]);
             Integer yPos = Integer.parseInt(splitInput[3]);
             NPC item = null;
@@ -325,14 +415,18 @@ public class GameObjectsController{
                 case "sf":
                     item = (sunFlowerCooldown <= timer 
                         && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos, timer): null;
-                    sunFlowerCooldown = timer + coolDown;
-                    sunPoints -= Sunflower.getCost();
                     break;
                 case "ps":
                     item = (peaShooterCooldown <= timer 
                             && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2, timer): null;
-                    peaShooterCooldown = timer + coolDown;
-                    sunPoints -= PeaShooter.getCost();
+                    break;
+                case "dps":
+                    item = (peaShooterCooldown <= timer 
+                            && sunPoints >= DoublePeaShooter.getCost()) ?  new DoublePeaShooter(xPos, yPos, 4, timer): null;
+                    break;
+                case "wn":
+                    item = (walnutCoolDown <= timer 
+                            && sunPoints >= Walnut.getCost()) ?  new Walnut(xPos, yPos, timer): null;
                     break;
                 default:
                     break;
@@ -343,9 +437,23 @@ public class GameObjectsController{
                     switch (splitInput[1]){
                         case "sf":
                             addSunflower((Sunflower)item);
+                            sunFlowerCooldown = timer + coolDown;
+                            sunPoints -= Sunflower.getCost();
                             break;
                         case "ps":
                             addPeaShooter((PeaShooter)item);
+                            peaShooterCooldown = timer + coolDown;
+                            sunPoints -= PeaShooter.getCost();
+                            break;
+                        case "dps":
+                            addDoublePeaShooter((DoublePeaShooter)item);
+                            peaShooterCooldown = timer + coolDown;
+                            sunPoints -= DoublePeaShooter.getCost();
+                            break;
+                        case "wn":
+                            addWalnut((Walnut)item);
+                            walnutCoolDown = timer + coolDown;
+                            sunPoints -= Walnut.getCost();
                             break;
                         default:
                             break;

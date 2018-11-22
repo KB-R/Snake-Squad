@@ -23,8 +23,8 @@ public class PeaShooter extends NPC{
 
     /* Shoots out a pea from the same coordinates as the pea shooter*/
     public NormalPea shoot(int time){
-    		NormalPea p = new NormalPea(this.x, this.y, time);
-    		return p;
+        NormalPea p = new NormalPea(this.x, this.y, time);
+        return p;
     }
 
 	public int getShootingRate() {
