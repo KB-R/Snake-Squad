@@ -36,6 +36,8 @@ public class NormalPea extends NPC implements Movable{
 	/**
 	 * Moves the pea through the board only if there's no collision and not outside the board. 
 	 * Only the x coordinate changes
+	 * @param int time the current time
+	 * @param boolean undo wether a turn is being undone
 	 **/
 	@Override
 	public void move(int time, boolean undo) {
@@ -47,7 +49,7 @@ public class NormalPea extends NPC implements Movable{
 			}
 			this.setLocation(x, y);
 		}
-		else if(!(collision)&&this.coordinates[0]==9) {
+		else if(collision) {
 			this.takeDamage(1);
 		}
 	}

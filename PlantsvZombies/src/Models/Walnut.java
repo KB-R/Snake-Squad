@@ -6,11 +6,13 @@ package Models;
 public class Walnut extends NPC{
 
 	private final static int maxHealth = 150;
-	
+	private static int sunCost = 10;
+
 	public Walnut(int x , int y, int spawnTime) {
 		super(maxHealth, true, spawnTime);
-		this.coordinates[0] = x;
-		this.coordinates[1] = y;
+		this.x=x;
+        this.y=y;
+        this.setLocation(this.x, this.y);
 	}
 	
 }

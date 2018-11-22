@@ -6,6 +6,7 @@ import Models.*;
 
 /**
  * Handle the movement of all movable objects in the game
+ * @author Maxime Ndutiye
  */
 public class MoveController{
 

@@ -35,9 +35,13 @@ public class Zombie extends NPC implements Movable{
     	setLocation(this.x,this.y);
     }
    
-    /*This changes x coordinate of the zombie object*/
+    /**
+     * Move the NPC
+     * @param int time the current time
+     * @param boolean undo whether or not we are undoing a turn
+     */
     public void move(int time, boolean undo){
-    	if(!(collision)&&(time%5==0)&&(this.coordinates[0]>=0)) {
+    	if(!(collision)&&(time%5==0)&&(this.coordinates[0]>0)) {
             if(undo){
                 this.x++;
             }else{
