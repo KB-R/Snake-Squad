@@ -27,7 +27,7 @@ public class Zombie extends NPC implements Movable{
      * @param timeSpawned The time that the zombie spawned
      */
     public Zombie(int health, int speed, int timeSpawned) {
-    	super(health, false, timeSpawed);
+    	super(health, false, timeSpawned);
     	this.maxHealth = health;
     	this.speed = speed;
     	this.x = 9;

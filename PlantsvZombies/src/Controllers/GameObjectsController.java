@@ -63,7 +63,7 @@ public class GameObjectsController{
                     zb = new PylonZombie(getTime());
                     break;
                 case 2:
-                    zb = new runZombie(getTime());
+                    zb = new RunZombie(getTime());
                     break;
             }
             
@@ -88,7 +88,7 @@ public class GameObjectsController{
     }
 
     public void setGameBoard(ArrayList<NPC>[][] gameBoard){
-        this.gameBoard = gameBoard;
+       this.gameBoard = gameBoard;
     }
 
     private void removeItems(ArrayList arr){
