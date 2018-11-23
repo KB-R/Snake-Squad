@@ -9,7 +9,7 @@ public class TestZombie extends junit.framework.TestCase{
   
 
     protected void setUp(){
-    	zomb = new Zombie(20, 0);
+    	zomb = new Zombie(20, 0, 0);
     	zomb.setLocation(3, 3);
     }
     
@@ -32,13 +32,13 @@ public class TestZombie extends junit.framework.TestCase{
      * Test takeDamage method 
      */
     public void testTakeDamage(){
-    	NormalPea Npea= new NormalPea(0, 0);
+    	NormalPea Npea= new NormalPea(0, 0, 0);
     	zomb.takeDamage(Npea.getDamage());        	
         assertEquals(zomb.getCurrentHealth(),10);
     }
     
     public void testLethalDamage() {
-    	NormalPea Npea= new NormalPea(0, 0);
+    	NormalPea Npea= new NormalPea(0, 0, 0);
     	zomb.takeDamage(Npea.getDamage()); 
     	zomb.takeDamage(Npea.getDamage()); 
     	assertEquals(zomb.isAlive(),false);  
