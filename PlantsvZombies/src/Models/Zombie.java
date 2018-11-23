@@ -24,9 +24,9 @@ public class Zombie extends NPC implements Movable{
      * Zombie constructor to set where it spawns on the board and how many tiles it takes up
      * @param health The amount of health that a Zombie gets
      * @param speed  The speed that the Zombie will traverse the board
-     * @param dimension The dimension of the level to know the bounds of spawning
+     * @param timeSpawned The time that the zombie spawned
      */
-    public Zombie(int health, int speed, int timeSpawed) {
+    public Zombie(int health, int speed, int timeSpawned) {
     	super(health, false, timeSpawed);
     	this.maxHealth = health;
     	this.speed = speed;

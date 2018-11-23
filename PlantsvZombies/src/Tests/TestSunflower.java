@@ -29,7 +29,7 @@ public class TestSunflower extends junit.framework.TestCase{
      * Test takeDamage method 
      */
     public void testTakeDamage(){
-        Zombie zomb = new Zombie(2, 8);
+        Zombie zomb = new Zombie(2, 8, 0);
         zomb.setDamage(10);
         sunf.takeDamage(zomb.getDamage());
     	assertEquals(sunf.getCurrentHealth(),sunf.getMaxHealth()-zomb.getDamage());
@@ -42,7 +42,7 @@ public class TestSunflower extends junit.framework.TestCase{
     
 
     public void testLethalDamage() {
-    	Zombie zomb = new Zombie(2, 8);
+    	Zombie zomb = new Zombie(2, 8, 0);
     	zomb.setDamage(10);
     	sunf.takeDamage(zomb.getDamage());
     	sunf.takeDamage(zomb.getDamage());

@@ -26,7 +26,7 @@ public class TestLawnmower extends junit.framework.TestCase{
      * Test takeDamage method 
      */
     public void testTakeDamage(){
-        Zombie zomb = new Zombie(2, 8);
+        Zombie zomb = new Zombie(2, 8, 0);
         lawnmower.takeDamage(zomb.getDamage());
     	assertEquals(lawnmower.getCurrentHealth(),lawnmower.getMaxHealth()-zomb.getDamage());
     }
