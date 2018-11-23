@@ -7,7 +7,7 @@ package Models;
  */
 public class runZombie extends Zombie{
 
-	public RunZombie(int spawnTime) {
+	public runZombie(int spawnTime) {
 		super(30, 1, spawnTime);
 	}
 
