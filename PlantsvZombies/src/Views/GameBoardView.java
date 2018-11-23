@@ -222,7 +222,7 @@ public class GameBoardView extends JPanel{
                     case "zb":
                         if (ob instanceof NormalZombie){
                             ico = zb;
-                        }else if(ob instanceof RunZombie){
+                        }else if(ob instanceof runZombie){
                             ico = rzb;
                         }else if (ob instanceof PylonZombie){
                             ico = pzb;

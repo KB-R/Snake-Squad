@@ -6,7 +6,7 @@ public class TestLawnmower extends junit.framework.TestCase{
 	Lawnmower lawnmower;
 	
 	protected void setUp() {
-	lawnmower= new Lawnmower(0,0); 
+	lawnmower= new Lawnmower(0,0,0); 
 	}
     
 	public void testFriendly(){
