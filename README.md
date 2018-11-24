@@ -24,10 +24,10 @@ Complete Implementation: fully-featured with various types of plants and zombies
 readme file + code + refined tests + refined design + documentation.
 **Deadline:** Sunday November 22nd. Weight: 30% of the overall project grade.
 
-Kurt: Documentation, UML Diagram, New NPCs 
-Maxime: View[Package], Undo/Redo
-Anthony:
-Tareq: Documentation
+[Kurt]: Documentation, UML Diagram, New NPCs 
+[Maxime]: View[Package], Undo/Redo
+[Anthony]:
+[Tareq]: 
 ### Milestone 4
 
 1. Save/load features. You may use Java Serialization to achieve this. 

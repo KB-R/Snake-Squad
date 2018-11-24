@@ -63,7 +63,7 @@ public class GameObjectsController{
                     zb = new PylonZombie(getTime());
                     break;
                 case 2:
-                    zb = new runZombie(getTime());
+                    zb = new RunZombie(getTime());
                     break;
             }
             

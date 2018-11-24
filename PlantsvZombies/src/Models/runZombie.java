@@ -5,9 +5,9 @@ package Models;
  * @date November 20, 2018
  *
  */
-public class runZombie extends Zombie{
+public class RunZombie extends Zombie{
 
-	public runZombie(int spawnTime) {
+	public RunZombie(int spawnTime) {
 		super(30, 1, spawnTime);
 	}
 
