@@ -22,16 +22,16 @@ public class GameBoardView extends JPanel{
     int height = 500;
 
     // Images and Icons
-    String[] imageUrls = new String[] {"../src/Images/ZOMBIE.png",
-                                       "../src/Images/GRASS.png",
-                                       "../src/Images/PEASHOOTER.png",
-                                       "../src/Images/SUNFLOWER.jpg",
-                                       "../src/Images/Lawnmower.png",
-                                       "../src/Images/BULLET.png",
-                                       "../src/Images/RunnerZombie.png",
-                                       "../src/Images/BucketZombie.png",
-                                       "../src/Images/Walnut.png",
-                                       "../src/Images/DoublePeaShooter.png"};
+    String[] imageUrls = new String[] {"../bin/Images/ZOMBIE.png",
+                                       "../bin/Images/GRASS.png",
+                                       "../bin/Images/PEASHOOTER.png",
+                                       "../bin/Images/SUNFLOWER.jpg",
+                                       "../bin/Images/Lawnmower.png",
+                                       "../bin/Images/BULLET.png",
+                                       "../bin/Images/RunnerZombie.png",
+                                       "../bin/Images/BucketZombie.png",
+                                       "../bin/Images/Walnut.png",
+                                       "../bin/Images/DoublePeaShooter.png"};
     ImageIcon zb,gr,ps,sf,lm,pe,rzb,pzb,dps,wn;
 
     ArrayList<JLabel> gameItems = new ArrayList<JLabel>();
