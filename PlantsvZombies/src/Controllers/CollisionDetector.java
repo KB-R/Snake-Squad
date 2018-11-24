@@ -21,7 +21,6 @@ public class CollisionDetector{
             // check if it collided with something else
             for(Zombie zb: goc.getZombies()){
                 if(np.collidesWith(zb)){
-                	Zombie temp = zb;
                 	zb.takeDamage(10);
                 	//if the zombie is still alive it can move again
                 	if(zb.isAlive()) {
@@ -62,9 +61,9 @@ public class CollisionDetector{
         for(Zombie z: goc.getZombies()) {
         	for(Sunflower sf: goc.getSunflowers()) {
         		if(z.collidesWith(sf)) {
-        			//after collision zombie eats sunflower
+					//after collision zombie eats sunflower
         			sf.takeDamage(z.getDamage());
-        			if(! (sf.isAlive())) {
+        			if(sf.isAlive()) {
         				//sun flower dies zombie keeps moving
         				z.collided();
         			}
@@ -76,7 +75,7 @@ public class CollisionDetector{
         		if(z.collidesWith(p)) {
         			//after collision zombie eats pea shooter
         			p.takeDamage(z.getDamage());
-        			if(!(p.isAlive())) {
+        			if(p.isAlive()) {
         				//pea shooter dies zombie keeps moving
         				z.collided();
         			}
@@ -85,7 +84,12 @@ public class CollisionDetector{
         	goc.updatePeaShooters(goc.getPeaShooters());
         }
         goc.updateZombies(goc.getZombies()); 
-        //goc.collectGarbage();
-    }
+	}
+	
+	public static void clearCollisions(GameObjectsController goc){
+        for(Zombie z: goc.getZombies()) {
+			z.clearCollided();
+        }
+	}
     
 }

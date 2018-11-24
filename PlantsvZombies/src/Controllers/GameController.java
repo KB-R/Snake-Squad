@@ -73,11 +73,11 @@ public class GameController implements Runnable{
             bv.updateGameBoard();
             spawn();
 
+            CollisionDetector.clearCollisions(goc);
             CollisionDetector.detectCollisions(goc);
+
             moveController.movePeas(goc);
-            CollisionDetector.detectCollisions(goc);
             moveController.moveZombies(goc);
-            CollisionDetector.detectCollisions(goc);
             moveController.moveLawnmowers(goc);
         
             // pea shooter shoots every 2 turns

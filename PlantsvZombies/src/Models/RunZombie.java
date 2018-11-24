@@ -18,7 +18,7 @@ public class RunZombie extends Zombie{
      */
 	@Override
     public void move(int time, boolean undo){
-		// Normal zombies are a faster
+		// Run zombies are a faster
     	if(!(collision)&&(time%3==0)&&(this.coordinates[0]>0)) {
             if(undo){
                 this.x++;

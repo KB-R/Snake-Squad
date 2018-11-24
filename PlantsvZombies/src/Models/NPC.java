@@ -126,31 +126,54 @@ public abstract class NPC {
 		this.coordinates[1] = this.y;
 	}
 	
-	 /**
-	  * Checks if 2 NPCs are the same team
-	  * @param o NPC that might collide 
-	  * @return True if they will collide
-	  */
-	 public boolean isOpposite(NPC o) {
-		 if((this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) ) {
-			 return true;
-		 }
-		 return false;
-	 }
-	 
-	 /*set collision to true or false*/
-	 public void collided() {
-		 this.collision= !(this.collision);
-	 }
+	/**
+	 * Checks if 2 NPCs are the same team
+	* @param o NPC that might collide 
+	* @return True if they will collide
+	*/
+	public boolean isOpposite(NPC o) {
+		if((this.isFriendly() && !(o.isFriendly()))  || (!(this.isFriendly()) && (o.isFriendly())) ) {
+			return true;
+		}
+		return false;
+	}
+		
+	/*set collision to true*/
+	public void collided() {
+		this.collision = true;
+	}
+
+			
+	/*set collision to false*/
+	public void clearCollided() {
+		this.collision = false;
+	}
 
 	/**
-	 * Checks if the NPCs collide with one another
+	* Checks if the NPCs collide with one another
 	* @param o An NPC in the same coordinate as this NPC object
 	* @return True if they collide with each other
 	*/
 	public boolean collidesWith(NPC o){
 		//both of them have the same location and are a friendly v unfriendly they collide
-		if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (  this.isOpposite(o) )&&this.isAlive()&&o.isAlive()){
+
+		// checking between plant vs zombie
+		boolean isNormalPea = this instanceof NormalPea;
+		if(!isNormalPea && this.isFriendly() && !o.isFriendly()){
+			// if the zombie is a square ahead of us
+			if(this.getLocation()[0] == o.getLocation()[0]-1){
+				return true;
+			}
+
+		}else if(!isNormalPea && !this.isFriendly() && o.isFriendly()){
+			// if the plant is a square behind of us
+			if(this.getLocation()[0] == o.getLocation()[0]+1){
+				return true;
+			}
+
+		// checking other collisions
+		}
+		else if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (  this.isOpposite(o) )&&this.isAlive()&&o.isAlive()){
 			this.collided();
 			o.collided();
 			return true;
