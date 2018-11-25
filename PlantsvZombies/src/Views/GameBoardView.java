@@ -14,6 +14,7 @@ import Characters.*;
 
 /**
  * @author Maxime Ndutiye
+ * @author Kurt Burton
  * The view of the plants vs zombies game
  */
 public class GameBoardView extends JPanel{
@@ -409,11 +410,66 @@ public class GameBoardView extends JPanel{
     private void setDone(){
         updatedGUI = true;
     }
+
+    /**
+     * Get the users requested amount of zombies. Must be between 10 and 50.
+     * @return Game's amount  of zombies.
+     */
+    public int gameZombies(){
+        boolean validNum =false;
+        int zombies=0;
+        while(!validNum){
+            try{
+                zombies =Integer.parseInt( JOptionPane.showInputDialog("How many Zombies would you like this game?\n" 
+                + "Valid inputs are between 10 and 50."));
+            
+                if (zombies<10 || zombies>50){
+                    JOptionPane.showMessageDialog(null,"Please select a number within the parameters.","Invalid Input",JOptionPane.WARNING_MESSAGE);
+                }else{
+                    validNum =true;
+                }
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Your number format is incorrect.","Number format",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return zombies;
+    }
+
+    /**
+     * Get the users requested amount of zombies. Must be between 10 and 50.
+     * @return Game's amount  of zombies.
+     */
+    public int gameWaves(){
+        boolean validNum =false;
+        int waves=0;
+        while(!validNum){
+            try{
+                waves =Integer.parseInt( JOptionPane.showInputDialog("How many waves of zombies would you like this game?\n"
+                 + "Valid inputs are between 1 and 5."));
+            
+                if (waves<1 || waves>5){
+                    JOptionPane.showMessageDialog(null,"Please select a number within the parameters.","Invalid Input",JOptionPane.WARNING_MESSAGE);
+                }else{
+                    validNum =true;
+                }
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Your number format is incorrect.","Number format",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return waves;
+    }
     /**
      * Tells the player that the game is done.
      */
-    public void endGame(){
-        JOptionPane.showMessageDialog(null, "Thanks for playing our game. We hope you enjoyed!");
+    public void gameOver(){
+        JOptionPane.showMessageDialog(null, "YOU GOT YOUR BRAINS EATEN!\n"+"Thanks for playing our game. We hope you enjoyed!");
     }
+    /**
+     * Tells the player that the game is done.
+     */
+    public void gameWon(){
+        JOptionPane.showMessageDialog(null, "YOU WON!\n"+"Thanks for playing our game. We hope you enjoyed!");
+    }
+
 
 }
