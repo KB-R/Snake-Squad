@@ -62,6 +62,10 @@ public class GameController implements Runnable{
             goc.spawnZombies();
         }
         goc.setGameBoard(gameBoard);
+        //set the games amount of zombies
+        goc.setZombieTot(bv.gameZombies());
+
+        goc.setUserWaves(bv.gameWaves());
     }
 
     /**
@@ -97,9 +101,9 @@ public class GameController implements Runnable{
             goc.collectGarbage();
             goc.updateCoolDowns();
             goc.updateTime();
+            goc.checkEndWave();
             timer++;
         }
-        bv.endGame();
         reader.close();
     }
     
@@ -127,11 +131,13 @@ public class GameController implements Runnable{
     public boolean checkEndGame(){
  
         // zombies dead
-        if(goc.getZombies().size() == 0 && waves == userWaves && checkEndWave()){
-        	return true;
+        if(goc.getZombies().size() == 0 && goc.getCurrentWave() >= goc.getUserWave() && goc.checkEndWave()){
+            bv.gameWon();
+            return true;
         }
 
         if (gameOver) {
+            bv.gameOver();
             return true;
         }
     	

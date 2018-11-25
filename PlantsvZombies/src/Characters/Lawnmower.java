@@ -41,7 +41,7 @@ public class Lawnmower extends NPC implements Movable{
 		if(!(collision)&&(this.currentHealth<maxHealth)&&(this.coordinates[0]<10)){
 			if(undo){
 				x--;
-			}{
+			}else{
 				x++;
 			}
 			this.setLocation(this.x, this.y);

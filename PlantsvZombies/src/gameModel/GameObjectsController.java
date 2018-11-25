@@ -25,6 +25,9 @@ public class GameObjectsController{
     private long sunFlowerCooldown = 0;
     private long peaShooterCooldown = 0;
     private long walnutCoolDown = 0;
+    private long sfCooldownSet = 0;
+    private long psCooldownSet = 0;
+    private long wnCooldownSet = 0;
     private long coolDown = 3; // cooldown cost for new plants
     private int timer = 0; 
     private boolean undo = false; // currently undergoing an undo action
@@ -35,6 +38,9 @@ public class GameObjectsController{
     private int zombieTot = 10;
     private int spawned = 0;
     private int userWaves = 1;
+    private int currentWave =1;
+    private int waitTimer=0;
+    private boolean firstWave = true;
     private Random random = new Random();
 
     public GameObjectsController(){
@@ -49,11 +55,65 @@ public class GameObjectsController{
     }
 
     /**
-     * Spawn a zombies
+     * Set the amount of zombie will be in the game.
+     * @param userSelection The amount of zombies that the user wants. It has to be at least 10.
+     */
+    public void setZombieTot(int userSelection){
+        if (userSelection>10 && userSelection<50){
+            this.zombieTot = userSelection;
+        }
+    }
+
+    /**
+     * Set the amount of waves of zombies will be in the game.
+     * @param userSelection The amount of waves of zombies that the user wants. It has to be at least 10.
+     */
+    public void setUserWaves(int userSelection){
+        if (userSelection>1 && userSelection<6){
+            this.userWaves = userSelection;
+        }
+    }
+
+    /**
+     * Checks if the wave has ended.
+     * @return All zombies in the current wave are killed.
+     */
+    public boolean checkEndWave() {
+    	// zombies dead
+        if(spawned != 0){
+            for(Zombie z: getZombies()) {
+            	if(z.isAlive()) {
+            		return false;
+            	}
+            }    
+        }
+        firstWave = false;
+        waited();
+        if(waited()){
+            this.currentWave++; 
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the game waited to spawn the next wave of zombies
+     * @return Waited 10 turns
+     */
+    public boolean waited(){
+        waitTimer++;
+        if (waitTimer==20){
+            waitTimer =0;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Spawn zombies
      */
     public void spawnZombies(){
         int zombieType = random.nextInt(3);
-        if(getTime()%3==0 && spawned<zombieTot/userWaves) {
+        if(getTime()%3==0 && spawned<zombieTot/userWaves  && currentWave<=userWaves && ( firstWave || (!(checkEndWave()) && waited()) )) {
             Zombie zb = null;
             switch(zombieType){
                 case 0:
@@ -72,6 +132,12 @@ public class GameObjectsController{
                 spawned++;
             }
         }
+    }
+    public int getCurrentWave(){
+        return currentWave;
+    }
+    public int getUserWave(){
+        return userWaves;
     }
 
     /**
@@ -350,11 +416,13 @@ public class GameObjectsController{
      * Reduce the cooldown for buying items
      */
     public void updateCoolDowns(){
-        int ammount = undo? -1:1;
-        if (sunFlowerCooldown > 0)
+        int ammount = undo? -3:3;
+        if (sunFlowerCooldown > 0 && timer == sfCooldownSet)
             sunFlowerCooldown += ammount;
-        if (peaShooterCooldown > 0)
+        if (peaShooterCooldown > 0 && timer == psCooldownSet)
             peaShooterCooldown += ammount;
+        if (walnutCoolDown > 0 && timer == wnCooldownSet)
+            walnutCoolDown += ammount;
     }
 
     /**
@@ -390,7 +458,7 @@ public class GameObjectsController{
         //only shoot if there is a zombie in your lane
         for(PeaShooter ps: getPeaShooters()) {
             for(Zombie z: getZombies()){    
-                if(ps.getY()==z.getY() && ps.getShootingRate()%2==0) {
+                if(ps.getY()==z.getY() && ps.getShootingRate()%3==0) {
                     addPeas(ps.shoot(getTime()));
                 }
             }
@@ -398,7 +466,7 @@ public class GameObjectsController{
 
         for(PeaShooter ps: getDoublePeaShooters()) {
             for(Zombie z: getZombies()){
-                if(ps.getY()==z.getY() && ps.getShootingRate()%1==0) {
+                if(ps.getY()==z.getY() && ps.getShootingRate()%2==0) {
                     addPeas(ps.shoot(getTime()));
                 }
             }
@@ -442,21 +510,25 @@ public class GameObjectsController{
                         case "sf":
                             addSunflower((Sunflower)item);
                             sunFlowerCooldown = timer + coolDown;
+                            sfCooldownSet = timer;
                             sunPoints -= Sunflower.getCost();
                             break;
                         case "ps":
                             addPeaShooter((PeaShooter)item);
                             peaShooterCooldown = timer + coolDown;
+                            psCooldownSet = timer;
                             sunPoints -= PeaShooter.getCost();
                             break;
                         case "dps":
                             addDoublePeaShooter((DoublePeaShooter)item);
                             peaShooterCooldown = timer + coolDown;
+                            psCooldownSet = timer;
                             sunPoints -= DoublePeaShooter.getCost();
                             break;
                         case "wn":
                             addWalnut((Walnut)item);
                             walnutCoolDown = timer + coolDown;
+                            wnCooldownSet = timer;
                             sunPoints -= Walnut.getCost();
                             break;
                         default:
