@@ -29,7 +29,8 @@ public class Zombie extends NPC implements Movable{
     public Zombie(int health, int speed, int timeSpawned) {
     	super(health, false, timeSpawned);
     	this.maxHealth = health;
-    	this.speed = speed;
+        this.speed = speed;
+        this.damage = 4;
     	this.x = 9;
     	this.y = random();
     	setLocation(this.x,this.y);

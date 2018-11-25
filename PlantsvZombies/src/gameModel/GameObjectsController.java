@@ -277,6 +277,14 @@ public class GameObjectsController{
         return zombies;
     }
 
+    public void spawnLawnMowers(){
+        // add lawn mowers
+        for(int i=0;i<6;i++){
+            Lawnmower lm = new Lawnmower(0,i, getTime());
+            addLawnMowers(lm);
+        }
+    }
+
     /**
      * Produce sunPoints every 2 turns
     */

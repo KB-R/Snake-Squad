@@ -12,7 +12,8 @@ import gameModel.MoveController;
 public class PeaShooter extends NPC{
     private int shootingRate; // shooting rate in millisecs 
     private static int sunCost = 10;
-    
+    int currentHealth;
+
     /**
      * Normal Pea Shooter Constructor
      * @param x the x co-oridante where it will be placed.
@@ -36,8 +37,8 @@ public class PeaShooter extends NPC{
 
 	public int getShootingRate() {
 		return shootingRate++;
-	}
-
+    }
+    
 	public void setShootingRate(int timer) {
 		this.shootingRate = timer;
 	}

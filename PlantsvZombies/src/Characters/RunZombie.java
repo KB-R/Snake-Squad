@@ -6,9 +6,11 @@ package Characters;
  *
  */
 public class RunZombie extends Zombie{
+    private int damage=8;
 
 	public RunZombie(int spawnTime) {
-		super(30, 1, spawnTime);
+        super(30, 1, spawnTime);
+        setDamage(damage);
 	}
 
 	/**

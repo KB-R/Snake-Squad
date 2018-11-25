@@ -13,9 +13,9 @@ import gameModel.CollisionDetector;
 public abstract class NPC {
 	protected boolean isAlive;
 	protected boolean collision;
-	protected int damage;
-	protected int currentHealth;
-	private int maxHealth;
+	protected int damage = 0;
+	int currentHealth;
+	protected int maxHealth;
 	protected boolean isFriendly;
 	protected int x;
 	protected int y;
@@ -33,7 +33,6 @@ public abstract class NPC {
 		this.maxHealth = maxHealth;
 		this.isFriendly = isFriendly;
 		this.coordinates = new int[2];
-		this.damage = 0;
 		this.collision = false;
 		this.timeSpawned = timeSpawned;
 	}
@@ -57,7 +56,7 @@ public abstract class NPC {
 	 */
 	public int takeDamage(int damage) {
 		currentHealth = currentHealth - damage;
-
+		System.out.println("health " + currentHealth + " " + this);
 		if (currentHealth <= 0) {
 			dies();
 		}
@@ -155,35 +154,33 @@ public abstract class NPC {
 	* @return True if they collide with each other
 	*/
 	public boolean collidesWith(NPC o){
-		//both of them have the same location and are a friendly v unfriendly they collide
+		// cannot collide if not same y pos
+		if (getLocation()[1] != o.getLocation()[1])
+			return false;
+		
 
 		// checking between plant vs zombie
-		boolean isNormalPea = this instanceof NormalPea;
-		if(!isNormalPea && this.isFriendly() && !o.isFriendly()){
-			// if the zombie is a square ahead of us
-			if(this.getLocation()[0] == o.getLocation()[0]-1){
+		if(!(this instanceof NormalPea) && isFriendly() && !o.isFriendly()){
+			if(getLocation()[0] == o.getLocation()[0]-1 || getLocation()[0] == o.getLocation()[0]){
+				System.out.println("coll  " + this); 
+
 				return true;
 			}
 
-		}else if(!isNormalPea && !this.isFriendly() && o.isFriendly()){
-			// if the plant is a square behind of us
-			if(this.getLocation()[0] == o.getLocation()[0]+1){
+		}else if(!(o instanceof NormalPea) && !isFriendly() && o.isFriendly()){
+			if(getLocation()[0] == o.getLocation()[0]+1 || getLocation()[0] == o.getLocation()[0]){
 				return true;
 			}
-
-		// checking other collisions
 		}
-		else if((Arrays.equals(this.getLocation(), o.getLocation()) ) && (  this.isOpposite(o) )&&this.isAlive()&&o.isAlive()){
-			this.collided();
-			o.collided();
+		else if((Arrays.equals(getLocation(), o.getLocation()) ) && (  isOpposite(o) )&&isAlive()&&o.isAlive()){
 			return true;
 		}
 		return false;
 	 }
 	 
-	public String toString(){
+	/*public String toString(){
 		return "NPC";
-	}
+	}*/
 
 	public int getTimeSpawned(){
 		return timeSpawned;

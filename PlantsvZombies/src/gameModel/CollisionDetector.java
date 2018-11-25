@@ -21,21 +21,18 @@ public class CollisionDetector{
             // check if it collided with something else
             for(Zombie zb: goc.getZombies()){
                 if(np.collidesWith(zb)){
-                	zb.takeDamage(10);
                 	//if the zombie is still alive it can move again
                 	if(zb.isAlive()) {
-                		zb.collided();
+						zb.takeDamage(10);
+						zb.collided();
+						np.collided();
+						np.takeDamage(1);
                 	}
                 	
-                	//pea disappears after collision 
-            		np.takeDamage(1);
+
                 }
-            }
-            goc.updateZombies(goc.getZombies());
-  
-        }
-        goc.updatePeas(goc.getPeas());
-  
+            }  
+        }  
         
         // for each lawn mower
         for(Lawnmower lm: goc.getLawnMowers()){
@@ -43,19 +40,15 @@ public class CollisionDetector{
             for(Zombie zb: goc.getZombies()){
                 if(lm.collidesWith(zb)){
 
+					System.out.println("dmg " + zb.getDamage());
                 	lm.takeDamage(zb.getDamage());
-                	
-                	//all zombies die against lawn mower
-                	zb.takeDamage(lm.getDamage());   	
+					zb.takeDamage(lm.getDamage());   	
+					 
+					lm.collided();
+					zb.collided();
                 }
             }
-            goc.updateZombies(goc.getZombies());
-           
-            //lawn mower can move after it collides with all zombies at the same location
-            lm.collided();
-        }
-        goc.updateLawnMowers(goc.getLawnMowers());
-        
+        }        
         
         // for each zombie
         for(Zombie z: goc.getZombies()) {
@@ -64,31 +57,32 @@ public class CollisionDetector{
 					//after collision zombie eats sunflower
         			sf.takeDamage(z.getDamage());
         			if(sf.isAlive()) {
-        				//sun flower dies zombie keeps moving
-        				z.collided();
+						z.collided();
+						sf.collided();
         			}
         		}
         	}
-        	goc.updateSunflower(goc.getSunflowers());
         	
         	for(PeaShooter p: goc.getPeaShooters()) {
         		if(z.collidesWith(p)) {
         			//after collision zombie eats pea shooter
         			p.takeDamage(z.getDamage());
         			if(p.isAlive()) {
-        				//pea shooter dies zombie keeps moving
-        				z.collided();
+						z.collided();
+						p.collided();
         			}
         		}
         	}
-        	goc.updatePeaShooters(goc.getPeaShooters());
         }
-        goc.updateZombies(goc.getZombies()); 
 	}
 	
 	public static void clearCollisions(GameObjectsController goc){
         for(Zombie z: goc.getZombies()) {
 			z.clearCollided();
+		}
+		
+		for(Lawnmower lm: goc.getLawnMowers()) {
+			lm.clearCollided();
         }
 	}
     

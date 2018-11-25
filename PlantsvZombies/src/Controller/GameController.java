@@ -20,7 +20,6 @@ import gameModel.*;
 public class GameController implements Runnable{
     
     // ArrayList for game objects
-    private CollisionDetector collisionController = new CollisionDetector();
     private MoveController moveController = new MoveController();
     private GameObjectsController goc = new GameObjectsController();
     private GameBoardView bv = new GameBoardView(goc, moveController);
@@ -50,12 +49,8 @@ public class GameController implements Runnable{
                 gameBoard[i][j] = new ArrayList<NPC>();
             }
         }
-
-        // add lawn mowers
-        for(int i=0;i<6;i++){
-            Lawnmower lm = new Lawnmower(0,i, goc.getTime());
-            goc.addLawnMowers(lm);
-        }
+      
+        goc.spawnLawnMowers();
 
         // spawn zombies
         for(int i=0; i<level; i++){
