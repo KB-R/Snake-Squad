@@ -72,7 +72,7 @@ public class GameController implements Runnable{
      * Main game loop is to be implemented here
      * Check for collisions etc.
      */
-    public void run(){        
+    public void run(){
         while(!checkEndGame()){
             goc.collectSun();
             bv.updateGameBoard();

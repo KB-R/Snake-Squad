@@ -161,7 +161,7 @@ public class GameBoardView extends JPanel{
                 }
             }   
         }catch(IOException ioe){
-            System.out.println("ioe");
+            System.out.println("ioe" + ioe);
         }
     }
 
