@@ -1,8 +1,8 @@
-package Controllers;
+package gameModel;
 
 import java.util.ArrayList;
 import java.util.Random;
-import Models.*;
+import Characters.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -384,19 +384,23 @@ public class GameObjectsController{
      */
     public void shootPeas(){
         
-        // don't shoot pead if undoing a turn
+        // don't shoot peas if undoing a turn
         if (undo)
             return;
-        
+        //only shoot if there is a zombie in your lane
         for(PeaShooter ps: getPeaShooters()) {
-            if(ps.getShootingRate()%2==0) {
-                addPeas(ps.shoot(getTime()));
+            for(Zombie z: getZombies()){    
+                if(ps.getY()==z.getY() && ps.getShootingRate()%2==0) {
+                    addPeas(ps.shoot(getTime()));
+                }
             }
         }
 
         for(PeaShooter ps: getDoublePeaShooters()) {
-            if(ps.getShootingRate()%2==0) {
-                addPeas(ps.shoot(getTime()));
+            for(Zombie z: getZombies()){
+                if(ps.getY()==z.getY() && ps.getShootingRate()%1==0) {
+                    addPeas(ps.shoot(getTime()));
+                }
             }
         }
     }

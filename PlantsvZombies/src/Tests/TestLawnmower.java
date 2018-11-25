@@ -1,33 +1,46 @@
 package Tests;
-import Models.Lawnmower;
-import Models.Zombie;
-//Anthony//
-public class TestLawnmower extends junit.framework.TestCase{
+import Characters.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+
+/**
+ * Tests the Lawnmower class.
+ * @author Anthony
+ * @since November 23, 2018
+ */
+public class TestLawnmower {
 	Lawnmower lawnmower;
 	
+	@BeforeEach
 	protected void setUp() {
-	lawnmower= new Lawnmower(0,0,0); 
+		lawnmower= new Lawnmower(0,0,0); 
 	}
-    
+    @Test
 	public void testFriendly(){
-		assertEquals(lawnmower.isFriendly(),true);
-		assertEquals(lawnmower.getMaxHealth(),10000000);
-		assertEquals(lawnmower.toString(),"LM");		
-    }
-	
+		assertTrue(lawnmower.isFriendly());		
+	}
+	@Test
 	public void testMaxHealth() {
 		assertEquals(lawnmower.getMaxHealth(),10000000);
 	}
-
+	@Test
 	public void testNameTag() {
-	assertEquals(lawnmower.toString(),"LM");
+		assertEquals(lawnmower.toString(),"LM");
 	}
-    /**
-     * Test takeDamage method 
-     */
+    @Test
     public void testTakeDamage(){
-        Zombie zomb = new Zombie(2, 8, 0);
+        Zombie zomb = new Zombie(10, 1, 0);
+        zomb.setLocation(1, 0);
         lawnmower.takeDamage(zomb.getDamage());
-    	assertEquals(lawnmower.getCurrentHealth(),lawnmower.getMaxHealth()-zomb.getDamage());
-    }
+		assertEquals(lawnmower.getCurrentHealth(),lawnmower.getMaxHealth()-zomb.getDamage());
+		assertTrue(lawnmower.collidesWith(zomb));
+	}
+	@Test 
+	public void testMove(){
+		lawnmower.takeDamage(10);
+		for(int i = 0; i<3; i++){
+			lawnmower.move(i,false);
+		}
+		assertEquals(lawnmower.getLocation()[0], 3);
+	}
 }

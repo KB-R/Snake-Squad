@@ -1,6 +1,6 @@
 package Views;
 
-import Controllers.*;
+import gameModel.*;
 
 import java.util.ArrayList;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import Models.*;
+import Characters.*;
 
 /**
  * @author Maxime Ndutiye
@@ -25,7 +25,7 @@ public class GameBoardView extends JPanel{
     String[] imageUrls = new String[] {"../bin/Images/ZOMBIE.png",
                                        "../bin/Images/GRASS.png",
                                        "../bin/Images/PEASHOOTER.png",
-                                       "../bin/Images/SUNFLOWER.jpg",
+                                       "../bin/Images/SUNFLOWER.png",
                                        "../bin/Images/Lawnmower.png",
                                        "../bin/Images/BULLET.png",
                                        "../bin/Images/RunnerZombie.png",
@@ -408,6 +408,12 @@ public class GameBoardView extends JPanel{
      */
     private void setDone(){
         updatedGUI = true;
+    }
+    /**
+     * Tells the player that the game is done.
+     */
+    public void endGame(){
+        JOptionPane.showMessageDialog(null, "Thanks for playing our game. We hope you enjoyed!");
     }
 
 }
