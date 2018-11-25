@@ -2,10 +2,10 @@ package Tests;
 
 import junit.framework.*;
 
-public class TestRunner extends junit.framework.TestCase{
+public class CharacterTestSuite extends junit.framework.TestCase{
 	
 	public static void main(String[] args){
-		junit.textui.TestRunner.run(TestRunner.class);
+		junit.textui.TestRunner.run(CharacterTestSuite.class);
 	}
 
 	public static void testsuite() {
@@ -13,7 +13,8 @@ public class TestRunner extends junit.framework.TestCase{
 		suite.addTest(new TestSuite(TestLawnmower.class));
 		suite.addTest(new TestSuite(TestSunflower.class));
 		suite.addTest(new TestSuite(TestZombie.class));
-		// add more tests here
+		suite.addTest(new TestSuite(TestPeaShooter.class));
+		suite.addTest(new TestSuite(TestWalnut.class));
 	}
 }
 

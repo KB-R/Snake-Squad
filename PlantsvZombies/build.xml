@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="PlantsvZombies" default = "Packaging">
+	
+	<target name="Packaging">
+		<mkdir dir = "build"/>
+		<jar destfile="build/PlantsvZombies.jar">
+		</jar>	
+	</target>
+	
+	<target name="run" depends = "Packaging">
+		<java jar="build/PlantsvZombies.jar" fork="true"/>
+	</target>
+	
+</project>
