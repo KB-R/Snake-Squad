@@ -47,7 +47,7 @@ public class Lawnmower extends NPC implements Movable{
 		}
 	}
 
-	/*public String toString(){
+	public String toString(){
 		return "LM";
-	}*/
+	}
 }

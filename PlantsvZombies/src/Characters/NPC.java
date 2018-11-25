@@ -56,7 +56,6 @@ public abstract class NPC {
 	 */
 	public int takeDamage(int damage) {
 		currentHealth = currentHealth - damage;
-		System.out.println("health " + currentHealth + " " + this);
 		if (currentHealth <= 0) {
 			dies();
 		}
@@ -162,8 +161,6 @@ public abstract class NPC {
 		// checking between plant vs zombie
 		if(!(this instanceof NormalPea) && isFriendly() && !o.isFriendly()){
 			if(getLocation()[0] == o.getLocation()[0]-1 || getLocation()[0] == o.getLocation()[0]){
-				System.out.println("coll  " + this); 
-
 				return true;
 			}
 
@@ -178,9 +175,9 @@ public abstract class NPC {
 		return false;
 	 }
 	 
-	/*public String toString(){
+	public String toString(){
 		return "NPC";
-	}*/
+	}
 
 	public int getTimeSpawned(){
 		return timeSpawned;

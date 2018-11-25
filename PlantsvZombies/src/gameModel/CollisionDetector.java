@@ -39,8 +39,6 @@ public class CollisionDetector{
             // check if it collided with something else
             for(Zombie zb: goc.getZombies()){
                 if(lm.collidesWith(zb)){
-
-					System.out.println("dmg " + zb.getDamage());
                 	lm.takeDamage(zb.getDamage());
 					zb.takeDamage(lm.getDamage());   	
 					 
