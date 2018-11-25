@@ -1,16 +1,16 @@
 package Tests;
+import junit.framework.TestCase;
+import Characters.*;
+
 /**
  * Tests the Zombie classes.
  * @author Anthony
  * @author Kurt Burton-Rowe
  * @since November 23, 2018
  */
-import Characters.*;
-import org.junit.platform.runner.JUnitPlatform;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
 
-public class TestZombie {
+
+public class TestZombie extends TestCase{
     Zombie zomb;
     NormalZombie normal;
     BucketHeadZombie bucket;
@@ -18,8 +18,9 @@ public class TestZombie {
     RunZombie run;
     
 
-  
+    /*
     @BeforeEach
+    */
     protected void setUp(){
     	zomb = new Zombie(20, 0, 0);
     	zomb.setLocation(3, 0);
@@ -36,7 +37,9 @@ public class TestZombie {
     	normal = new NormalZombie(0);
     	normal.setLocation(3, 4);
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testFriendly(){
 		assertFalse(zomb.isFriendly());
 		assertFalse(bucket.isFriendly());
@@ -44,11 +47,15 @@ public class TestZombie {
 		assertFalse(run.isFriendly());
 		assertFalse(normal.isFriendly());
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testNameTag() {
     	assertEquals(zomb.toString(),"ZB");
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testMaxHealth() {
 		assertEquals(zomb.getMaxHealth(),20);
 		assertEquals(bucket.getMaxHealth(),60);
@@ -56,7 +63,9 @@ public class TestZombie {
 		assertEquals(run.getMaxHealth(),30);
 		assertEquals(normal.getMaxHealth(),30);
 	}
-    @Test
+	/*
+	@Test
+	*/
     public void testTakeDamage(){
     	NormalPea Npea= new NormalPea(0, 0, 0);
     	zomb.takeDamage(Npea.getDamage());  
@@ -71,7 +80,9 @@ public class TestZombie {
         assertEquals(run.getCurrentHealth(),20);
         assertEquals(normal.getCurrentHealth(),20);
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testLethalDamage() {
     	NormalPea Npea= new NormalPea(0, 0, 0);
     	zomb.takeDamage(Npea.getDamage()); 
@@ -93,7 +104,9 @@ public class TestZombie {
         assertFalse(run.isAlive()); 
         assertFalse(normal.isAlive()); 
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testMove() {
 		zomb.move(0,false);
 		zomb.move(0,false);

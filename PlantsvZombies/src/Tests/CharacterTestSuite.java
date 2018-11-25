@@ -1,8 +1,8 @@
 package Tests;
-
+import junit.framework.TestCase;
 import junit.framework.*;
 
-public class CharacterTestSuite extends junit.framework.TestCase{
+public class CharacterTestSuite extends TestCase{
 	
 	public static void main(String[] args){
 		junit.textui.TestRunner.run(CharacterTestSuite.class);

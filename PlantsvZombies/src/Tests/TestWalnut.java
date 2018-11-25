@@ -1,32 +1,38 @@
 package Tests;
+import junit.framework.TestCase;
 /**
  * Tests the Walnut class.
  * @author Kurt Burton-Rowe
  * @since November 23, 2018
  */
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.*;
+
 import Characters.*;
 
-public class TestWalnut {
+public class TestWalnut extends TestCase{
 	Walnut nut;
+	/*
     @BeforeEach
+    */
     protected void setUp(){
 		nut = new Walnut(0, 0, 0);
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testFriendly(){
 		assertTrue(nut.isFriendly());
     }
     
-    @Test
+	/*
+	@Test
+	*/
     public void testMaxHealth() {
 		assertEquals(nut.getMaxHealth(), 150);
 	}
   
-    @Test
+	/*
+	@Test
+	*/
     public void testTakeDamage(){
         Zombie zomb = new Zombie(2, 8, 0);
         zomb.setDamage(10);
@@ -36,12 +42,16 @@ public class TestWalnut {
     }
     
     @SuppressWarnings("static-access")
-    @Test
+	/*
+	@Test
+	*/
 	public void testGetCost(){
         assertEquals(nut.getCost(),10);
     }
     
-    @Test
+	/*
+	@Test
+	*/
     public void testLethalDamage() {
     	Zombie zomb = new Zombie(2, 8, 0);
     	zomb.setDamage(150);

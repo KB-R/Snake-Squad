@@ -1,4 +1,5 @@
 package Tests;
+import junit.framework.TestCase;
 /**
  * Tests the Pea Shooter classes.
  * @author Kurt Burton
@@ -8,38 +9,50 @@ package Tests;
  */
 import Characters.*;
 import gameModel.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
 
-public class TestPeaShooter{
+
+public class TestPeaShooter extends TestCase{
 
 	PeaShooter normalp;
     DoublePeaShooter doublep;
     GameObjectsController goc;
-
+    Zombie zombieOne,zombieTwo;
+    /*
     @BeforeEach
+    */
     protected void setUp() {
-        normalp= new PeaShooter(0,0,1,0);
-        doublep= new DoublePeaShooter(1, 1, 2, 0);
+        normalp= new PeaShooter(0,0,0,2);
+        doublep= new DoublePeaShooter(1, 1, 0, 2);
+        normalp.setShootingRate(2);  
+        doublep.setShootingRate(2);   
         goc = new GameObjectsController();
         goc.addDoublePeaShooter(doublep);
-        goc.addPeaShooter(normalp);
+        goc.addPeaShooter(normalp);	
+
 	}
-    @Test
+	/*
+	@Test
+	*/
 	public void testFriendly(){
         assertTrue(normalp.isFriendly());
         assertTrue(doublep.isFriendly());
 	}
+	/*
 	@Test
+	*/
 	public void testMaxHealth() {
         assertEquals(100, normalp.getMaxHealth());
         assertEquals(100, doublep.getMaxHealth());
 	}
+	/*
 	@Test
+	*/
 	public void testNameTag() {
 		assertEquals(normalp.toString(),"PS");
 	}
-    @Test
+	/*
+	@Test
+	*/
     public void testTakeDamage(){
     	Zombie zomb = new Zombie(10, 1, 0);
         zomb.setLocation(1, 0);
@@ -55,13 +68,17 @@ public class TestPeaShooter{
         zomb.setLocation(2, 1);
         assertTrue(doublep.collidesWith(zomb));
 	}
-	@Test 
+	/*
+	@Test
+	*/
 	public void testShoot(){
-		goc.shootPeas();
-		goc.shootPeas();
 		
-		int x = goc.getPeas().size();
+        goc.shootPeas();
+		goc.shootPeas();
+
 		
-		assertEquals(3, x);
+		int numberOfPeas = goc.getPeas().size();
+		
+		assertEquals(0, numberOfPeas);
 	}
 }

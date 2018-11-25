@@ -8,32 +8,43 @@ package Tests;
  *
  */
 import Characters.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
+import junit.framework.TestCase;
 
-public class TestSunflower{
+
+
+public class TestSunflower extends TestCase{
     Sunflower sunf;
+    /*
     @BeforeEach
+    */
     protected void setUp(){
     	sunf = new Sunflower(0, 0, 0);
     }
-    @Test
+	/*
+	@Test
+	*/
     public void testFriendly(){
 		assertTrue(sunf.isFriendly());
     }
     
-    @Test
+	/*
+	@Test
+	*/
     public void testMaxHealth() {
 		assertEquals(sunf.getMaxHealth(),50);
 	}
     
 
-    @Test
+	/*
+	@Test
+	*/
     public void testNameTag() {
     	assertEquals(sunf.toString(),"SF");
     }
   
-    @Test
+	/*
+	@Test
+	*/
     public void testTakeDamage(){
         Zombie zomb = new Zombie(2, 8, 0);
         zomb.setDamage(10);
@@ -43,12 +54,16 @@ public class TestSunflower{
     }
     
     @SuppressWarnings("static-access")
-    @Test
+	/*
+	@Test
+	*/
 	public void testGetCost(){
         assertEquals(sunf.getCost(),10);
     }
     
-    @Test
+	/*
+	@Test
+	*/
     public void testLethalDamage() {
     	Zombie zomb = new Zombie(2, 8, 0);
     	zomb.setDamage(50);
