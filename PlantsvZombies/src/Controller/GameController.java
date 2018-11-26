@@ -42,6 +42,9 @@ public class GameController implements Runnable{
     private GameObjectsController goc = new GameObjectsController();
     private GameBoardView bv = new GameBoardView(goc, moveController);
 
+    private Stack<GameObjectsController> undoTurn = new Stack<>();
+    private Stack<GameObjectsController> redoTurn = new Stack<>();
+
     private int count =0;
     private int redoCount =0;
     // gameboard
@@ -142,7 +145,7 @@ public class GameController implements Runnable{
 		public void actionPerformed(ActionEvent e) {     
                 count++;
                 redoCount = count;
-                goc.newTurn();
+                newTurn();
                 //moveController.nextTurn();
                 goc.updateTime();
                 bv.setDone();
@@ -157,8 +160,8 @@ public class GameController implements Runnable{
             if (goc.getTime() > 0){
                 redoCount--;
                 moveController.setUndo();
-                goc.setUndo();
-                goc = goc.prevTurn();
+               // goc.setUndo();
+                goc = prevTurn();
                 //moveController = moveController.prevTurn();
                 //bv.updateView(goc, moveController);
                 bv.setDone();
@@ -172,10 +175,36 @@ public class GameController implements Runnable{
 		public void actionPerformed(ActionEvent e) { 
             if (redoCount < count){
                 redoCount++;
-                goc = goc.nextTurn();
+                goc = nextTurn();
                 bv.setDone();
             }
 		} 
+    }
+    /**
+     * Pushes the current version of the GOC onto the stack. And deletes the previous moves.
+     */
+    public void newTurn(){
+        undoTurn.push(goc);
+        if(!redoTurn.isEmpty())
+            redoTurn.clear();
+    }
+    /**
+     * Returns to the previous GOC
+     * @return The object controller from the previous turn.
+     */
+    public GameObjectsController prevTurn() {
+        if (!undoTurn.isEmpty()) {
+        	redoTurn.push(undoTurn.peek());
+        }
+        return undoTurn.pop();
+    }
+    /**
+     * Returns to the next GOC
+     * @return The object controller from the next turn.
+     */
+    public GameObjectsController nextTurn(){
+        undoTurn.push(redoTurn.peek());
+        return redoTurn.pop();
     }
     /**
      * Check to see if the game is over
