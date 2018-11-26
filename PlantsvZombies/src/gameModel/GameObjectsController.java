@@ -6,12 +6,13 @@ import Characters.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Stack;
 
 /**
  * @author Maxime Ndutiye
  * Game Objects controller keeps track of all the game objects
  */
-public class GameObjectsController{
+public class GameObjectsController implements Cloneable{
     private ArrayList<Zombie> zombies;
     private ArrayList<Sunflower> sunflowers;
     private ArrayList<PeaShooter> peaShooters;
@@ -42,6 +43,7 @@ public class GameObjectsController{
     private int waitTimer=0;
     private boolean firstWave = true;
     private Random random = new Random();
+
 
     public GameObjectsController(){
         // create NPC arraylists
@@ -413,11 +415,7 @@ public class GameObjectsController{
      * Increment turns
      */
     public void updateTime(){
-        if (undo){
-            timer--;
-        }else{
-            timer++;
-        }
+        timer++;
     }
 
     /**
@@ -547,5 +545,23 @@ public class GameObjectsController{
         }catch (NumberFormatException nfe){
             System.out.println("illegal input arguments");
         }
+    }
+
+    public Object clone(){
+        try{
+            // new temporary goc
+            GameObjectsController T = (GameObjectsController) super.clone();
+
+            // create deep copies of game objects
+            T.updateZombies(new ArrayList<Zombie>(getZombies()));
+            T.updateLawnMowers(new ArrayList<Lawnmower>(getLawnMowers()));
+            T.updatePeaShooters(new ArrayList<PeaShooter>(getPeaShooters()));
+            T.updateSunflower(new ArrayList<Sunflower>(getSunflowers()));
+
+            return T;
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return null;
     }
 }
