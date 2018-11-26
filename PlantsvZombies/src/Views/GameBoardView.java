@@ -55,6 +55,7 @@ public class GameBoardView extends JPanel{
 
     JButton next;
     JButton undo;
+    JButton redo;
 
     // Whether to add a sunflower or peashooter
     private String addItem = "";
@@ -91,6 +92,7 @@ public class GameBoardView extends JPanel{
         currentTime = new JButton("time: 0");
         next = new JButton("Next");
         undo = new JButton("Undo");
+        redo = new JButton("Redo");
     
         addItemsMenu.add(addSunflower);
         addItemsMenu.add(addPeaShooter);
@@ -106,12 +108,12 @@ public class GameBoardView extends JPanel{
         addPeaShooter.addActionListener(new menupress());
         addDoublePeaShooter.addActionListener(new menupress());
         addWalnut.addActionListener(new menupress());
-        next.addActionListener(new nextAction());
-        undo.addActionListener(new undoAction());
+        
 
         
         menubar.add(next);
         menubar.add(undo);
+        menubar.add(redo);
         menubar.add(addItemsMenu);
 
         getImages();
@@ -184,7 +186,8 @@ public class GameBoardView extends JPanel{
     /**
      * Update the GUI gamebaord
      */
-    public void updateGameBoard(){
+    public void updateGameBoard(GameObjectsController gameObjectsController){
+        this.goc = gameObjectsController;
         updateGUI();
         setIconAtLocation(goc.getLawnMowers(), "lm");
         setIconAtLocation(goc.getSunflowers(), "sf");
@@ -194,6 +197,10 @@ public class GameBoardView extends JPanel{
         setIconAtLocation(goc.getDoublePeaShooters(), "dps");
         setIconAtLocation(goc.getWalnuts(), "wn");
     }
+    // public void updateView(GameObjectsController goc, MoveController moveController){
+    //     this.goc = goc;
+    //     this.mc = moveController;
+    // }
 
     /**
      * update the GUI based on the position of items in the GOC
@@ -365,28 +372,15 @@ public class GameBoardView extends JPanel{
 		}
     }
 
-    /**
-     * Actionlistener to handle events for going to the next turn in the game
-     */
-    class nextAction implements ActionListener {
-		public void actionPerformed(ActionEvent e) { 
-            mc.unsetUndo();
-            goc.unsetUndo();
-            setDone();
-		} 
+    public void addNextListener(ActionListener actionListener){
+        next.addActionListener(actionListener);
     }
 
-    /**
-     * Actionlistener to handle events for going to the next turn in the game
-     */
-    class undoAction implements ActionListener {
-		public void actionPerformed(ActionEvent e) { 
-            if (goc.getTime() > 0){
-                mc.setUndo();
-                goc.setUndo();
-                setDone();
-            }
-		} 
+    public void addUndoListener(ActionListener actionListener){
+        undo.addActionListener(actionListener);
+    }
+    public void addRedoListener(ActionListener actionListener){
+        redo.addActionListener(actionListener);
     }
 
     /**
@@ -407,7 +401,7 @@ public class GameBoardView extends JPanel{
     /**
      * Tell the gameboard that it is done drawing the frame
      */
-    private void setDone(){
+    public void setDone(){
         updatedGUI = true;
     }
 

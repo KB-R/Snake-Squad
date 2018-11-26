@@ -1,7 +1,6 @@
 package gameModel;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import Characters.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +8,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author Maxime Ndutiye
+ * @author Kurt Burton-Rowe
  * Game Objects controller keeps track of all the game objects
  */
 public class GameObjectsController{
@@ -32,7 +32,14 @@ public class GameObjectsController{
     private int timer = 0; 
     private boolean undo = false; // currently undergoing an undo action
 
+    private boolean psFirst = false;
+    private boolean sfFirst = false;
+    private boolean wnFirst = false;
+
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
+
+    private Stack<GameObjectsController> undoTurn = new Stack<>();
+    private Stack<GameObjectsController> redoTurn = new Stack<>();
 
     // zombie spawns
     private int zombieTot = 10;
@@ -52,6 +59,32 @@ public class GameObjectsController{
         lawnmowers = new ArrayList<Lawnmower>();
         doublePeaShooters = new ArrayList<DoublePeaShooter>(); 
         walnuts = new ArrayList<Walnut>();
+    }
+    /**
+     * Pushes the current version of the GOC onto the stack. And deletes the previous moves.
+     */
+    public void newTurn(){
+        undoTurn.push(this);
+        if(!redoTurn.isEmpty())
+            redoTurn.clear();
+    }
+    /**
+     * Returns to the previous GOC
+     * @return The object controller from the previous turn.
+     */
+    public GameObjectsController prevTurn() {
+        if (!undoTurn.isEmpty()) {
+        	redoTurn.push(undoTurn.peek());
+        }
+        return undoTurn.pop();
+    }
+    /**
+     * Returns to the next GOC
+     * @return The object controller from the next turn.
+     */
+    public GameObjectsController nextTurn(){
+        undoTurn.push(redoTurn.peek());
+        return redoTurn.pop();
     }
 
     /**
@@ -281,6 +314,11 @@ public class GameObjectsController{
      * Produce sunPoints every 2 turns
     */
     private void produceSun(){
+        if(undo){
+            if (timer % 2 == 0){
+                sunPoints -= 10;
+            }
+        }
         if (timer % 2 == 0){
             sunPoints += 10;
         }
@@ -416,7 +454,7 @@ public class GameObjectsController{
      * Reduce the cooldown for buying items
      */
     public void updateCoolDowns(){
-        int ammount = undo? -3:3;
+        int ammount = (undo)? -3:3;
         if (sunFlowerCooldown > 0 && timer == sfCooldownSet)
             sunFlowerCooldown += ammount;
         if (peaShooterCooldown > 0 && timer == psCooldownSet)

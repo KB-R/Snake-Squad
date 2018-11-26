@@ -3,6 +3,23 @@ package Controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Stack;
+
+import java.awt.FileDialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 import gameModel.CollisionDetector;
 import gameModel.MoveController;
@@ -25,6 +42,8 @@ public class GameController implements Runnable{
     private GameObjectsController goc = new GameObjectsController();
     private GameBoardView bv = new GameBoardView(goc, moveController);
 
+    private int count =0;
+    private int redoCount =0;
     // gameboard
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
     Scanner reader = new Scanner(System.in);  
@@ -66,6 +85,10 @@ public class GameController implements Runnable{
         goc.setZombieTot(bv.gameZombies());
 
         goc.setUserWaves(bv.gameWaves());
+
+        bv.addUndoListener(new undoAction());
+        bv.addNextListener(new nextAction());
+        bv.addRedoListener(new redoAction());
     }
 
     /**
@@ -75,7 +98,7 @@ public class GameController implements Runnable{
     public void run(){        
         while(!checkEndGame()){
             goc.collectSun();
-            bv.updateGameBoard();
+            bv.updateGameBoard(goc);
             spawn();
 
             CollisionDetector.clearCollisions(goc);
@@ -102,28 +125,58 @@ public class GameController implements Runnable{
             goc.updateCoolDowns();
             goc.updateTime();
             goc.checkEndWave();
+            
             timer++;
         }
         reader.close();
     }
-    
+    /*Spawns zombies*/
     public void spawn() {
         goc.spawnZombies();
     }
 
-    public boolean checkEndWave() {
-    	// zombies dead
-        if(goc.getZombies().size() != 0){
-            for(Zombie z: goc.getZombies()) {
-            	if(z.isAlive()) {
-            		return false;
-            	}
-            }    
+    /**
+     * Actionlistener to handle events for going to the next turn in the game
+     */
+    class nextAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) {     
+                count++;
+                redoCount = count;
+                goc.newTurn();
+                //moveController.nextTurn();
+                goc.updateTime();
+                bv.setDone();
+            
         }
-		this.waves++;
-        return true;
     }
-
+    /**
+     * Actionlistener to handle events for going to the next turn in the game
+     */
+    class undoAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            if (goc.getTime() > 0){
+                redoCount--;
+                moveController.setUndo();
+                goc.setUndo();
+                goc = goc.prevTurn();
+                //moveController = moveController.prevTurn();
+                //bv.updateView(goc, moveController);
+                bv.setDone();
+            }
+		} 
+    }
+    /**
+     * Actionlistener to handle events for going to the next turn in the game
+     */
+    class redoAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            if (redoCount < count){
+                redoCount++;
+                goc = goc.nextTurn();
+                bv.setDone();
+            }
+		} 
+    }
     /**
      * Check to see if the game is over
      * @return boolean true if game is over

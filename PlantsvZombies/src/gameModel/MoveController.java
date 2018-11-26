@@ -1,6 +1,6 @@
 package gameModel;
 
-import java.util.ArrayList;
+import java.util.*;
 import Characters.*;
 
 /**
@@ -10,7 +10,26 @@ import Characters.*;
 public class MoveController{
 
     private boolean undo = false;
+    // private Stack<MoveController> undoMove = new Stack<>();
+    // private Stack<MoveController> redoMove = new Stack<>();
 
+    // /**
+    //  * Pushes the current version of the GOC onto the stack.
+    //  */
+    // public void nextTurn(){
+    //     undoMove.push(this);
+    //     if(!redoMove.isEmpty()){
+    //         redoMove.clear();
+    //     }
+    // }
+    // /**
+    //  * Returns to the previous GOC
+    //  * @return The object controller from the previous turn.
+    //  */
+    // public MoveController prevTurn(){
+    //     redoMove.push(undoMove.peek());
+    //     return undoMove.pop();
+    // }
     /**
      * Moves all the object
      * @param goc GameObjectsController the contoller containing all game objects 
