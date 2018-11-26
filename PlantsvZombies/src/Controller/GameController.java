@@ -147,7 +147,6 @@ public class GameController implements Runnable{
                 redoCount = count;
                 newTurn();
                 //moveController.nextTurn();
-                goc.updateTime();
                 bv.setDone();
             
         }

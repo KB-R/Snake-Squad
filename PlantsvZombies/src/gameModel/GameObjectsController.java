@@ -38,9 +38,6 @@ public class GameObjectsController{
 
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
 
-    private Stack<GameObjectsController> undoTurn = new Stack<>();
-    private Stack<GameObjectsController> redoTurn = new Stack<>();
-
     // zombie spawns
     private int zombieTot = 10;
     private int spawned = 0;
@@ -59,32 +56,6 @@ public class GameObjectsController{
         lawnmowers = new ArrayList<Lawnmower>();
         doublePeaShooters = new ArrayList<DoublePeaShooter>(); 
         walnuts = new ArrayList<Walnut>();
-    }
-    /**
-     * Pushes the current version of the GOC onto the stack. And deletes the previous moves.
-     */
-    public void newTurn(){
-        undoTurn.push(this);
-        if(!redoTurn.isEmpty())
-            redoTurn.clear();
-    }
-    /**
-     * Returns to the previous GOC
-     * @return The object controller from the previous turn.
-     */
-    public GameObjectsController prevTurn() {
-        if (!undoTurn.isEmpty()) {
-        	redoTurn.push(undoTurn.peek());
-        }
-        return undoTurn.pop();
-    }
-    /**
-     * Returns to the next GOC
-     * @return The object controller from the next turn.
-     */
-    public GameObjectsController nextTurn(){
-        undoTurn.push(redoTurn.peek());
-        return redoTurn.pop();
     }
 
     /**
@@ -146,7 +117,7 @@ public class GameObjectsController{
      */
     public void spawnZombies(){
         int zombieType = random.nextInt(3);
-        if(getTime()%3==0 && spawned<zombieTot/userWaves  && currentWave<=userWaves && ( firstWave || (!(checkEndWave()) && waited()) )) {
+        if(getTime()%3==0 && spawned<zombieTot/userWaves  && currentWave<=userWaves && ( firstWave || (!(checkEndWave()) && waited()) ) && !undo) {
             Zombie zb = null;
             switch(zombieType){
                 case 0:
