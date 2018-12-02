@@ -7,7 +7,7 @@ It must first be added to your classpath.
 
 `make compile` will compile the code and put the class file in `./output`
 
-`export CLASSPATH=$(pwd)/output` will add the output folder to the java classpath for **linux** and **macos** machines
+`export CLASSPATH=$(pwd)/bin` will add the output folder to the java classpath for **linux** and **macos** machines
 
 `make run` will start the game
 

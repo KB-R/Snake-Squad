@@ -10,7 +10,7 @@ import gameModel.CollisionDetector;
  * @version 2.0
  *
  */
-public abstract class NPC {
+public abstract class NPC implements Cloneable{
 	protected boolean isAlive;
 	protected boolean collision;
 	protected int damage = 0;
@@ -140,7 +140,6 @@ public abstract class NPC {
 	public void collided() {
 		this.collision = true;
 	}
-
 			
 	/*set collision to false*/
 	public void clearCollided() {
@@ -156,7 +155,6 @@ public abstract class NPC {
 		// cannot collide if not same y pos
 		if (getLocation()[1] != o.getLocation()[1])
 			return false;
-		
 
 		// checking between plant vs zombie
 		if(!(this instanceof NormalPea) && isFriendly() && !o.isFriendly()){
@@ -182,4 +180,13 @@ public abstract class NPC {
 	public int getTimeSpawned(){
 		return timeSpawned;
 	}
+
+	public Object clone(){
+        try{
+            return super.clone();
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
 }

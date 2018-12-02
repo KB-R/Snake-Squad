@@ -77,8 +77,9 @@ public class GameController implements Runnable{
         // show initi game state
         bv.updateGameBoard(gcm.getCurrentGOC());
         while(!checkEndGame()){
-            System.out.println(gcm.getCurrentGOC());
+            
             // new turn create copy of old
+            GameObjectsController tgoc = gcm.getCurrentGOC();
             gcm.updateStack(undo);
 
             // get the new goc to update or modify
@@ -100,6 +101,15 @@ public class GameController implements Runnable{
                 goc.shootPeas();
             }
 
+            if(gcm.shouldUpdate()){
+                goc.collectGarbage();
+                goc.updateCoolDowns();
+                goc.updateTime();
+            }
+
+            goc.checkEndWave();
+            bv.updateGameBoard(goc); // pass modified goc to view
+
             // wait for next to be pressed
             while(!bv.isUpdated()){
                 try {
@@ -108,17 +118,7 @@ public class GameController implements Runnable{
                     Thread.currentThread().interrupt();
                 }
             }
-            
             bv.setNewTurn();
-            
-            if(gcm.shouldUpdate()){
-                goc.collectGarbage();
-                goc.updateCoolDowns();
-                goc.updateTime();
-            }
-            goc.checkEndWave();
-            bv.updateGameBoard(goc); // pass modified goc to view
-            timer++;
         }
         reader.close();
     }

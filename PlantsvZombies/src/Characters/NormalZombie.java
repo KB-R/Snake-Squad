@@ -12,8 +12,4 @@ public class NormalZombie extends Zombie{
 		super(30, 1, timeSpawned);
 		setDamage(damage);
 	}
-	public String toString(){
-		return "Z";
-	}
-	
 }
