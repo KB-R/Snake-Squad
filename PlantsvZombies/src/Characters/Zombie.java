@@ -42,6 +42,9 @@ public class Zombie extends NPC implements Movable{
      * @param boolean undo whether or not we are undoing a turn
      */
     public void move(int time, boolean undo){
+        if (time == timeSpawned)
+            return;
+
     	if(!(collision)&&(time%5==0)&&(this.coordinates[0]>0)) {
             if(undo){
                 this.x++;

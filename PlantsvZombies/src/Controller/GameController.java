@@ -23,6 +23,7 @@ public class GameController implements Runnable{
     private MoveController moveController = new MoveController();
     private GameObjectsController goc = new GameObjectsController();
     private GameBoardView bv = new GameBoardView(goc, moveController);
+    private GOCManager gcm = new GOCManager();
 
     // gameboard
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
@@ -35,6 +36,8 @@ public class GameController implements Runnable{
     private int spawned=0;
     private int waves=0;
     private int userWaves=0;
+    private boolean undo = false;
+    private boolean redo = false;
 
     // this will act as our clock for now
     private int timer = 0; 
@@ -61,6 +64,7 @@ public class GameController implements Runnable{
         goc.setZombieTot(bv.gameZombies());
 
         goc.setUserWaves(bv.gameWaves());
+        bv.setGC(this);
     }
 
     /**
@@ -68,21 +72,44 @@ public class GameController implements Runnable{
      * Check for collisions etc.
      */
     public void run(){
+        gcm.initStack(goc);
+
+        // show initi game state
+        bv.updateGameBoard(gcm.getCurrentGOC());
         while(!checkEndGame()){
-            goc.collectSun();
-            bv.updateGameBoard();
-            spawn();
+            
+            // new turn create copy of old
+            GameObjectsController tgoc = gcm.getCurrentGOC();
+            gcm.updateStack(undo);
 
-            CollisionDetector.clearCollisions(goc);
-            CollisionDetector.detectCollisions(goc);
+            // get the new goc to update or modify
+            goc = gcm.getCurrentGOC();
+    
+            // DON'T modify the goc if we are redoing a turn
+            if(gcm.shouldUpdate()){
+                goc.collectSun();
+                spawn();
 
-            moveController.movePeas(goc);
-            moveController.moveZombies(goc);
-            moveController.moveLawnmowers(goc);
-        
-            // pea shooter shoots every 2 turns
-            goc.shootPeas();
-         
+                CollisionDetector.clearCollisions(goc);
+                CollisionDetector.detectCollisions(goc);
+
+                moveController.movePeas(goc);
+                moveController.moveZombies(goc);
+                moveController.moveLawnmowers(goc);
+            
+                // pea shooter shoots every 2 turns
+                goc.shootPeas();
+            }
+
+            if(gcm.shouldUpdate()){
+                goc.collectGarbage();
+                goc.updateCoolDowns();
+                goc.updateTime();
+            }
+
+            goc.checkEndWave();
+            bv.updateGameBoard(goc); // pass modified goc to view
+
             // wait for next to be pressed
             while(!bv.isUpdated()){
                 try {
@@ -91,13 +118,7 @@ public class GameController implements Runnable{
                     Thread.currentThread().interrupt();
                 }
             }
-
             bv.setNewTurn();
-            goc.collectGarbage();
-            goc.updateCoolDowns();
-            goc.updateTime();
-            goc.checkEndWave();
-            timer++;
         }
         reader.close();
     }
@@ -148,6 +169,14 @@ public class GameController implements Runnable{
     		}
     	}
         return false;
+    }
+
+    public void setUndo(){
+        undo = true;
+    }
+
+    public void unsetUndo(){
+        undo = false;
     }
 
     public static void main(String[] args){

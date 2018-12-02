@@ -6,12 +6,13 @@ import Characters.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Stack;
 
 /**
  * @author Maxime Ndutiye
  * Game Objects controller keeps track of all the game objects
  */
-public class GameObjectsController{
+public class GameObjectsController implements Cloneable{
     private ArrayList<Zombie> zombies;
     private ArrayList<Sunflower> sunflowers;
     private ArrayList<PeaShooter> peaShooters;
@@ -42,6 +43,7 @@ public class GameObjectsController{
     private int waitTimer=0;
     private boolean firstWave = true;
     private Random random = new Random();
+
 
     public GameObjectsController(){
         // create NPC arraylists
@@ -373,7 +375,7 @@ public class GameObjectsController{
      * Update the sunflowers
      * @param sf ArrayList<Sunflower>
      */
-    public void updateSunflower(ArrayList<Sunflower> sf){
+    public void updateSunflowers(ArrayList<Sunflower> sf){
         sunflowers = sf;
     }
 
@@ -402,6 +404,23 @@ public class GameObjectsController{
     }
 
     /**
+     * Update the walnuts
+     * @param zb the ArrayList<Zombie>
+     */
+    public void updateWalnuts(ArrayList<Walnut> zb){
+        walnuts = zb;
+    }
+
+    /**
+     * Update the doublePeaShooters
+     * @param zb the ArrayList<Zombie>
+     */
+    public void updateDoublePeashooters(ArrayList<DoublePeaShooter> zb){
+        doublePeaShooters = zb;
+    }
+    
+
+    /**
      * Update the lawnmowers
      * @param lm the ArrayList<Lawnmower>
      */
@@ -413,11 +432,7 @@ public class GameObjectsController{
      * Increment turns
      */
     public void updateTime(){
-        if (undo){
-            timer--;
-        }else{
-            timer++;
-        }
+        timer++;
     }
 
     /**
@@ -547,5 +562,62 @@ public class GameObjectsController{
         }catch (NumberFormatException nfe){
             System.out.println("illegal input arguments");
         }
+    }
+
+    public Object clone(){
+        try{
+            // new temporary goc
+            GameObjectsController T = (GameObjectsController) super.clone();
+
+            ArrayList<Zombie> zba = new ArrayList<>();
+            ArrayList<Sunflower> sfa = new ArrayList<>();
+            ArrayList<PeaShooter> psa = new ArrayList<>();
+            ArrayList<NormalPea> pa = new ArrayList<>();
+            ArrayList<Lawnmower> lma = new ArrayList<>();
+            ArrayList<DoublePeaShooter> dpa = new ArrayList<>();
+            ArrayList<Walnut> wna = new ArrayList<>();
+
+            for (Zombie zb: getZombies()){
+                zba.add((Zombie)zb.clone());
+            }
+
+            for (Sunflower zb: getSunflowers()){
+                sfa.add((Sunflower)zb.clone());
+            }
+
+            for (PeaShooter zb: getPeaShooters()){
+                psa.add((PeaShooter)zb.clone());
+            }
+        
+            for (NormalPea zb: getPeas()){
+                pa.add((NormalPea)zb.clone());
+            }
+
+            for (Lawnmower zb: getLawnMowers()){
+                lma.add((Lawnmower)zb.clone());
+            }
+
+            for (DoublePeaShooter zb: getDoublePeaShooters()){
+                dpa.add((DoublePeaShooter)zb.clone());
+            }
+        
+            for (Walnut zb: getWalnuts()){
+                wna.add((Walnut)zb.clone());
+            }
+    
+            // create deep copies of game objects
+            T.updateZombies(new ArrayList<Zombie>(zba));
+            T.updateSunflowers(new ArrayList<Sunflower>(sfa));
+            T.updatePeaShooters(new ArrayList<PeaShooter>(psa));
+            T.updatePeas(new ArrayList<NormalPea>(pa));
+            T.updateLawnMowers(new ArrayList<Lawnmower>(lma));
+            T.updateDoublePeashooters(new ArrayList<DoublePeaShooter>(dpa));
+            T.updateWalnuts(new ArrayList<Walnut>(wna));
+
+            return T;
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return null;
     }
 }

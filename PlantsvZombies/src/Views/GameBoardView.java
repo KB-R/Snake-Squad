@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import Characters.*;
+import Controller.GameController;
 
 /**
  * @author Maxime Ndutiye
@@ -22,6 +23,7 @@ public class GameBoardView extends JPanel{
     int width = 800;
     int height = 500;
 
+    GameController gc;
     // Images and Icons
     String[] imageUrls = new String[] {"../bin/Images/ZOMBIE.png",
                                        "../bin/Images/GRASS.png",
@@ -55,6 +57,9 @@ public class GameBoardView extends JPanel{
 
     JButton next;
     JButton undo;
+
+    private boolean undoT;
+    private boolean redoT;
 
     // Whether to add a sunflower or peashooter
     private String addItem = "";
@@ -184,7 +189,8 @@ public class GameBoardView extends JPanel{
     /**
      * Update the GUI gamebaord
      */
-    public void updateGameBoard(){
+    public void updateGameBoard(GameObjectsController newGoc){
+        setGOC(newGoc); // use updated GOC
         updateGUI();
         setIconAtLocation(goc.getLawnMowers(), "lm");
         setIconAtLocation(goc.getSunflowers(), "sf");
@@ -193,6 +199,34 @@ public class GameBoardView extends JPanel{
         setIconAtLocation(goc.getZombies(),"zb");
         setIconAtLocation(goc.getDoublePeaShooters(), "dps");
         setIconAtLocation(goc.getWalnuts(), "wn");
+    }
+
+    /**
+     * Take a reference to undo 
+     * @param undoT
+     */
+    public void setUndo(boolean undoT){
+        this.undoT = undoT;
+    }
+
+    /**
+     * Take a reference to redo
+     * @param redoT
+     */
+    public void setRedo(boolean redoT){
+        this.redoT = redoT;
+    }
+
+    /**
+     * Update the GOC
+     * @param goc
+     */
+    public void setGOC(GameObjectsController goc){
+        this.goc = goc;
+    }
+
+    public void setGC(GameController gc){
+        this.gc = gc;
     }
 
     /**
@@ -370,8 +404,7 @@ public class GameBoardView extends JPanel{
      */
     class nextAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
-            mc.unsetUndo();
-            goc.unsetUndo();
+            gc.unsetUndo();
             setDone();
 		} 
     }
@@ -381,11 +414,8 @@ public class GameBoardView extends JPanel{
      */
     class undoAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) { 
-            if (goc.getTime() > 0){
-                mc.setUndo();
-                goc.setUndo();
-                setDone();
-            }
+            gc.setUndo();
+            setDone();
 		} 
     }
 
