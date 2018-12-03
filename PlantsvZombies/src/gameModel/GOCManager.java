@@ -1,8 +1,9 @@
 package gameModel;
 
+import java.io.Serializable;
 import java.util.Stack;
 
-public class GOCManager{
+public class GOCManager implements Serializable{
 
     // game state stacks
     private Stack<GameObjectsController> next = new Stack();
@@ -19,7 +20,6 @@ public class GOCManager{
         if(undo){
             // pop until we get to init state
             if(!(next.size() == 1)){
-                System.out.println("undo");
                 prev.push(next.pop());
                 redo = false;
             }
@@ -27,12 +27,10 @@ public class GOCManager{
             if(prev.isEmpty()){
                 // create a copy of the top of the stack 
                 // that will later be modified
-                System.out.println("next");
                 next.push((GameObjectsController)next.peek().clone());
                 redo = false; // we are not redoig a turn
             }else{
                 // redoing a turn
-                System.out.println("redo");
                 next.push(prev.pop());
                 redo = true;
             }

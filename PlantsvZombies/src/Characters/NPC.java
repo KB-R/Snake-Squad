@@ -1,4 +1,5 @@
 package Characters;
+import java.io.Serializable;
 import java.util.Arrays;
 
 import gameModel.CollisionDetector;
@@ -10,7 +11,7 @@ import gameModel.CollisionDetector;
  * @version 2.0
  *
  */
-public abstract class NPC implements Cloneable{
+public abstract class NPC implements Cloneable, Serializable{
 	protected boolean isAlive;
 	protected boolean collision;
 	protected int damage = 0;
@@ -173,14 +174,25 @@ public abstract class NPC implements Cloneable{
 		return false;
 	 }
 	 
+	/**
+	 * String representation of the object
+	 */
 	public String toString(){
 		return "NPC";
 	}
 
+	/**
+	 * Get the time this object was braught into existence
+	 * @return
+	 */
 	public int getTimeSpawned(){
 		return timeSpawned;
 	}
 
+	/**
+	 * Return a deep copy of this current object
+	 * @return Object a clone of this NPC object
+	 */
 	public Object clone(){
         try{
             return super.clone();

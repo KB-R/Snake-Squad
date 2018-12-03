@@ -11,6 +11,7 @@ import Characters.*;
  * are currently colliding
  */
 public class CollisionDetector{
+
     /**
      * Detect collision between all collidable objects
      */
@@ -74,6 +75,10 @@ public class CollisionDetector{
         }
 	}
 	
+	/**
+	 * Remove collided flag from objects that can collide
+	 * @param GameObjectsController goc The GOC to obtain game objects from
+	 */
 	public static void clearCollisions(GameObjectsController goc){
         for(Zombie z: goc.getZombies()) {
 			z.clearCollided();

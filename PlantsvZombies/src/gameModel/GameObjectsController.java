@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import Characters.*;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Stack;
@@ -12,7 +13,7 @@ import java.util.Stack;
  * @author Maxime Ndutiye
  * Game Objects controller keeps track of all the game objects
  */
-public class GameObjectsController implements Cloneable{
+public class GameObjectsController implements Cloneable, Serializable{
     private ArrayList<Zombie> zombies;
     private ArrayList<Sunflower> sunflowers;
     private ArrayList<PeaShooter> peaShooters;

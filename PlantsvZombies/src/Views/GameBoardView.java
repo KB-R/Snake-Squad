@@ -20,7 +20,7 @@ import Controller.GameController;
  */
 public class GameBoardView extends JPanel{
     GameFrame gf;
-    int width = 800;
+    int width = 810;
     int height = 500;
 
     GameController gc;
@@ -54,6 +54,8 @@ public class GameBoardView extends JPanel{
     JButton sfCoolDown;
     JButton psCoolDown;
     JButton currentTime;
+    JButton saveGame;
+    JButton loadGame;
 
     JButton next;
     JButton undo;
@@ -65,6 +67,7 @@ public class GameBoardView extends JPanel{
     private String addItem = "";
     private boolean updatedGUI = false;
 
+    String filepath = "";
     public GameBoardView(GameObjectsController goc, MoveController mc){
         this.goc = goc;
         this.mc = mc; 
@@ -89,6 +92,8 @@ public class GameBoardView extends JPanel{
         addPeaShooter = new JButton("Peashooter");
         addWalnut = new JButton("Walnut");
         addDoublePeaShooter = new JButton("Double PeaShooter");
+        saveGame = new JButton("Save");
+        loadGame = new JButton("Load");
 
         sunPoints = new JButton("sunpoints: 0");
         sfCoolDown = new JButton("sf cooldown: 0");
@@ -102,11 +107,15 @@ public class GameBoardView extends JPanel{
         addItemsMenu.add(addDoublePeaShooter);
         addItemsMenu.add(addWalnut);
     
+        menubar.add(saveGame);
+        menubar.add(loadGame);
         menubar.add(sunPoints);
         menubar.add(sfCoolDown);
         menubar.add(psCoolDown);
         menubar.add(currentTime);
 
+        saveGame.addActionListener(new saveAction());
+        loadGame.addActionListener(new loadAction());
         addSunflower.addActionListener(new menupress());
         addPeaShooter.addActionListener(new menupress());
         addDoublePeaShooter.addActionListener(new menupress());
@@ -114,7 +123,6 @@ public class GameBoardView extends JPanel{
         next.addActionListener(new nextAction());
         undo.addActionListener(new undoAction());
 
-        
         menubar.add(next);
         menubar.add(undo);
         menubar.add(addItemsMenu);
@@ -400,6 +408,36 @@ public class GameBoardView extends JPanel{
     }
 
     /**
+     * Actionlistener to handle saving game state
+     */
+	class saveAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            JFileChooser c = new JFileChooser();
+            int rVal = c.showSaveDialog(GameBoardView.this);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
+              filepath = c.getCurrentDirectory().toString() + "/" +  c.getSelectedFile().getName();
+              System.out.println("saving " + filepath);
+              gc.saveGame(filepath);
+            }
+		}
+    }
+
+    /**
+     * Actionlistener to handle loading game state
+     */
+	class loadAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) { 
+            JFileChooser c = new JFileChooser();
+            int rVal = c.showOpenDialog(GameBoardView.this);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
+              filepath = c.getCurrentDirectory().toString() + "/" +  c.getSelectedFile().getName();
+              System.out.println("opening " + filepath);
+              gc.loadGame(filepath);
+            }
+		}
+    }
+
+    /**
      * Actionlistener to handle events for going to the next turn in the game
      */
     class nextAction implements ActionListener {
@@ -432,6 +470,13 @@ public class GameBoardView extends JPanel{
      */
     public void setNewTurn(){
         updatedGUI = false;
+    }
+
+    /**
+     * Force the GameBoardView to update the gui
+     */
+    public void forceUpdate(){
+        updatedGUI = true;
     }
 
     /**
@@ -488,6 +533,7 @@ public class GameBoardView extends JPanel{
         }
         return waves;
     }
+
     /**
      * Tells the player that the game is done.
      */
