@@ -123,6 +123,9 @@ public class GameController implements Runnable{
         reader.close();
     }
     
+    /**
+     * Spawn some zombies 
+     */
     public void spawn() {
         goc.spawnZombies();
     }
@@ -171,12 +174,38 @@ public class GameController implements Runnable{
         return false;
     }
 
+    /**
+     * Set undo variable to true 
+     */
     public void setUndo(){
         undo = true;
     }
 
+    /**
+     * Set undo variable to false
+     */
     public void unsetUndo(){
         undo = false;
+    }
+
+    /**
+     * Save the current game state to file
+     * @param String filepath the path of the file to save to
+     */
+    public void saveGame(String filepath){
+        GOCManagerFileStream.WriteToFile(gcm, filepath);
+    }
+
+    /**
+     * Load game state from a file
+     * @param String filepath the path of the file to load from
+     */
+    public void loadGame(String filepath){
+        GOCManager tempManager = GOCManagerFileStream.readFromFile(filepath);
+        if (tempManager != null){
+            gcm = tempManager;
+            bv.forceUpdate();
+        }
     }
 
     public static void main(String[] args){
