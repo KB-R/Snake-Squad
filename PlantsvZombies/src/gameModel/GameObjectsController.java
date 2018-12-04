@@ -27,13 +27,9 @@ public class GameObjectsController implements Cloneable, Serializable{
     private long sunFlowerCooldown = 0;
     private long peaShooterCooldown = 0;
     private long walnutCoolDown = 0;
-    private long sfCooldownSet = 0;
-    private long psCooldownSet = 0;
-    private long wnCooldownSet = 0;
     private long coolDown = 3; // cooldown cost for new plants
     private int timer = 0; 
     private boolean undo = false; // currently undergoing an undo action
-    private boolean userLevel = false;
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
 
     // zombie spawns
@@ -43,6 +39,7 @@ public class GameObjectsController implements Cloneable, Serializable{
     private int currentWave =1;
     private int waitTimer=0;
     private boolean firstWave = true;
+    private boolean userLevel = false;
     private Random random = new Random();
 
 
@@ -83,7 +80,7 @@ public class GameObjectsController implements Cloneable, Serializable{
      * @param userSelection The amount of waves of zombies that the user wants. It has to be at least 10.
      */
     public void setUserLevel(boolean setUserLevel){
-            this.userLevel = setUserLevel;
+        this.userLevel = setUserLevel;
     }
 
     /**
@@ -449,13 +446,12 @@ public class GameObjectsController implements Cloneable, Serializable{
      * Reduce the cooldown for buying items
      */
     public void updateCoolDowns(){
-        int ammount = undo? -3:3;
-        if (sunFlowerCooldown > 0 && timer == sfCooldownSet)
-            sunFlowerCooldown += ammount;
-        if (peaShooterCooldown > 0 && timer == psCooldownSet)
-            peaShooterCooldown += ammount;
-        if (walnutCoolDown > 0 && timer == wnCooldownSet)
-            walnutCoolDown += ammount;
+        if (sunFlowerCooldown > 0)
+            sunFlowerCooldown -= 1;
+        if (peaShooterCooldown > 0)
+            peaShooterCooldown -= 1;
+        if (walnutCoolDown > 0)
+            walnutCoolDown -= 1;
     }
 
     /**
@@ -543,25 +539,21 @@ public class GameObjectsController implements Cloneable, Serializable{
                         case "sf":
                             addSunflower((Sunflower)item);
                             sunFlowerCooldown = timer + coolDown;
-                            sfCooldownSet = timer;
                             sunPoints -= Sunflower.getCost();
                             break;
                         case "ps":
                             addPeaShooter((PeaShooter)item);
                             peaShooterCooldown = timer + coolDown;
-                            psCooldownSet = timer;
                             sunPoints -= PeaShooter.getCost();
                             break;
                         case "dps":
                             addDoublePeaShooter((DoublePeaShooter)item);
                             peaShooterCooldown = timer + coolDown;
-                            psCooldownSet = timer;
                             sunPoints -= DoublePeaShooter.getCost();
                             break;
                         case "wn":
                             addWalnut((Walnut)item);
                             walnutCoolDown = timer + coolDown;
-                            wnCooldownSet = timer;
                             sunPoints -= Walnut.getCost();
                             break;
                         default:
