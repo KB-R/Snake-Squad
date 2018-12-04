@@ -60,10 +60,12 @@ public class GameController implements Runnable{
             goc.spawnZombies();
         }
         goc.setGameBoard(gameBoard);
+        goc.setUserLevel(bv.getLevel());
         //set the games amount of zombies
         goc.setZombieTot(bv.gameZombies());
 
         goc.setUserWaves(bv.gameWaves());
+       // goc.setUserLevel(bv.dayLevel());
         bv.setGC(this);
     }
 
@@ -74,7 +76,7 @@ public class GameController implements Runnable{
     public void run(){
         gcm.initStack(goc);
 
-        // show initi game state
+        // show initial game state
         bv.updateGameBoard(gcm.getCurrentGOC());
         while(!checkEndGame()){
             
