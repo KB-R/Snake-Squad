@@ -33,7 +33,7 @@ public class GameObjectsController implements Cloneable, Serializable{
     private long coolDown = 3; // cooldown cost for new plants
     private int timer = 0; 
     private boolean undo = false; // currently undergoing an undo action
-
+    private boolean userLevel = false;
     ArrayList<NPC>[][] gameBoard = new ArrayList[6][10];
 
     // zombie spawns
@@ -75,6 +75,15 @@ public class GameObjectsController implements Cloneable, Serializable{
         if (userSelection>1 && userSelection<6){
             this.userWaves = userSelection;
         }
+    }
+
+
+    /**
+     * Set the amount of waves of zombies will be in the game.
+     * @param userSelection The amount of waves of zombies that the user wants. It has to be at least 10.
+     */
+    public void setUserLevel(boolean setUserLevel){
+            this.userLevel = setUserLevel;
     }
 
     /**

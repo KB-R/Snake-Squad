@@ -3,6 +3,7 @@ package Views;
 import gameModel.*;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -22,7 +23,10 @@ public class GameBoardView extends JPanel{
     GameFrame gf;
     int width = 810;
     int height = 500;
-
+    Color darkGreen = new Color(9, 122, 28);
+    Color lightGreen = new Color(42,153,61);
+    Color night_lightGreen = new Color(27,68,34);
+    Color night_darkGreen = new Color(4, 51, 12);
     GameController gc;
     // Images and Icons
     String[] imageUrls = new String[] {"../bin/Images/ZOMBIE.png",
@@ -44,7 +48,8 @@ public class GameBoardView extends JPanel{
     private GameObjectsController goc;
     private MoveController mc;
     private JLayeredPane layeredPane;
-
+    private static final String[] levels = {"Day", "Night"};
+    private boolean dayLevel=true;
     // Buttons 
     JButton addSunflower;
     JButton addPeaShooter;
@@ -63,12 +68,15 @@ public class GameBoardView extends JPanel{
     private boolean undoT;
     private boolean redoT;
 
+    private int currentTile = 0;
+
     // Whether to add a sunflower or peashooter
     private String addItem = "";
     private boolean updatedGUI = false;
 
     String filepath = "";
     public GameBoardView(GameObjectsController goc, MoveController mc){
+        JLabel label;
         this.goc = goc;
         this.mc = mc; 
 
@@ -76,11 +84,19 @@ public class GameBoardView extends JPanel{
         gf = new GameFrame("PvZ", width+50, height+80);
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(width, height));
-
+        setLevel();
         // create the game board 
         for (int i=0; i<6; i++){
             for (int j=0; j<10; j++){
-                JLabel label = (j==9)? createColoredLabel(Color.GRAY) : createColoredLabel(Color.green);
+                if (j==9){
+                    label = createColoredLabel(Color.GRAY); //Zombie spawning area
+                }else if(!this.dayLevel){
+                    label = ((i+j)%2 == 0) ? createColoredLabel(night_lightGreen): 
+                    createColoredLabel(night_darkGreen); //night level 
+                }else{
+                    label = ((i+j)%2 == 0) ? createColoredLabel(lightGreen): 
+                    createColoredLabel(darkGreen); //day level 
+                }
                 label.addMouseListener(new boardPress());
                 label.setBounds(j*80, i*80, 80, 80);
                 layeredPane.add(label, JLayeredPane.DEFAULT_LAYER);
@@ -319,7 +335,13 @@ public class GameBoardView extends JPanel{
         label.setOpaque(true);
         label.setBackground(color);
         label.setForeground(Color.black);
-        label.setBorder(BorderFactory.createLineBorder(Color.black));
+        if (color == lightGreen || color == darkGreen){
+            label.setBorder(BorderFactory.createLineBorder(lightGreen));
+        }else if (color == night_darkGreen || color == night_lightGreen){
+            label.setBorder(BorderFactory.createLineBorder(night_lightGreen));
+        }else{
+            label.setBorder(BorderFactory.createLineBorder(Color.black));
+        }
         label.setPreferredSize(new Dimension(140, 140));
         return label;
     }
@@ -533,6 +555,36 @@ public class GameBoardView extends JPanel{
         }
         return waves;
     }
+
+    /**
+     * Set the users requested level. Day or Night.
+     * @return Game's amount  of zombies.
+     */
+    public void setLevel(){
+        String levelChoice;
+        try{
+            levelChoice = (String) JOptionPane.showInputDialog(null, "Do you want a day level or night level?", "Level Selection"
+            ,JOptionPane.QUESTION_MESSAGE, null, levels, levels[0]);
+        
+            if (levelChoice == levels[0]){
+                this.dayLevel = true;
+            } else if (levelChoice == levels[1]){
+                this.dayLevel = false; 
+            } 
+        } catch(Exception e){
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Your input format is incorrect.","Input format",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /** 
+     * Get the user's level selection.
+     * @return User level selection.True if its day.
+    */
+    public boolean getLevel(){
+        return this.dayLevel;
+    }
+
 
     /**
      * Tells the player that the game is done.
