@@ -25,8 +25,10 @@ Complete Implementation: fully-featured with various types of plants and zombies
 2. Game level builder. The levels may be saved in XML. 
 3. 5% overall project bonus: try a real time version of the game and/or porting it to the Android platform.
 
-***Maxime:*** Save and Load Functionality.
-***Kurt:*** Level Builder Functionality, Readme, Documentation and Android conversion. 
+*Maxime: Save and Load Functionality.
+*Kurt: Level Builder Functionality, Readme, Documentation and Android conversion. 
+*Anthony: UML and Sequence 
+*Tareq: User Manual
 
 **Deliverables:** readme file + code + tests + documentation.
 
