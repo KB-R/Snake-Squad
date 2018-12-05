@@ -7,7 +7,6 @@ import Characters.*;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Stack;
 
 /**
  * @author Maxime Ndutiye
@@ -538,22 +537,22 @@ public class GameObjectsController implements Cloneable, Serializable{
                     switch (splitInput[1]){
                         case "sf":
                             addSunflower((Sunflower)item);
-                            sunFlowerCooldown = timer + coolDown;
+                            sunFlowerCooldown += coolDown;
                             sunPoints -= Sunflower.getCost();
                             break;
                         case "ps":
                             addPeaShooter((PeaShooter)item);
-                            peaShooterCooldown = timer + coolDown;
+                            peaShooterCooldown += coolDown;
                             sunPoints -= PeaShooter.getCost();
                             break;
                         case "dps":
                             addDoublePeaShooter((DoublePeaShooter)item);
-                            peaShooterCooldown = timer + coolDown;
+                            peaShooterCooldown += coolDown;
                             sunPoints -= DoublePeaShooter.getCost();
                             break;
                         case "wn":
                             addWalnut((Walnut)item);
-                            walnutCoolDown = timer + coolDown;
+                            walnutCoolDown += coolDown;
                             sunPoints -= Walnut.getCost();
                             break;
                         default:
