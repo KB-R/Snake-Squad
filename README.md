@@ -2,14 +2,23 @@
 ### SYSC3110 Third Year Project
 
 ### Running The Game
-The output directory contains the compiled code.
-It must first be added to your classpath.
+The bin directory contains the compiled java code for the project.
+For ease of use a makefile has been provided in the PlantsvZombies directory. 
+The makefile can compile and run the project with one simple commmand assuming
+an a unix based system is in use.
 
-`make compile` will compile the code and put the class file in `./output`
+`make run` 
 
-`export CLASSPATH=$(pwd)/bin` will add the output folder to the java classpath for **linux** and **macos** machines
+will compile the code and put the class files in `bin` directory then it will
+run the project.
 
-`make run` will start the game
+`make runjar`
+
+will run the a version of the game from a jar file inside the /bin directory 
+
+If changes are made to the game a new executable jar file can be created using 
+
+`make compile` then `make jar`
 
 ### Implementation Decisions
 

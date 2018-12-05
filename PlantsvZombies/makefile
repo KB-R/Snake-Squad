@@ -1,11 +1,11 @@
 compile: 
-	javac -d ../bin src/Characters/* src/Controller/* src/gameModel/* src/Views/*
+	javac -d ../bin src/Characters/* src/Controller/* src/gameModel/* src/Views/* > /dev/null 2>&1
 
 run: compile
-	cd ../bin && java Controller.GameController
+	cd ../bin && java Controller.GameController > /dev/null 2>&1
 
-uncompress:
-	jar cf project *.java
+jar:
+	cd ../bin && jar cvfe pvz.jar Controller.GameController .
 
-compress:
-	jar xf project 
+runjar:
+	cd ../bin && java -jar pvz.jar
