@@ -123,10 +123,10 @@ public class TestZombie extends TestCase{
 		run.move(0, false);
 		run.move(0, false);
         
-        assertEquals(zomb.getLocation()[0], 7);
-		assertEquals(bucket.getLocation()[0], 7);
-		assertEquals(pylon.getLocation()[0], 7);
-		assertEquals(run.getLocation()[0], 7);
-		assertEquals(normal.getLocation()[0], 7);
+        assertEquals(zomb.getLocation()[0], 3);
+		assertEquals(bucket.getLocation()[0], 3);
+		assertEquals(pylon.getLocation()[0], 3);
+		assertEquals(run.getLocation()[0], 3);
+		assertEquals(normal.getLocation()[0], 3);
     }
 }
