@@ -39,8 +39,6 @@ public class GameController implements Runnable{
     private boolean undo = false;
     private boolean redo = false;
 
-    // this will act as our clock for now
-    private int timer = 0; 
 
     /**
      * Initialize varibales

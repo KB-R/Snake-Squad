@@ -20,7 +20,7 @@ public class Walnut extends NPC{
 	 * @return int the cost of the item
 	 */
     public static int getCost(){
-        return 10;
+        return sunCost;
     }
 	
 }

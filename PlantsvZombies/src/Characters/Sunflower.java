@@ -11,7 +11,6 @@ package Characters;
 
 public class Sunflower extends NPC{
     private final static int maxHealth = 50;
-    private final int sunAmount = 25; // amount of sun to spawn
     private int sunProduced = 0;
     private int sunSpawnRate; // how often to spawn sun in milliseconds
     private boolean sunCollected;
@@ -42,7 +41,7 @@ public class Sunflower extends NPC{
 	 * @return int the cost of the item
 	 */
     public static int getCost(){
-        return 10;
+        return sunCost;
     }
 
     /** 

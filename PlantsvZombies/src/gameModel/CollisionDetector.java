@@ -1,5 +1,4 @@
 package gameModel;
-import java.util.ArrayList;
 
 import Characters.*;
 /**
