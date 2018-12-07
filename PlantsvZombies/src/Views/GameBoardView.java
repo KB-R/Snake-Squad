@@ -3,7 +3,6 @@ package Views;
 import gameModel.*;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -68,7 +67,6 @@ public class GameBoardView extends JPanel{
     private boolean undoT;
     private boolean redoT;
 
-    private int currentTile = 0;
 
     // Whether to add a sunflower or peashooter
     private String addItem = "";

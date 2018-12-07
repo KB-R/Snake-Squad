@@ -6,7 +6,6 @@ package Characters;
  *
  */
 public class DoublePeaShooter extends PeaShooter{
-	private static int sunCost = 20;
 
 	public DoublePeaShooter(int x, int y, int shootingRate, int spawnTime) {
 		super(x, y, shootingRate, spawnTime);

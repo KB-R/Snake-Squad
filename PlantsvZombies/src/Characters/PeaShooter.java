@@ -1,6 +1,6 @@
 package Characters;
 import java.util.*;
-import gameModel.MoveController;
+
 
 /**
  * @author Kurt Burton-Rowe
@@ -11,7 +11,6 @@ import gameModel.MoveController;
  */
 public class PeaShooter extends NPC{
     private int shootingRate; // shooting rate in millisecs 
-    private static int sunCost = 10;
     int currentHealth;
 
     /**

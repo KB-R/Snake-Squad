@@ -2,7 +2,6 @@ package Characters;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import gameModel.CollisionDetector;
 /**
  * @author Athony Maevskipopov
  * @author Kurt Burton-Rowe
