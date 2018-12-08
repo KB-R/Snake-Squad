@@ -12,6 +12,7 @@ import gameModel.*;
 
 /**
  * @author Maxime Ndutiye
+ * @author KBR
  * @version 1.0
  * @since October 27, 2018
  * The GameController class is responsible for running the game
