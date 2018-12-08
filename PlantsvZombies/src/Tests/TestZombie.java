@@ -17,6 +17,24 @@ public class TestZombie extends TestCase{
     PylonZombie pylon;
     RunZombie run;
     
+	public TestZombie() {
+        super();
+
+		zomb = new Zombie(20, 0, 0);
+    	zomb.setLocation(3, 0);
+    	
+    	bucket = new BucketHeadZombie(0);
+    	bucket.setLocation(3, 1);
+    	
+    	pylon = new PylonZombie(0);
+    	pylon.setLocation(3, 2);
+    	
+    	run = new RunZombie(0);
+    	run.setLocation(3, 3);
+    	
+    	normal = new NormalZombie(0);
+    	normal.setLocation(3, 4);
+	}
 
     /*
     @BeforeEach

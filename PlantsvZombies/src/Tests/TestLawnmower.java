@@ -11,11 +11,15 @@ import junit.framework.TestCase;
 public class TestLawnmower extends TestCase {
 	Lawnmower lawnmower;
 	
+	public TestLawnmower() {
+		super();
+		lawnmower= new Lawnmower(0,0,0); 
+    }
+    
 	/*
 	@BeforeEach
 	*/
 	protected void setUp() {
-		lawnmower= new Lawnmower(0,0,0); 
 	}
 	/*
     @Test
