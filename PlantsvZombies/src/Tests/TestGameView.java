@@ -10,86 +10,86 @@ import Views.*;
 import gameModel.GameObjectsController;
 import gameModel.MoveController;
 import junit.framework.TestCase;
+import java.util.ArrayList;
+import Characters.NPC;
 
-class TestGameView {
+public class TestGameView extends TestCase {
 	GameBoardView gbv;
     GameObjectsController goc;
     MoveController mc;
+    ArrayList<NPC>[][] gameBoard;
 
-	@BeforeEach
-	void setUp() {
+    public TestGameView() {
+        super();
+
         goc = new GameObjectsController();
         mc = new MoveController();
-		gbv = new GameBoardView(goc, mc);
-	}
-
+        gbv = new GameBoardView(goc, mc);
+        gameBoard = new ArrayList[6][10];
+        for(int i=0;i<6;i++){
+            for(int j=0; j<10; j++){
+                gameBoard[i][j] = new ArrayList<NPC>();
+            }
+        }
+        goc.setGameBoard(gameBoard); 
+    }
+    
 	@Test
-	void testTime(){
+	public void testTime(){
         assertEquals("time: 0", gbv.getcurrentTime().getText());
 
         // go to next turn
         goc.updateTime();
+        gbv.updateGameBoard(goc);
         assertEquals("time: 1", gbv.getcurrentTime().getText());
 	}
 
 	@Test
-	void testSfCoolDown(){
+	public void testSfCoolDown(){
         assertEquals("sf cooldown: 0", gbv.getsfCoolDown().getText());
 
         // go to next turn
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
 
         // cool down should not go lower than 0
         gbv.updateGameBoard(goc);
         assertEquals("sf cooldown: 0", gbv.getsfCoolDown().getText());
-    
-        // buy item
-        String[] buyStr = new String("buy sf " + 3 + " " + 3).split("\\s");
-        goc.buyItem(buyStr);
-
-        gbv.updateGameBoard(goc);
-        assertEquals("sf cooldown: 3", gbv.getcurrentTime().getText());
-
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
-
-        // cool down should be zero now
-        assertEquals("sf cooldown: 0", gbv.getcurrentTime().getText());
 	}
 
 	@Test
-	void testPsCoolDown(){
-        assertEquals("ps cooldown: 0", gbv.getsfCoolDown().getText());
+	public void testPsCoolDown(){
+        assertEquals("ps cooldown: 0", gbv.getpsCoolDown().getText());
 
         // go to next turn
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
 
         // cool down should not go lower than 0
         gbv.updateGameBoard(goc);
-        assertEquals("ps cooldown: 0", gbv.getsfCoolDown().getText());
+        assertEquals("ps cooldown: 0", gbv.getpsCoolDown().getText());
     
         // buy item
         String[] buyStr = new String("buy ps " + 2 + " " + 2).split("\\s");
         goc.buyItem(buyStr);
 
+        // should update
         gbv.updateGameBoard(goc);
-        assertEquals("ps cooldown: 3", gbv.getcurrentTime().getText());
+        assertEquals("ps cooldown: 3", gbv.getpsCoolDown().getText());
 
-        goc.updateTime();
-        goc.updateTime();
-        goc.updateTime();
+        goc.updateCoolDowns();
+        goc.updateCoolDowns();
 
-        // cool down should be zero now
-        assertEquals("ps cooldown: 0", gbv.getcurrentTime().getText());
+        // should go down to 1
+        gbv.updateGameBoard(goc);
+        assertEquals("ps cooldown: 1", gbv.getpsCoolDown().getText());
+        
 	}
 
 }

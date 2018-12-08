@@ -42,7 +42,9 @@ public class GOCManager implements Serializable{
      * @return GameObjectController
      */
     public GameObjectsController getCurrentGOC(){
-        return next.peek();
+        if (next.size() > 0)
+            return next.peek();
+        return null;
     }
 
     /**
@@ -51,6 +53,22 @@ public class GOCManager implements Serializable{
      */
     public void initStack(GameObjectsController initGOC){
         next.push(initGOC);
+    }
+
+    /**
+     * Get next stack
+     * @return Stack
+     */
+    public Stack<GameObjectsController> getNextStack(){
+        return next;
+    }
+
+    /**
+     * Get prev Stack
+     * @return Stack
+     */
+    public Stack<GameObjectsController> getPrevStack(){
+        return prev;
     }
 
     /**

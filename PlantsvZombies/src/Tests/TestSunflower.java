@@ -13,7 +13,14 @@ import junit.framework.TestCase;
 
 
 public class TestSunflower extends TestCase{
-    Sunflower sunf;
+	Sunflower sunf;
+	
+	public TestSunflower() {
+        super();
+
+		sunf = new Sunflower(0, 0, 0);
+    }
+
     /*
     @BeforeEach
     */

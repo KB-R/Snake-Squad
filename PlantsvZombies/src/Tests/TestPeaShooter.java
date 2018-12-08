@@ -16,7 +16,20 @@ public class TestPeaShooter extends TestCase{
 	PeaShooter normalp;
     DoublePeaShooter doublep;
     GameObjectsController goc;
-    Zombie zombieOne,zombieTwo;
+	Zombie zombieOne,zombieTwo;
+	
+	public TestPeaShooter() {
+        super();
+
+		normalp= new PeaShooter(0,0,0,2);
+        doublep= new DoublePeaShooter(1, 1, 0, 2);
+        normalp.setShootingRate(2);  
+        doublep.setShootingRate(2);   
+        goc = new GameObjectsController();
+        goc.addDoublePeaShooter(doublep);
+        goc.addPeaShooter(normalp);	
+	}
+
     /*
     @BeforeEach
     */

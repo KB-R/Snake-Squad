@@ -513,19 +513,19 @@ public class GameObjectsController implements Cloneable, Serializable{
 
             switch (splitInput[1]){
                 case "sf":
-                    item = (sunFlowerCooldown <= timer 
+                    item = (sunFlowerCooldown == 0 
                         && sunPoints >= Sunflower.getCost()) ? new Sunflower(xPos, yPos, timer): null;
                     break;
                 case "ps":
-                    item = (peaShooterCooldown <= timer 
+                    item = (peaShooterCooldown == 0 
                             && sunPoints >= PeaShooter.getCost()) ?  new PeaShooter(xPos, yPos, 2, timer): null;
                     break;
                 case "dps":
-                    item = (peaShooterCooldown <= timer 
+                    item = (peaShooterCooldown == 0
                             && sunPoints >= DoublePeaShooter.getCost()) ?  new DoublePeaShooter(xPos, yPos, 4, timer): null;
                     break;
                 case "wn":
-                    item = (walnutCoolDown <= timer 
+                    item = (walnutCoolDown == 0 
                             && sunPoints >= Walnut.getCost()) ?  new Walnut(xPos, yPos, timer): null;
                     break;
                 default:

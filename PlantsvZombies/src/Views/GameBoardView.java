@@ -233,7 +233,7 @@ public class GameBoardView extends JPanel{
 
     /**
      * Return psCoolDown button
-     * @return
+     * @return JButton
      */
     public JButton getpsCoolDown(){
         return psCoolDown;
@@ -241,7 +241,7 @@ public class GameBoardView extends JPanel{
 
     /**
      * Return sunPoints button
-     * @return
+     * @return JButton
      */
     public JButton getsunPoints(){
         return sunPoints;
@@ -249,7 +249,7 @@ public class GameBoardView extends JPanel{
 
     /**
      * Return time button
-     * @return
+     * @return JButton 
      */
     public JButton getcurrentTime(){
         return currentTime;
@@ -257,7 +257,7 @@ public class GameBoardView extends JPanel{
 
     /**
      * Return next button
-     * @return
+     * @return JButton
      */
     public JButton getNextButton(){
         return next;

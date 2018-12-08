@@ -10,6 +10,13 @@ import Characters.*;
 
 public class TestWalnut extends TestCase{
 	Walnut nut;
+
+	public TestWalnut() {
+        super();
+
+		nut = new Walnut(0, 0, 0);
+	}
+
 	/*
     @BeforeEach
     */
