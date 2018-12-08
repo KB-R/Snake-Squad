@@ -15,6 +15,8 @@ public class CharacterTestSuite extends TestCase{
 		suite.addTest(new TestSuite(TestZombie.class));
 		suite.addTest(new TestSuite(TestPeaShooter.class));
 		suite.addTest(new TestSuite(TestWalnut.class));
+		suite.addTest(new TestSuite(TestGameModel.class));
+		suite.addTest(new TestSuite(TestGameView.class));
 	}
 }
 

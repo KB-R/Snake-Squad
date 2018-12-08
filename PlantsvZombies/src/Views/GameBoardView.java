@@ -224,6 +224,46 @@ public class GameBoardView extends JPanel{
     }
 
     /**
+     * Return sfCoolDown button
+     * @return
+     */
+    public JButton getsfCoolDown(){
+        return sfCoolDown;
+    }
+
+    /**
+     * Return psCoolDown button
+     * @return
+     */
+    public JButton getpsCoolDown(){
+        return psCoolDown;
+    }
+
+    /**
+     * Return sunPoints button
+     * @return
+     */
+    public JButton getsunPoints(){
+        return sunPoints;
+    }
+
+    /**
+     * Return time button
+     * @return
+     */
+    public JButton getcurrentTime(){
+        return currentTime;
+    }
+
+    /**
+     * Return next button
+     * @return
+     */
+    public JButton getNextButton(){
+        return next;
+    }
+
+    /**
      * Take a reference to undo 
      * @param undoT
      */
@@ -596,6 +636,5 @@ public class GameBoardView extends JPanel{
     public void gameWon(){
         JOptionPane.showMessageDialog(null, "YOU WON!\n"+"Thanks for playing our game. We hope you enjoyed!");
     }
-
 
 }
