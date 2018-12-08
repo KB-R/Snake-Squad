@@ -16,9 +16,14 @@ import Controller.*;
 
 public class GameControllerTest extends TestCase {
 	GameController gc;
-
+	GameBoardView gbv;
+	GameObjectsController goc;
+	
     public GameControllerTest() {
         super();
+        gbv = new GameBoardView(goc, null);
+        goc = new GameObjectsController();
+        
     }
     
 	@Test

@@ -24,6 +24,7 @@ If changes are made to the game a new executable jar file can be created using
 
 ### Resources
 [Git Cheat Sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
+*IMPORTANT:* In order to get the view and game controller test to work, you must click the ok button until the game's frame stops popping up.
 
 ### Milestone 4 :rocket:
 Milestone 4 focuses the group on finalizing the Graphic User Interface (GUI)-based version of Plants V Zombies, allowing the user to create their levels, allowing the user to save and load their game and transfering the game to android, while the base game can be run through  eclipse. The game is fully loaded with all variations of zombies and plants.  What is required for this Milestone is the entire project to be completed and fully functional without any bugs or glitches, and thats what we have delivered. Since this is the fourth  Milestone, everything done was to finalize of the implementation of the game, while including the load and save features. The aim for our code design was to loosly couple our code as much as possible during the first Milestone; making it not tedious to reuse it for future Milestones. Justifiably we used interfaces and super classes to achieve this goal. 
